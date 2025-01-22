@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PayPalButton } from "react-paypal-button-v2";
 import {
   fetchGetBookInCartChecked,
   fetchGetCartToolkit,
@@ -160,7 +159,7 @@ const Payment = () => {
             </div>
             {isChecked === 2 ? (
               <div className="mt-3">
-                <PayPalButton
+                {/* <PayPalButton
                   amount={(totalPriceCheckedInCart / 24000).toFixed(2)}
                   onSuccess={(details, data) => {
                     alert(
@@ -172,7 +171,7 @@ const Payment = () => {
                       body: JSON.stringify({ orderID: data.orderID }),
                     });
                   }}
-                />
+                /> */}
               </div>
             ) : (
               <button
