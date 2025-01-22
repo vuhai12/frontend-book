@@ -1,0 +1,26 @@
+/* Điều chỉnh vị trí của các dấu gạch dưới */
+.slick-dots {
+  bottom: -50px !important; /* Điều chỉnh vị trí của các dấu chấm */
+  display: flex;
+  justify-content: center; /* Căn giữa các dấu gạch dưới */
+  padding: 0;
+}
+
+/* Kiểm tra lại li */
+.slick-dots li {
+  margin: 0 12px !important; /* Khoảng cách giữa các dấu gạch dưới, có thể thử điều chỉnh giá trị */
+  list-style: none;
+}
+
+/* Dấu gạch dưới */
+.dot-custom {
+  width: 35px; /* Kích thước dấu gạch dưới */
+  height: 2px; /* Chiều cao của dấu gạch dưới */
+  background-color: gray; /* Màu sắc của dấu gạch dưới */
+  border-radius: 5px; /* Góc bo tròn */
+}
+
+/* Khi dấu gạch dưới được active */
+.slick-dots li.slick-active .dot-custom {
+  background-color: blue; /* Màu sắc khi dấu gạch dưới được active */
+}
