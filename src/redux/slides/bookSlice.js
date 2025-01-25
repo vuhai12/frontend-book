@@ -12,7 +12,6 @@ export const fetchGetListBookToolkit = createAsyncThunk(
   async (data, { rejectWithValue, signal }) => {
     try {
       const response = await apiGetBook({ ...data, signal });
-      console.log("response", response);
       return {
         response,
         data,
@@ -79,8 +78,6 @@ export const fetchDeleteNewBookToolkit = createAsyncThunk(
 export const bookSlice = createSlice({
   name: "book",
   initialState: {
-    access_token: "",
-    refresh_token: "",
     listBook: [],
     auth: false,
     edittingBook: {},
@@ -88,12 +85,12 @@ export const bookSlice = createSlice({
     totalBooks: 0,
     statusLoading: false,
     searchString: "",
-    pageCurent: 1,
     listUsers: [],
     error: null,
     bookDataById: {},
     quantityBook: 1,
     countAllBook: 0,
+    isLoading: false,
   },
   reducers: {
     startEdittingPostBook: (state, action) => {
@@ -128,7 +125,9 @@ export const bookSlice = createSlice({
     });
 
     builder.addCase(fetchGetListBookToolkit.pending, (state, action) => {
-      (state.statusLoading = true), (state.searchString = "");
+      (state.statusLoading = true),
+        (state.searchString = ""),
+        (state.isLoading = true);
     });
 
     builder.addCase(fetchGetListBookToolkit.fulfilled, (state, action) => {
@@ -136,7 +135,8 @@ export const bookSlice = createSlice({
         (state.totalBooks = action.payload?.response.bookData?.count),
         (state.statusLoading = false),
         (state.searchString = action.payload?.data?.searchString),
-        (state.pageCurent = action.payload?.data?.pageCurent);
+        (state.pageCurent = action.payload?.data?.pageCurent),
+        (state.isLoading = false);
     });
 
     builder.addCase(fetchCreatNewBookToolkit.pending, (state, action) => {

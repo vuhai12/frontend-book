@@ -9,7 +9,7 @@ import {
   fetchDeleteBookInCartToolkit,
   fetchCheckedBookCartToolkit,
   // fetchCheckedAllBookCartToolkit,
-  fetchDeleteAllBookCartToolkit,
+  // fetchDeleteAllBookCartToolkit,
   fetchIncrementQuantityBookInCart,
   fetchDecrementQuantityBookInCart,
 } from "../../redux/slides/cartSlice";
@@ -23,13 +23,13 @@ const CartDetail = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("access_token");
-
   const listCart = useSelector((state) => state.cart.listCart);
   const address = useSelector((state) => state.user.userData.address);
 
   let isCheckedOrder = listCart?.some(
-    (item) => item.books.cartBooks.isChecked === 1
+    (item) => item.books.cartBooks.isChecked === true
   );
+
   // let isCheckedAll = listCart?.every(
   //   (item) => item.books.cartBooks.isChecked === 1
   // );
@@ -69,6 +69,7 @@ const CartDetail = () => {
   }, []);
 
   const handleCheckBox = (itemBook) => {
+    console.log("isChecked", !itemBook.books.cartBooks.isChecked);
     dispatch(
       fetchCheckedBookCartToolkit({
         cartBookId: itemBook.books.id,
