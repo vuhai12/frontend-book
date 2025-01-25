@@ -13,8 +13,6 @@ const Home = () => {
     dispatch(fetchGetListCategoryToolkit());
   }, []);
 
-  console.log("home");
-
   return (
     <>
       <div className="flex gap-5">

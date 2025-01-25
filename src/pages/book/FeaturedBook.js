@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
 import BookCard from "../../components/BookCard/BookCard";
 import BannerSlider from "../../components/BannerSlider/BannerSlider";
+import Loading from "../../components/Loading/Loading";
 
 const FeaturedBook = () => {
   const dispatch = useDispatch();
   const limitListBook = process.env.REACT_APP_LIMIT_LIST_BOOK || 12;
   // const listBook = useSelector((state) => state.book.listBook);
   const totalBooks = useSelector((state) => state.book.totalBooks);
+  const isLoading = useSelector((state) => state.book.isLoading);
 
   const [pageCurent, setCurrentPage] = useState(1);
   const [allBooks, setAllBooks] = useState([]);
@@ -60,27 +62,32 @@ const FeaturedBook = () => {
             <BannerSlider />
           </div>
         </div>
-
-        <div className="flex flex-wrap mt-[230px]">
-          {allBooks &&
-            allBooks?.length > 0 &&
-            allBooks?.map((item, index) => {
-              return (
-                <div
-                  className="basis-[100%] mb-[20px] rounded-[8px] p-[5px] md:basis-[33.33%] sm:basis-[50%] lg:basis-[25%]"
-                  key={index}
-                >
-                  <BookCard
-                    props={item}
-                    handleViewBookDetail={() => handleViewBookDetail(item)}
-                  />
-                </div>
-              );
-            })}
-        </div>
+        {isLoading ? (
+          <div className="mt-[230px]">
+            <Loading />
+          </div>
+        ) : (
+          <div className="flex flex-wrap mt-[230px]">
+            {allBooks &&
+              allBooks?.length > 0 &&
+              allBooks?.map((item, index) => {
+                return (
+                  <div
+                    className="basis-[100%] mb-[20px] rounded-[8px] p-[5px] md:basis-[33.33%] sm:basis-[50%] lg:basis-[25%]"
+                    key={index}
+                  >
+                    <BookCard
+                      props={item}
+                      handleViewBookDetail={() => handleViewBookDetail(item)}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+        )}
 
         {/* Hiển thị nút Xem thêm khi có sách để load */}
-        {totalBooks > +allBooks.length && (
+        {allBooks && allBooks?.length > 0 && totalBooks > +allBooks.length && (
           <div className="text-center">
             <button
               onClick={handleLoadMore}
