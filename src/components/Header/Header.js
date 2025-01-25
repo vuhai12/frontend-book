@@ -5,11 +5,13 @@ import { fetchGetCartToolkit } from "../../redux/slides/cartSlice";
 import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
 import { fetchLogoutToolkit } from "../../redux/slides/userSlice";
 import { jwtDecode } from "jwt-decode";
-import { FaShoppingCart, FaHome, FaUser } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import SidebarMobile from "../SidebarMobile/SidebarMobile";
+import home from "../../assets/header-home.png";
+import account from "../../assets/header-account.png";
+import cart from "../../assets/header-cart.png";
 
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
@@ -75,7 +77,6 @@ const Header = () => {
   };
 
   const handleOpenSideBarMobile = () => {
-    console.log("chyaj vào setIsShowSidebarMobile");
     setIsShowSidebarMobile(true);
   };
 
@@ -130,7 +131,11 @@ const Header = () => {
           to="/"
           className="hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-blue-500"
         >
-          <FaHome size={16} />
+          <img
+            src={home}
+            alt="home"
+            className="h-[24px] w-auto sm:h-[24px] md:h-24 lg:h-[24px] object-contain"
+          />
           <span>Trang chủ</span>
         </Link>
 
@@ -140,7 +145,11 @@ const Header = () => {
           onMouseEnter={() => setDropdown(true)}
           onMouseLeave={() => setDropdown(false)}
         >
-          <FaUser size={16} />
+          <img
+            src={account}
+            alt="account"
+            className="h-[24px] w-auto sm:h-[24px] md:h-24 lg:h-[24px] object-contain"
+          />
           <span>Tài khoản</span>
           {dropdown && (
             <div className="absolute top-full right-0 w-48 py-2  bg-white border border-gray-300 shadow-xl rounded-lg transform transition-all duration-200 opacity-100 z-10">
@@ -174,7 +183,12 @@ const Header = () => {
 
         {/* Cart */}
         <div className="cursor-pointer relative" onClick={handleCart}>
-          <FaShoppingCart className="text-2xl  text-blue-500" />
+          {/* <FaShoppingCart className="text-2xl  text-blue-500" /> */}
+          <img
+            src={cart}
+            alt="cart"
+            className="h-[24px] w-auto sm:h-[24px] md:h-24 lg:h-[24px] object-contain"
+          />
           {listCart?.length > 0 && (
             <div className="absolute top-[-8px] right-[-8px] flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
               {listCart.length}

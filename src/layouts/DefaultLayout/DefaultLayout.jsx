@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Footer from "../../components/Footer/Footer";
 
 const DefaultLayout = ({ children }) => {
   return (
@@ -22,7 +23,11 @@ const DefaultLayout = ({ children }) => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white text-white text-center py-4 w-full">
+      <div className="container bg-white w-full mx-auto py-5 px-[20px] lg:px-0">
+        <Footer />
+      </div>
+
+      {/* <footer className="bg-white text-white text-center py-4 w-full">
         <div className="container mx-auto">
           <p className="text-sm md:text-base font-semibold text-gray-500">
             &copy; {new Date().getFullYear()} by VuHai.
@@ -51,7 +56,7 @@ const DefaultLayout = ({ children }) => {
             </a>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

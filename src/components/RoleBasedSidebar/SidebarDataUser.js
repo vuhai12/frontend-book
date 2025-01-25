@@ -7,12 +7,12 @@ export const SidebarDataUser = [
     id: 1,
     title: "Thông tin tài khoản",
     path: "/user-info",
-    icon: <IoIcons.IoIosPaper />,
+    icon: <FaIcons.FaUserCircle />,
   },
   {
     id: 2,
     title: "Quản lý đơn hàng",
     path: "/user-order",
-    icon: <FaIcons.FaCartPlus />,
+    icon: <FaIcons.FaClipboardList />,
   },
 ];

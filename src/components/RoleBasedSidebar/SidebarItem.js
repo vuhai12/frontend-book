@@ -10,12 +10,12 @@ const SidebarItem = ({ item }) => {
           `flex items-center gap-2 p-3 rounded-lg transition-all duration-300 ${
             isActive
               ? "bg-gray-200 text-gray shadow"
-              : "text-gray-700 hover:bg-gray-200 hover:text-gray"
+              : "text-gray-500 hover:bg-gray-200 hover:text-gray"
           }`
         }
       >
-        <span className="text-2xl">{item.icon}</span>
-        <span className="text-sm font-medium">{item.title}</span>
+        <span className="text-[14px] text-gray-500">{item.icon}</span>
+        <span className="text-[14px] text-gray-500">{item.title}</span>
       </NavLink>
     </li>
   );
