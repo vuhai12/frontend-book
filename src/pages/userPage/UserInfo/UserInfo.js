@@ -50,7 +50,7 @@ const UserInfo = () => {
     {
       id: 5,
       inputType: "input",
-      label: "Mật khẩu",
+      label: "Đổi mật khẩu",
       type: "password",
       value: "",
       name: "password",
@@ -130,9 +130,7 @@ const UserInfo = () => {
 
   return (
     <div className="max-w-4xl mx-auto  px-4 sm:px-6 lg:px-8">
-      <h1 className="text-[20px] font-bold mb-6 text-center">
-        Cập nhật thông tin cá nhân
-      </h1>
+      <h1 className="text-[20px]  mb-6 ">Cập nhật thông tin cá nhân</h1>
       <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
         {/* Ảnh đại diện */}
         <div className="lg:w-1/3 p-6 flex flex-col items-center">

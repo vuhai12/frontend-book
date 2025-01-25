@@ -91,7 +91,7 @@ const FeaturedBook = () => {
           <div className="text-center">
             <button
               onClick={handleLoadMore}
-              className="rounded-[5px] bg-blue-500 text-white px-[10px] py-[5px]"
+              className="rounded-[5px] border border-blue-500 text-blue-500 px-[30px] py-[5px]"
             >
               Xem thêm
             </button>
