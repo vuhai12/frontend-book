@@ -9,9 +9,12 @@ export const fetchCreateOrderToolkit = createAsyncThunk(
   "users/fetchCreateOrderToolkit",
   async (data, { rejectWithValue }) => {
     try {
+      console.log("data", data);
       const response = await apiCreateOrder(data);
+      console.log("response", response);
       return response;
     } catch (error) {
+      console.log("lỗi add cart");
       return rejectWithValue(error.response.data);
     }
   }

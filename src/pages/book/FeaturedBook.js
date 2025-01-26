@@ -55,7 +55,7 @@ const FeaturedBook = () => {
     <>
       <div className="flex-1 rounded-[5px] w-[100%] relative">
         <div className="bg-white rounded-[5px] h-[74px] p-[16px] flex items-center mt-[100px] lg:mt-0">
-          <h2 className="text-black text-[28px] font-semibold">Sách</h2>
+          <h2 className="text-black text-[28px] font-semibold">Nhà Sách</h2>
         </div>
         <div>
           <div className="w-full mt-[20px] rounded-[8px] relative bg-red-600">

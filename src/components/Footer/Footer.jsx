@@ -14,12 +14,12 @@ import { HiOutlineMail } from "react-icons/hi";
 
 const Footer = () => {
   return (
-    <footer className="px-5 text-gray-800">
+    <footer className="p-5 text-gray-800">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
         {/* Hỗ trợ khách hàng */}
         <div>
           <h3 className="font-bold text-lg mb-4">Hỗ trợ khách hàng</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-gray-500">
             <li>Trung tâm trợ giúp</li>
             <li>Hướng dẫn mua hàng</li>
             <li>Hướng dẫn bán hàng</li>
@@ -31,7 +31,7 @@ const Footer = () => {
         {/* Về Tiki */}
         <div>
           <h3 className="font-bold text-lg mb-4">Về Book</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-gray-500">
             <li>Giới thiệu về Book</li>
             <li>Tuyển dụng</li>
             <li>Chính sách bảo mật</li>
@@ -42,7 +42,7 @@ const Footer = () => {
         {/* Hợp tác và liên kết */}
         <div>
           <h3 className="font-bold text-lg mb-4">Hợp tác và liên kết</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-gray-500">
             <li>Quy chế hoạt động</li>
             <li>Bán hàng cùng Book</li>
           </ul>
@@ -87,7 +87,7 @@ const Footer = () => {
               <FaYoutube className="text-2xl text-red-600" />
             </a>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-500">
             <a
               href="mailto:support@tiki.vn"
               className="flex items-center space-x-2"
@@ -98,7 +98,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="text-center text-sm text-gray-500 pt-3 mt-3 border-t border-gray-300">
+      <div className="text-center text-sm text-gray-500 pt-5 mt-5 border-t border-gray-300">
         © 2025 by VuHai.
       </div>
     </footer>

@@ -125,11 +125,11 @@ const Header = () => {
       </div>
 
       {/* Navbar Links & Cart */}
-      <div className="flex  items-center gap-3">
+      <div className="flex  items-center gap-3 ">
         {/* Trang Chủ */}
         <Link
           to="/"
-          className="hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-blue-500"
+          className="hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]"
         >
           <img
             src={home}
@@ -141,7 +141,7 @@ const Header = () => {
 
         {/* Tài Khoản */}
         <div
-          className="hidden lg:flex relative hover:text-blue-500 items-center space-x-2 cursor-pointer"
+          className="hidden lg:flex relative hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px] items-center space-x-2 cursor-pointer"
           onMouseEnter={() => setDropdown(true)}
           onMouseLeave={() => setDropdown(false)}
         >
@@ -156,7 +156,7 @@ const Header = () => {
               {!token ? (
                 <p
                   onClick={handleDirectLogin}
-                  className="w-full py-2 text-sm text-left text-blue-500 hover:bg-gray-100 rounded-md"
+                  className="w-full py-2 text-sm text-left text-gray-500 hover:bg-gray-100 rounded-md"
                 >
                   <span className="px-2">Đăng nhập</span>
                 </p>
@@ -183,11 +183,10 @@ const Header = () => {
 
         {/* Cart */}
         <div className="cursor-pointer relative" onClick={handleCart}>
-          {/* <FaShoppingCart className="text-2xl  text-blue-500" /> */}
           <img
             src={cart}
             alt="cart"
-            className="h-[24px] w-auto sm:h-[24px] md:h-24 lg:h-[24px] object-contain"
+            className="h-[24px] w-auto  object-contain"
           />
           {listCart?.length > 0 && (
             <div className="absolute top-[-8px] right-[-8px] flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">

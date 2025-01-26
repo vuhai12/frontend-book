@@ -60,14 +60,17 @@ const Payment = () => {
         text: "Đặt hàng thành công",
         icon: "success",
         confirmButtonText: "Đóng",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(fetchGetBookInCartChecked())
+            .then(() => {
+              dispatch(fetchGetCartToolkit());
+            })
+            .then(() => {
+              navigate("/");
+            });
+        }
       });
-      dispatch(fetchGetBookInCartChecked())
-        .then(() => {
-          dispatch(fetchGetCartToolkit());
-        })
-        .then(() => {
-          navigate("/");
-        });
     });
   };
 

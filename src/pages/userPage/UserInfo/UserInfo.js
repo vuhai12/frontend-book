@@ -19,6 +19,7 @@ const UserInfo = () => {
       file: "",
       name: "avatar",
       error: "",
+      placeholder: "Ảnh đại diện",
     },
     {
       id: 2,
@@ -28,6 +29,7 @@ const UserInfo = () => {
       value: "",
       name: "name",
       error: "",
+      placeholder: "Họ và tên",
     },
     {
       id: 3,
@@ -37,6 +39,7 @@ const UserInfo = () => {
       value: "",
       name: "email",
       error: "",
+      placeholder: "Email",
     },
     {
       id: 4,
@@ -46,6 +49,7 @@ const UserInfo = () => {
       value: "",
       name: "address",
       error: "",
+      placeholder: "Địa chỉ",
     },
     {
       id: 5,
@@ -55,6 +59,7 @@ const UserInfo = () => {
       value: "",
       name: "password",
       error: "",
+      placeholder: "Nhập mật khẩu mới",
     },
   ];
 
@@ -129,7 +134,7 @@ const UserInfo = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto  px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto  px-4 sm:px-6 lg:px-8 ">
       <h1 className="text-[20px]  mb-6 ">Cập nhật thông tin cá nhân</h1>
       <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
         {/* Ảnh đại diện */}
@@ -163,6 +168,7 @@ const UserInfo = () => {
                     value={item.value}
                     className="block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
                     onChange={(e) => handleUpdateUserData(item, e)}
+                    placeholder={item.placeholder}
                   />
                   {item.error && (
                     <p className="text-red-500 text-sm mt-1">{item.error}</p>
@@ -172,6 +178,7 @@ const UserInfo = () => {
             }
             return null;
           })}
+
           <button
             onClick={handleUpdate}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
