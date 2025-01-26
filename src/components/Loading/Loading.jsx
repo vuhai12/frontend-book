@@ -2,8 +2,8 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center w-full  bg-gray-100 dark:bg-gray-500">
-      <div className="space-y-5 w-full">
+    <div className="flex items-center justify-center w-full   bg-gray-100 dark:bg-gray-500">
+      <div className="space-y-6 w-full ">
         {Array.from({ length: 9 }).map((_, index) => (
           <div
             key={index}
