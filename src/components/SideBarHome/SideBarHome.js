@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 
 const SideBarHome = ({ listCategory, titleSideBar }) => {
   return (
-    <div className="bg-white w-[240px] h-full  hidden lg:block shadow-md">
+    <div className="bg-white w-[240px] h-full rounded-[8px]  hidden lg:block shadow-md">
       <div className="border-b p-4">
         <h5 className="text-[16px] font-bold text-gray-800">{titleSideBar}</h5>
       </div>
-      <div className="mt-4">
+      <div className="mt-2">
         {listCategory.length > 0 &&
           listCategory.map((item) => (
             <NavLink

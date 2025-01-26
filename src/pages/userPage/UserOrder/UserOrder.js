@@ -15,6 +15,7 @@ const UserOrder = () => {
   }, []);
 
   const handleOpenPopup = (books) => {
+    console.log("book", books);
     setIsShowPopup(true);
     setListBooks(books);
   };
@@ -85,6 +86,10 @@ const UserOrder = () => {
               ))}
             </tbody>
           </table>
+          {/* <Pagination
+            totalPosts={+orderById.length}
+            postsPerPage={limitListOrder}
+          /> */}
         </div>
       ) : (
         <p className="text-center text-gray-500 mt-6">

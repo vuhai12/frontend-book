@@ -23,40 +23,11 @@ const DefaultLayout = ({ children }) => {
       </div>
 
       {/* Footer */}
-      <div className="container bg-white w-full mx-auto py-5 px-[20px] lg:px-0">
-        <Footer />
-      </div>
-
-      {/* <footer className="bg-white text-white text-center py-4 w-full">
-        <div className="container mx-auto">
-          <p className="text-sm md:text-base font-semibold text-gray-500">
-            &copy; {new Date().getFullYear()} by VuHai.
-          </p>
-          <div className="flex justify-center items-center gap-4 mt-2">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-gray-500  transition-colors duration-300"
-              aria-label="Facebook"
-            >
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-gray-500 transition-colors duration-300"
-              aria-label="Twitter"
-            >
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-gray-500  transition-colors duration-300"
-              aria-label="Instagram"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-          </div>
+      <div class="w-full bg-white pt-5">
+        <div class="container box-border">
+          <Footer />
         </div>
-      </footer> */}
+      </div>
     </div>
   );
 };
