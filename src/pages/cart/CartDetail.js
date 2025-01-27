@@ -69,7 +69,6 @@ const CartDetail = () => {
   }, []);
 
   const handleCheckBox = (itemBook) => {
-    console.log("isChecked", !itemBook.books.cartBooks.isChecked);
     dispatch(
       fetchCheckedBookCartToolkit({
         cartBookId: itemBook.books.id,
@@ -144,7 +143,6 @@ const CartDetail = () => {
       //   }
       // });
     } else {
-      console.log("tesssssssssssss");
       Swal.fire({
         title: "Thông báo!",
         text: "Bạn chưa chọn sản phẩm để xóa",

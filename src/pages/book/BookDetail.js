@@ -85,7 +85,6 @@ const BookDetail = () => {
             <h4 className="text-xl font-semibold text-red-600">
               {price.toLocaleString()} VNĐ
             </h4>
-            {console.log("price", typeof price)}
             {price && (
               <p className="text-lg line-through text-gray-500">
                 {(price + price * 0.5).toLocaleString()} VNĐ

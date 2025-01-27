@@ -15,7 +15,6 @@ const UserOrder = () => {
   }, []);
 
   const handleOpenPopup = (books) => {
-    console.log("book", books);
     setIsShowPopup(true);
     setListBooks(books);
   };

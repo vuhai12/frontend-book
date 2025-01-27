@@ -193,7 +193,6 @@ export const userSlice = createSlice({
     builder.addCase(fetchGetListUserToolkit.pending, (state, action) => {});
 
     builder.addCase(fetchGetListUserToolkit.fulfilled, (state, action) => {
-      console.log("action,", action);
       state.listUsers = action.payload.response.userData.rows;
       state.totalUsers = action.payload.response.userData.count;
     });

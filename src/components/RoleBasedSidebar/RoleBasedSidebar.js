@@ -73,8 +73,6 @@ const RoleBasedSidebar = () => {
     });
   }, [dispatch]);
 
-  console.log("items", items);
-
   const roleCode = () => {
     if (token) {
       const { role_code } = jwtDecode(token);
