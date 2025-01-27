@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetCartToolkit } from "../../redux/slides/cartSlice";
 import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
 import { fetchLogoutToolkit } from "../../redux/slides/userSlice";
 import { jwtDecode } from "jwt-decode";
-import { AiOutlineSearch } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import SidebarMobile from "../SidebarMobile/SidebarMobile";
-import home from "../../assets/header-home.png";
 import account from "../../assets/header-account.png";
 import cart from "../../assets/header-cart.png";
+import { AiOutlineHome, AiFillHome, AiOutlineSearch } from "react-icons/ai";
 
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
@@ -21,6 +20,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage?.getItem("access_token");
+  const location = useLocation();
 
   useEffect(() => {
     if (token) {
@@ -28,10 +28,16 @@ const Header = () => {
     }
   }, [dispatch, token]);
 
-  const handleCart = () => {
+  const roleCode = () => {
     if (token) {
       const { role_code } = jwtDecode(token);
-      if (role_code == "R2") {
+      return role_code;
+    }
+  };
+
+  const handleCart = () => {
+    if (token) {
+      if (roleCode() == "R2") {
         navigate("/cart");
       }
     } else {
@@ -127,21 +133,34 @@ const Header = () => {
       {/* Navbar Links & Cart */}
       <div className="flex  items-center gap-3 ">
         {/* Trang Chủ */}
-        <Link
+        {/* <Link
           to="/"
-          className="hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]"
+          className={`${isActive} && bg-gray-200 hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]`}
+        > */}
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "hidden lg:flex  items-center space-x-2 text-blue-500 px-[10px] py-[5px] rounded-[5px]"
+              : "hidden lg:flex  items-center text-[12px] space-x-2 text-gray-500 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]"
+          }
         >
-          <img
-            src={home}
-            alt="home"
-            className="h-[24px] w-auto sm:h-[24px] md:h-24 lg:h-[24px] object-contain"
-          />
-          <span>Trang chủ</span>
-        </Link>
+          {/* Dùng isActive để render icon phù hợp */}
+          {({ isActive }) => (
+            <>
+              {isActive ? (
+                <AiFillHome className="text-2xl" />
+              ) : (
+                <AiOutlineHome className="text-2xl" />
+              )}
+              <span className="text-sm">Trang chủ</span>
+            </>
+          )}
+        </NavLink>
 
         {/* Tài Khoản */}
         <div
-          className="hidden lg:flex relative hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px] items-center space-x-2 cursor-pointer"
+          className="hidden lg:flex text-gray-500 text-[14px] relative hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px] items-center space-x-2 cursor-pointer"
           onMouseEnter={() => setDropdown(true)}
           onMouseLeave={() => setDropdown(false)}
         >
@@ -188,7 +207,7 @@ const Header = () => {
             alt="cart"
             className="h-[24px] w-auto  object-contain"
           />
-          {listCart?.length > 0 && (
+          {listCart?.length > 0 && roleCode() && (
             <div className="absolute top-[-8px] right-[-8px] flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
               {listCart.length}
             </div>

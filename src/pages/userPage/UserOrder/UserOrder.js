@@ -24,7 +24,7 @@ const UserOrder = () => {
   };
 
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-white ">
       <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
         Danh sách đơn hàng
       </h2>

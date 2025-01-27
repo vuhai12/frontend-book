@@ -1,5 +1,4 @@
 import React from "react";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,12 +13,12 @@ const Login = () => {
   const schema = yup.object({
     email: yup
       .string()
-      .email("Invalid email format")
-      .required("Email is required"),
+      .email("Không đúng định dạng email")
+      .required("Yêu cầu nhập email"),
     password: yup
       .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+      .min(6, "Mật khẩu cần ít nhất 6 ký tự")
+      .required("Yêu cầu nhập mật khẩu"),
   });
 
   const {
@@ -33,24 +32,36 @@ const Login = () => {
 
   const onSubmit = async ({ email, password }) => {
     try {
-      const result = await dispatch(fetchLoginToolkit({ email, password }));
+      const response = await dispatch(fetchLoginToolkit({ email, password }));
 
-      if (result.payload.error === 1) {
+      if (response.payload.error === 1) {
         setError("email", {
           type: "server",
-          message: result.payload.message,
+          message: response.payload.message,
         });
       } else {
-        toast.success("Login successful", { autoClose: 300 });
-
-        if (result.payload.role_code === "R1") {
-          navigate("/system-admin-user");
-        } else if (result.payload.role_code === "R2") {
-          navigate("/user-info");
-        }
+        Swal.fire({
+          title: "Thông báo!",
+          text: "Đăng nhập thành công",
+          icon: "success",
+          confirmButtonText: "Đóng",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (response.payload.role_code === "R1") {
+              navigate("/system-admin-user");
+            } else if (response.payload.role_code === "R2") {
+              navigate("/user-info");
+            }
+          }
+        });
       }
     } catch (error) {
-      toast.error("An unexpected error occurred");
+      Swal.fire({
+        title: "Thông báo!",
+        text: "An unexpected error occurred",
+        icon: "error",
+        confirmButtonText: "Đóng",
+      });
     }
   };
 
@@ -60,18 +71,18 @@ const Login = () => {
         className="bg-white shadow-lg rounded px-8 pt-6 pb-8 w-96"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Đăng nhập</h2>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email Address
+            Địa chỉ Email
           </label>
           <input
             type="email"
             className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="Enter your email"
+            placeholder="Nhập email"
             {...register("email")}
           />
           {errors.email && (
@@ -81,14 +92,14 @@ const Login = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Password
+            Mật khẩu
           </label>
           <input
             type="password"
             className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="Enter your password"
+            placeholder="Nhập mật khẩu"
             {...register("password")}
           />
           {errors.password && (
@@ -102,14 +113,14 @@ const Login = () => {
           type="submit"
           className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          Login
+          Đăng nhập
         </button>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
-            Don’t have an account?{" "}
+            Bạn chưa có tài khoản?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
-              Register
+              Đăng ký
             </Link>
           </p>
         </div>

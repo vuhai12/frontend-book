@@ -28,7 +28,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Về Tiki */}
+        {/* Về Book */}
         <div>
           <h3 className="font-bold text-lg mb-4">Về Book</h3>
           <ul className="space-y-2 text-gray-500">

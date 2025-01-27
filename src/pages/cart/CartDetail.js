@@ -13,7 +13,7 @@ import {
   fetchIncrementQuantityBookInCart,
   fetchDecrementQuantityBookInCart,
 } from "../../redux/slides/cartSlice";
-import { fetchGetProfileUserToolkit } from "../../redux/slides/profileUserSlice";
+// import { fetchGetProfileUserToolkit } from "../../redux/slides/profileUserSlice";
 import { fetchGetUserByIdToolkit } from "../../redux/slides/userSlice";
 import Modal from "react-bootstrap/Modal";
 // import OrderSuccessPopup from "../../components/OrderSuccessPopup/OrderSuccessPopup";
@@ -38,7 +38,7 @@ const CartDetail = () => {
   const [showPopup, setShowPopup] = useState(false); // Để kiểm tra xem modal có hiển thị không
 
   useEffect(() => {
-    dispatch(fetchGetProfileUserToolkit());
+    // dispatch(fetchGetProfileUserToolkit());
     dispatch(fetchGetCartToolkit());
     dispatch(fetchGetUserByIdToolkit());
   }, []);
@@ -114,19 +114,37 @@ const CartDetail = () => {
   const handleClosePopup = () => setShowPopup(false); // Đóng popup
 
   const handleDeleteItemChecked = (item) => {
-    if (item.books.cartBooks.isChecked === 1) {
-      dispatch(fetchDeleteBookInCartToolkit(item.books.id)).then((result) => {
-        Swal.fire({
-          title: "Thông báo!",
-          text: "Bạn đã xóa sản phẩm",
-          icon: "success",
-          confirmButtonText: "Đóng",
-        });
-        if (result.payload.error === 0) {
-          dispatch(fetchGetCartToolkit());
+    if (item.books.cartBooks.isChecked === true) {
+      Swal.fire({
+        title: "Thông báo!",
+        text: "Bạn có muốn xóa sản phẩm",
+        icon: "question",
+        confirmButtonText: "Đóng",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(fetchDeleteBookInCartToolkit(item.books.id)).then(
+            (result) => {
+              if (result.payload.error === 0) {
+                dispatch(fetchGetCartToolkit());
+              }
+            }
+          );
         }
       });
+
+      // dispatch(fetchDeleteBookInCartToolkit(item.books.id)).then((result) => {
+      //   Swal.fire({
+      //     title: "Thông báo!",
+      //     text: "Bạn đã xóa sản phẩm",
+      //     icon: "success",
+      //     confirmButtonText: "Đóng",
+      //   });
+      //   if (result.payload.error === 0) {
+      //     dispatch(fetchGetCartToolkit());
+      //   }
+      // });
     } else {
+      console.log("tesssssssssssss");
       Swal.fire({
         title: "Thông báo!",
         text: "Bạn chưa chọn sản phẩm để xóa",

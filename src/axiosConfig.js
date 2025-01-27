@@ -48,6 +48,9 @@ instance.interceptors.response.use(
   async (error) => {
     const originalConfig = error.config;
 
+    console.log("error.response.status", error.response.status);
+    console.log("error.response.data.message", error.response.data.message);
+
     // Kiểm tra nếu lỗi là 401 (Unauthorized)
     if (error.response && error.response.status === 401) {
       const errorMessage = error.response.data.message;
@@ -63,8 +66,9 @@ instance.interceptors.response.use(
             `${process.env.REACT_APP_API_URL}/auth/refresh-token`,
             { refreshToken: refresh_token }
           );
-
+          console.log("data token new", data);
           if (data.access_token) {
+            console.log("chayj vao gan token new");
             // Lưu token mới vào localStorage
             localStorage.setItem("access_token", data.access_token);
 
@@ -74,11 +78,21 @@ instance.interceptors.response.use(
             // Gửi lại request gốc
             return instance(originalConfig);
           }
+          if (
+            data.error == 1 &&
+            data.message == "Refresh token expired. Require login again"
+          ) {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            // localStorage.removeItem("auth");
+            window.location.href = "/login";
+          }
         } catch (refreshError) {
+          console.log("fail");
           // Nếu refresh token không hợp lệ hoặc hết hạn, logout người dùng
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
-          localStorage.removeItem("auth");
+          // localStorage.removeItem("auth");
           window.location.href = "/login";
           return Promise.reject(refreshError);
         }
