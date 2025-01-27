@@ -19,7 +19,6 @@ export const fetchGetListBookToolkit = createAsyncThunk(
     } catch (error) {
       if (signal.aborted) {
         // Trường hợp request bị hủy bỏ
-        console.log("Request aborted");
         return rejectWithValue({ message: "Request was aborted" });
       }
       return rejectWithValue(error.response.data);

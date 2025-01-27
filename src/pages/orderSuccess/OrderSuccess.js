@@ -5,7 +5,6 @@ import Table from "react-bootstrap/Table";
 
 const OrderSuccess = () => {
   const location = useLocation();
-  console.log(location);
   return (
     <>
       <Container>

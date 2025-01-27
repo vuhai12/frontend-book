@@ -9,12 +9,9 @@ export const fetchCreateOrderToolkit = createAsyncThunk(
   "users/fetchCreateOrderToolkit",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("data", data);
       const response = await apiCreateOrder(data);
-      console.log("response", response);
       return response;
     } catch (error) {
-      console.log("lỗi add cart");
       return rejectWithValue(error.response.data);
     }
   }
@@ -37,7 +34,6 @@ export const fetchGetOrderByIdToolkit = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetOrderById();
-      console.log("response order", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -65,7 +61,6 @@ export const orderSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(fetchGetOrderByIdToolkit.fulfilled, (state, action) => {
-      console.log("action.payload", action.payload);
       state.listOrderById = action.payload.orderData;
     });
   },

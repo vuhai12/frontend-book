@@ -208,7 +208,6 @@ const AdminUser = () => {
     );
     setFieldSort(updatedFieldSort);
     const selected = updatedFieldSort.find((item) => item.sort === field);
-    console.log("selected", selected);
     dispatch(
       fetchGetListUserToolkit({
         limitListUser,
@@ -221,7 +220,6 @@ const AdminUser = () => {
   const [seclectedUserId, setSeclectedUserId] = useState(0);
 
   const handleSearch = (searchString) => {
-    console.log("searchString", searchString);
     dispatch(
       fetchGetListUserToolkit({ limitListUser, currentPage, searchString })
     );
@@ -318,8 +316,6 @@ const AdminUser = () => {
   const handleCancelEdit = () => {
     setIsShowEditUser(false);
   };
-
-  console.log("listUsers", listUsers);
 
   return (
     <div className=" p-5 bg-gray-50 rounded-lg shadow-md">

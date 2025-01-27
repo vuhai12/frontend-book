@@ -39,7 +39,6 @@ export const fetchAddCartToolkit = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiAddCart(data);
-      console.log("response cart", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -99,7 +98,6 @@ export const fetchDecrementQuantityBookInCart = createAsyncThunk(
   "users/fetchDecrementQuantityBookInCart",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("data", data);
       const response = await apiQuantityBookInCart(data);
       return response;
     } catch (error) {
@@ -112,7 +110,6 @@ export const fetchIncrementQuantityBookInCart = createAsyncThunk(
   "users/fetchIncrementQuantityBookInCart",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("dataIncre", data);
       const response = await apiQuantityBookInCart(data);
       return response;
     } catch (error) {

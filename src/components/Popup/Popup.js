@@ -19,7 +19,6 @@ const Popup = ({
 
   const handleOnchange = async (option, e) => {
     const item = items?.find((item) => option.id === item.id);
-    console.log("handleOnchange");
     if (item.type == "file") {
       item.value = URL.createObjectURL(e.target.files[0]);
       item.file = e.target.files[0];
