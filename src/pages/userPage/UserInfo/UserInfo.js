@@ -134,7 +134,7 @@ const UserInfo = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto  px-4 sm:px-6 lg:px-8 ">
+    <div className=" min-h-screen">
       <h1 className="text-[20px]  mb-6 ">Cập nhật thông tin cá nhân</h1>
       <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
         {/* Ảnh đại diện */}

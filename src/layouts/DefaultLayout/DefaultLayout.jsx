@@ -5,7 +5,7 @@ import Footer from "../../components/Footer/Footer";
 
 const DefaultLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#efefef]">
+    <div className=" flex flex-col bg-[#efefef] min-h-screen">
       {/* Nội dung của Header và Breadcrumb */}
       <header className="bg-white w-full z-50 fixed top-0 lg:static">
         <div className="container mx-auto py-5 px-[20px] lg:px-0">
@@ -18,7 +18,7 @@ const DefaultLayout = ({ children }) => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto flex-grow mb-10 px-[20px] lg:px-0">
+      <div className="container mx-auto flex-grow mb-10 px-[20px] lg:px-0 ">
         {children}
       </div>
 

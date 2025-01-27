@@ -3,7 +3,7 @@ import RoleBasedSidebar from "../../components/RoleBasedSidebar/RoleBasedSidebar
 
 const RoleBasedLayout = ({ children }) => {
   return (
-    <div className="lg:flex  mt-[100px] lg:mt-0 lg:gap-5">
+    <div className="lg:flex mt-[100px] lg:mt-0 lg:gap-5 ">
       {/* Sidebar */}
       <RoleBasedSidebar />
 

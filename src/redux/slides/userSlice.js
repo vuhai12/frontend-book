@@ -38,7 +38,7 @@ export const fetchRegisterToolkit = createAsyncThunk(
   "users/fetchRegisterToolkit",
   async (body, { rejectWithValue }) => {
     try {
-      const response = await apiRegister(body.email, body.password);
+      const response = await apiRegister(body.email, body.password, body.name);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
