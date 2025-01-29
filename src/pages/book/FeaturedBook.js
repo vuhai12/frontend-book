@@ -87,16 +87,19 @@ const FeaturedBook = () => {
         )}
 
         {/* Hiển thị nút Xem thêm khi có sách để load */}
-        {allBooks && allBooks?.length > 0 && totalBooks > +allBooks.length && (
-          <div className="text-center">
-            <button
-              onClick={handleLoadMore}
-              className="rounded-[5px] border border-blue-500 text-blue-500 px-[30px] py-[5px]"
-            >
-              Xem thêm
-            </button>
-          </div>
-        )}
+        {allBooks &&
+          allBooks?.length > 0 &&
+          totalBooks > +allBooks.length &&
+          !isLoading && (
+            <div className="text-center">
+              <button
+                onClick={handleLoadMore}
+                className="rounded-[5px] border border-blue-500 text-blue-500 px-[30px] py-[5px]"
+              >
+                Xem thêm
+              </button>
+            </div>
+          )}
       </div>
     </>
   );
