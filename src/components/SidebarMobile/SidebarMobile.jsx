@@ -96,7 +96,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
         {/* Nếu danh mục sách mở, hiển thị các danh mục */}
         {isCategoryOpen && (
           <div className="pl-3  ">
-            {listCategory.map((category) => (
+            {listCategory?.map((category) => (
               <NavLink
                 key={category.id}
                 className={({ isActive }) =>

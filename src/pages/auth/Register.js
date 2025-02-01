@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, Link } from "react-router-dom";
 import { fetchRegisterToolkit } from "../../redux/slides/userSlice";
+import Swal from "sweetalert2";
 import * as yup from "yup";
 
 const Register = () => {
@@ -23,7 +24,7 @@ const Register = () => {
       .required("Mật khẩu"),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("Mật khẩu"), null], "Mật khẩu không khớp")
+      .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")
       .required("Xác nhận Mật khẩu"),
   });
 
