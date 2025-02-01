@@ -38,7 +38,6 @@ const BookDetail = () => {
     title = "",
     description = "",
     price = 0,
-    originalPrice = 0,
     image = "",
   } = location.state?.props || {};
 
