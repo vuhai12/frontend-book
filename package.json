@@ -61,6 +61,7 @@
     "sass": "1.49.10",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.11",
+    "sweetalert2": "^11.15.10",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5",
     "yarn": "^1.22.22",

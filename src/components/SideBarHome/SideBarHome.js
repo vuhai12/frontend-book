@@ -8,7 +8,7 @@ const SideBarHome = ({ listCategory, titleSideBar }) => {
         <h5 className="text-[16px] font-bold text-gray-800">{titleSideBar}</h5>
       </div>
       <div className="mt-2">
-        {listCategory.length > 0 &&
+        {listCategory?.length > 0 &&
           listCategory.map((item) => (
             <NavLink
               key={item.id}
