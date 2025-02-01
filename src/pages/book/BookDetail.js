@@ -42,12 +42,10 @@ const BookDetail = () => {
     image = "",
   } = location.state?.props || {};
 
-  const handleAction = (redirectToCart = false) => {
+  const handleActionAddToCart = (redirectToCart) => {
     if (!token) return navigate("/login");
-
     const { role_code } = jwtDecode(token);
     if (role_code !== "R2") return navigate("/login");
-
     const payload = {
       image: location.state.props.image,
       bid: String(location.state.props.id),
@@ -55,17 +53,17 @@ const BookDetail = () => {
       totalPrices: +location.state.props.price * +quantity,
       isChecked: "0",
     };
-
     dispatch(fetchAddCartToolkit(payload)).then(() => {
       dispatch(fetchGetCartToolkit()).then(() => {
-        if (redirectToCart) navigate("/book-cart");
+        if (redirectToCart) {
+          navigate("/cart");
+        }
       });
     });
   };
 
   return (
     <div className="max-w-7xl mx-auto lg:mt-0 mt-[100px]">
-      {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-white rounded-lg shadow-lg overflow-hidden"> */}
       <div className="flex flex-col lg:flex-row gap-6 bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Phần 1: Ảnh sách */}
         <div className="bg-gray-100 p-6 flex flex-1 justify-center items-center">
@@ -107,13 +105,13 @@ const BookDetail = () => {
           {/* Nút hành động */}
           <div className="flex flex-col justify-between gap-4">
             <button
-              onClick={() => handleAction(false)}
+              onClick={() => handleActionAddToCart(false)}
               className="py-2 px-6 w-full flex-1 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             >
               Thêm giỏ hàng
             </button>
             <button
-              onClick={() => handleAction(true)}
+              onClick={() => handleActionAddToCart(true)}
               className="py-2 px-6 flex-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
             >
               Mua ngay
