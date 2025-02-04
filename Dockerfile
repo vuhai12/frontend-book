@@ -1,26 +1,22 @@
-# Sử dụng image Node.js làm base image
-FROM node:16
+# Build React App
+FROM node:20-alpine AS build
 
-# Tạo thư mục làm việc trong container
 WORKDIR /app
 
-# Copy package.json và package-lock.json vào container
-COPY package*.json ./
+# Nhận biến môi trường ở build-time
+ARG REACT_APP_API_URL
+ARG REACT_APP_LIMIT_LIST_USER
+ARG REACT_APP_LIMIT_LIST_BOOK
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_LIMIT_LIST_USER=$REACT_APP_LIMIT_LIST_USER
+ENV REACT_APP_LIMIT_LIST_BOOK=$REACT_APP_LIMIT_LIST_BOOK
 
-# Cài đặt dependencies
+COPY package*.json . 
 RUN npm install
-
-# Copy tất cả file từ máy chủ vào container
 COPY . .
-
-# Build ứng dụng React
 RUN npm run build
 
-# Cài đặt `serve` để chạy ứng dụng tĩnh
+# Serve ứng dụng React
 RUN npm install -g serve
-
-# Cung cấp cổng 3000
 EXPOSE 3000
-
-# Chạy ứng dụng từ thư mục build
 CMD ["serve", "-s", "build", "-l", "3000"]
