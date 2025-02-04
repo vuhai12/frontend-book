@@ -1,0 +1,30 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
+        - REACT_APP_LIMIT_LIST_BOOK=${REACT_APP_LIMIT_LIST_BOOK}
+        - REACT_APP_LIMIT_LIST_USER=${REACT_APP_LIMIT_LIST_USER}
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ../backend-book
+    ports:
+      - "5000:5000" # Thêm để expose cổng 5000 cho backend
+    networks:
+      - app-network
+    env_file:
+      - ../backend-book/.env
+
+networks:
+  app-network:
+    driver: bridge
