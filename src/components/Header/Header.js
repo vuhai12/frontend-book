@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetCartToolkit } from "../../redux/slides/cartSlice";
 import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
@@ -20,7 +20,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage?.getItem("access_token");
-  const location = useLocation();
 
   useEffect(() => {
     if (token) {
@@ -93,7 +92,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between w-full gap-[10px]">
+    <nav className="flex items-center justify-between w-full gap-[10px] ">
       {/* Logo */}
       <div className="flex items-center">
         <Link
@@ -153,7 +152,9 @@ const Header = () => {
               ) : (
                 <AiOutlineHome className="text-2xl" />
               )}
-              <span className="text-sm">Trang chủ</span>
+              <span className={`${isActive ? "text-sm font-bold" : "text-sm"}`}>
+                Trang chủ
+              </span>
             </>
           )}
         </NavLink>

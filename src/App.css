@@ -46,6 +46,9 @@
   .group {
     @apply mt-[10px] mx-auto;
   }
+  .footer-section li a {
+    @apply hover:underline;
+  }
 
   .navbar {
     @apply bg-gray-300 h-[60px] flex items-center px-[30px] fixed top-0 z-50;

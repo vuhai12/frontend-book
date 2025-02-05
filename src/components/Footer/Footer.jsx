@@ -19,32 +19,54 @@ const Footer = () => {
         {/* Hỗ trợ khách hàng */}
         <div>
           <h3 className="font-bold text-lg mb-4">Hỗ trợ khách hàng</h3>
-          <ul className="space-y-2 text-gray-500">
-            <li>Trung tâm trợ giúp</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Hướng dẫn bán hàng</li>
-            <li>Thanh toán</li>
-            <li>Vận chuyển</li>
+          <ul className="space-y-2 text-gray-500 footer-section">
+            <li>
+              <a href="#">Trung tâm trợ giúp</a>
+            </li>
+            <li>
+              <a href="#">Hướng dẫn mua hàng</a>
+            </li>
+            <li>
+              <a href="#">Hướng dẫn bán hàng</a>
+            </li>
+            <li>
+              <a href="#">Thanh toán</a>
+            </li>
+            <li>
+              <a href="#">Vận chuyển</a>
+            </li>
           </ul>
         </div>
 
         {/* Về Book */}
         <div>
           <h3 className="font-bold text-lg mb-4">Về Book</h3>
-          <ul className="space-y-2 text-gray-500">
-            <li>Giới thiệu về Book</li>
-            <li>Tuyển dụng</li>
-            <li>Chính sách bảo mật</li>
-            <li>Điều khoản sử dụng</li>
+          <ul className="space-y-2 text-gray-500 footer-section">
+            <li>
+              <a href="#">Giới thiệu về Book</a>
+            </li>
+            <li>
+              <a href="#">Tuyển dụng</a>
+            </li>
+            <li>
+              <a href="#">Chính sách bảo mật</a>
+            </li>
+            <li>
+              <a href="#">Điều khoản sử dụng</a>
+            </li>
           </ul>
         </div>
 
         {/* Hợp tác và liên kết */}
         <div>
           <h3 className="font-bold text-lg mb-4">Hợp tác và liên kết</h3>
-          <ul className="space-y-2 text-gray-500">
-            <li>Quy chế hoạt động</li>
-            <li>Bán hàng cùng Book</li>
+          <ul className="space-y-2 text-gray-500 footer-section">
+            <li>
+              <a href="#">Quy chế hoạt động</a>
+            </li>
+            <li>
+              <a href="#">Bán hàng cùng Book</a>
+            </li>
           </ul>
         </div>
 

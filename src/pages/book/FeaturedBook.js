@@ -53,21 +53,16 @@ const FeaturedBook = () => {
 
   return (
     <>
-      <div className="flex-1 rounded-[5px] w-[100%] relative">
-        <div className="bg-white rounded-[5px] h-[74px] p-[16px] flex items-center mt-[100px] lg:mt-0">
-          <h2 className="text-black text-[28px] font-semibold">Nhà Sách</h2>
-        </div>
-        <div>
-          <div className="w-full mt-[20px] rounded-[8px] relative bg-red-600">
-            <BannerSlider />
-          </div>
+      <div className="flex-1 rounded-[5px] w-[100%] ">
+        <div className="w-full  rounded-[8px] relative pb-[350px] lg:mt-0 mt-[100px]">
+          <BannerSlider />
         </div>
         {isLoading ? (
-          <div className="mt-[230px]">
+          <div className="">
             <Loading />
           </div>
         ) : (
-          <div className="flex flex-wrap mt-[230px]">
+          <div className="flex flex-wrap ">
             {allBooks &&
               allBooks?.length > 0 &&
               allBooks?.map((item, index) => {
