@@ -1,18 +1,25 @@
-@keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%); /* Di chuyển hết chiều rộng của nửa màn hình */
-  }
-}
-
 .marquee-wrapper {
   display: flex;
-  width: max-content; /* Đảm bảo chiều rộng phù hợp với nội dung */
-  animation: marquee-scroll 80s linear infinite;
+  overflow: hidden;
+  position: relative;
 }
 
 .marquee-content {
   display: flex;
+  white-space: nowrap;
+  animation: scroll-left 80s linear infinite; /* Tạo hiệu ứng chạy */
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Di chuyển hết nửa nội dung để lặp vô tận */
+  }
+}
+
+/* Tạm dừng khi hover */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
 }
