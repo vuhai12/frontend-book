@@ -8,22 +8,32 @@ services:
         - REACT_APP_LIMIT_LIST_USER=${REACT_APP_LIMIT_LIST_USER}
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules # Volume ẩn để giữ node_modules trong container
     env_file:
       - .env
     networks:
       - app-network
     depends_on:
       - backend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
   backend:
     build:
       context: ../backend-book
     ports:
-      - "5000:5000" # Thêm để expose cổng 5000 cho backend
-    networks:
-      - app-network
+      - "5000:5000"
+    volumes:
+      - ../backend-book:/app
+      - /app/node_modules
     env_file:
       - ../backend-book/.env
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=development
 
 networks:
   app-network:

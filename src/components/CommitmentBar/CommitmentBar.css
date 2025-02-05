@@ -1,0 +1,18 @@
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Di chuyển hết chiều rộng của nửa màn hình */
+  }
+}
+
+.marquee-wrapper {
+  display: flex;
+  width: max-content; /* Đảm bảo chiều rộng phù hợp với nội dung */
+  animation: marquee-scroll 80s linear infinite;
+}
+
+.marquee-content {
+  display: flex;
+}

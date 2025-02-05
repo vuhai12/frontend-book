@@ -33,6 +33,7 @@ const BannerSlider = () => {
       />
     </div>
   );
+
   const settings = {
     dots: true,
     infinite: true,
@@ -40,27 +41,29 @@ const BannerSlider = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
+    autoplay: true, // Thêm tính năng autoplay
+    autoplaySpeed: 3000, // Thời gian giữa mỗi lần chuyển slide (3 giây)
     prevArrow: <SlickArrowLeft />,
     nextArrow: <SlickArrowRight />,
     customPaging: (i) => <div className="dot-custom"></div>,
   };
 
   return (
-    <div className="w-full absolute h-[157px] rounded-[8px]">
-      <Slider {...settings} className=" h-[157px] ">
-        <div className="h-[157px] rounded-[8px]">
+    <div className="w-full absolute h-[300px] rounded-[8px]">
+      <Slider {...settings} className="h-[300px]">
+        <div className="h-[300px] rounded-[8px]">
           <img
             src={slider1}
             className="w-full h-full object-cover rounded-[8px]"
           />
         </div>
-        <div className=" h-[157px] rounded-[8px]">
+        <div className="h-[300px] rounded-[8px]">
           <img
             src={slider2}
             className="w-full h-full object-cover rounded-[8px]"
           />
         </div>
-        <div className=" h-[157px] rounded-[8px]">
+        <div className="h-[300px] rounded-[8px]">
           <img
             src={slider3}
             className="w-full h-full object-cover rounded-[8px]"
