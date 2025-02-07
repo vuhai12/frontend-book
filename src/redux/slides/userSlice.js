@@ -81,7 +81,6 @@ export const fetchUpdateNewUserToolkit = createAsyncThunk(
   "users/fetchUpdateNewUserToolkit",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("data", data);
       const response = await apiUpdateUser(data);
       return response;
     } catch (error) {

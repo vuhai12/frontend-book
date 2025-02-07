@@ -13,9 +13,6 @@ const Home = () => {
     dispatch(fetchGetListCategoryToolkit());
   }, []);
 
-  console.log(process.env.REACT_APP_API_URL);
-  console.log("xgsvgsvg");
-
   return (
     <>
       <div className="flex gap-5">
