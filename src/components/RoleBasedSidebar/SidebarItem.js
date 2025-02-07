@@ -14,8 +14,8 @@ const SidebarItem = ({ item }) => {
           }`
         }
       >
-        <span className="text-[14px] text-gray-500">{item.icon}</span>
-        <span className="text-[14px] text-gray-500">{item.title}</span>
+        <span className="text-[16px] text-black">{item.icon}</span>
+        <span className="text-[16px] text-black">{item.title}</span>
       </NavLink>
     </li>
   );

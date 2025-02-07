@@ -81,6 +81,7 @@ export const fetchUpdateNewUserToolkit = createAsyncThunk(
   "users/fetchUpdateNewUserToolkit",
   async (data, { rejectWithValue }) => {
     try {
+      console.log("data", data);
       const response = await apiUpdateUser(data);
       return response;
     } catch (error) {
@@ -143,6 +144,7 @@ export const userSlice = createSlice({
     quantityBook: 1,
     isOpenSideBarMenu: false,
     userData: [],
+    isLoadingInfoUser: false,
   },
   reducers: {
     openSideBarMenu: (state, action) => {
@@ -165,6 +167,12 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchGetUserByIdToolkit.fulfilled, (state, action) => {
       state.userData = action.payload.userData;
+      state.isLoadingInfoUser = false;
+      // Add user to the state array
+    });
+
+    builder.addCase(fetchGetUserByIdToolkit.pending, (state, action) => {
+      state.isLoadingInfoUser = true;
       // Add user to the state array
     });
 
@@ -177,8 +185,11 @@ export const userSlice = createSlice({
 
     builder.addCase(fetchLoginToolkit.fulfilled, (state, action) => {
       // Add user to the state array
-      localStorage.setItem("access_token", action.payload?.access_token);
-      localStorage.setItem("refresh_token", action.payload?.refresh_token);
+      if (action.payload?.access_token && action.payload?.refresh_token) {
+        localStorage.setItem("access_token", action.payload?.access_token);
+        localStorage.setItem("refresh_token", action.payload?.refresh_token);
+      }
+
       (state.access_token = action.payload.access_token),
         (state.refresh_token = action.payload.refresh_token),
         (state.auth = true),

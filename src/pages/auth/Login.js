@@ -17,7 +17,7 @@ const Login = () => {
       .required("Yêu cầu nhập email"),
     password: yup
       .string()
-      .min(6, "Mật khẩu cần ít nhất 6 ký tự")
+      .min(6, "password cần ít nhất 6 ký tự")
       .required("Yêu cầu nhập mật khẩu"),
   });
 
@@ -33,12 +33,25 @@ const Login = () => {
   const onSubmit = async ({ email, password }) => {
     try {
       const response = await dispatch(fetchLoginToolkit({ email, password }));
-
+      console.log("response.payload", response.payload);
       if (response.payload.error === 1) {
-        setError("email", {
-          type: "server",
-          message: response.payload.message,
-        });
+        if (/email/i.test(response.payload.message)) {
+          setError("email", {
+            type: "server",
+            message: response.payload.message,
+          });
+        }
+        if (/password/i.test(response.payload.message)) {
+          setError("password", {
+            type: "server",
+            message: response.payload.message,
+          });
+        }
+        // console.log("response.payload", response.payload);
+        // setError("password", {
+        //   type: "server",
+        //   message: response.payload.message,
+        // });
       } else {
         Swal.fire({
           title: "Thông báo!",
@@ -96,6 +109,7 @@ const Login = () => {
           </label>
           <input
             type="password"
+            name="password"
             className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}

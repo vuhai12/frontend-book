@@ -20,12 +20,12 @@ const Register = () => {
     name: yup.string().required("Yêu cầu nhập Họ tên"),
     password: yup
       .string()
-      .min(6, "Mật khẩu cần ít nhất 6 ký tự")
-      .required("Mật khẩu"),
+      .min(6, "password cần ít nhất 6 ký tự")
+      .required("password"),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")
-      .required("Xác nhận Mật khẩu"),
+      .oneOf([yup.ref("password"), null], "password không khớp")
+      .required("Xác nhận password"),
   });
 
   const {
