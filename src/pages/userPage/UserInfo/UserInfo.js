@@ -192,6 +192,9 @@ const UserInfo = () => {
                     {item.label}
                   </label>
                   <input
+                    autoComplete={
+                      item.type === "password" ? "new-password" : "off"
+                    }
                     type={item.type}
                     value={item.value}
                     className="block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
