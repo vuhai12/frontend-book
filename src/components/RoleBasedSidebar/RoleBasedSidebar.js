@@ -82,7 +82,6 @@ const RoleBasedSidebar = () => {
   };
 
   const sidebarData = roleCode() === "R2" ? SidebarDataUser : SidebarDataAdmin;
-  const titleSidebar = roleCode() === "R2" ? "User Panel" : "Admin Panel";
 
   return (
     <div className="lg:flex h-screen hidden">
