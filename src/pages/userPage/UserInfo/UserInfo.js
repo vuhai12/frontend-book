@@ -71,7 +71,6 @@ const UserInfo = () => {
 
   useEffect(() => {
     dispatch(fetchGetUserByIdToolkit()).then((result) => {
-      console.log("result.payload.userData", result.payload.userData);
       if (result.payload.userData) {
         items[0].value = result.payload.userData.avatar;
         items[1].value = result.payload.userData.name;
