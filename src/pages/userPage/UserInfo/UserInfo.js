@@ -68,7 +68,6 @@ const UserInfo = () => {
   const isLoadingInfoUser = useSelector(
     (state) => state.user.isLoadingInfoUser
   );
-  console.log("isLoadingInfoUser", isLoadingInfoUser);
 
   useEffect(() => {
     dispatch(fetchGetUserByIdToolkit()).then((result) => {
@@ -98,8 +97,6 @@ const UserInfo = () => {
     setItems([...items]);
   };
 
-  console.log("items", items);
-
   const validate = () => {
     let isValid = true;
     items.forEach((item) => {
@@ -115,12 +112,21 @@ const UserInfo = () => {
   const handleUpdate = () => {
     if (validate()) {
       const formData = new FormData();
+
       if (items[0].value) {
         formData.append("avatar", items[0].file);
       }
+
       if (items[4].value) {
-        formData.append("password", items[4].value);
+        if (items[4].value.length >= 6) {
+          formData.append("password", items[4].value);
+        } else {
+          items[4].error = "Password cần ít nhất 6 ký tự";
+          setItems([...items]);
+          return;
+        }
       }
+
       formData.append("name", items[1].value);
       formData.append("email", items[2].value);
       formData.append("address", items[3].value);
@@ -151,21 +157,7 @@ const UserInfo = () => {
       <h1 className="text-[20px]  mb-6 ">Cập nhật thông tin cá nhân</h1>
       <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
         {/* Ảnh đại diện */}
-        {/* <div className="lg:w-1/3 p-6 flex flex-col items-center">
-          <label htmlFor="avatar" className="cursor-pointer">
-            <img
-              src={items[0].value || ImageDefault}
-              alt="Avatar"
-              className="w-32 h-32 rounded-full object-cover mb-4 border"
-            />
-          </label>
-          <input
-            type="file"
-            id="avatar"
-            // className="hidden"
-            onChange={(e) => handleUpdateUserData(items[0], e)}
-          />
-        </div> */}
+
         <div className="lg:w-1/3 p-6 flex flex-col items-center">
           {/* Ảnh đại diện */}
           <img
