@@ -1,19 +1,34 @@
-FROM node:20-alpine
+# Sử dụng node làm base image
+FROM node:18
 
+# Đặt thư mục làm việc
 WORKDIR /app
 
+# Copy file package.json và package-lock.json để cài đặt dependency trước
+COPY package.json package-lock.json ./
+
+# Cài đặt dependency
+RUN npm install
+
+# Copy toàn bộ mã nguồn vào container
+COPY . .
+
+# Thiết lập biến môi trường
 ARG REACT_APP_API_URL
 ARG REACT_APP_LIMIT_LIST_USER
 ARG REACT_APP_LIMIT_LIST_BOOK
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
-ENV REACT_APP_LIMIT_LIST_USER=$REACT_APP_LIMIT_LIST_USER
-ENV REACT_APP_LIMIT_LIST_BOOK=$REACT_APP_LIMIT_LIST_BOOK
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+ENV REACT_APP_LIMIT_LIST_USER=${REACT_APP_LIMIT_LIST_USER}
+ENV REACT_APP_LIMIT_LIST_BOOK=${REACT_APP_LIMIT_LIST_BOOK}
 
-COPY package*.json . 
-RUN npm install
+# Build ứng dụng
+RUN npm run build
 
-COPY . .
+# Cài đặt server phục vụ ứng dụng React
+RUN npm install -g serve
 
+# Mở cổng
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Chạy ứng dụng
+CMD ["serve", "-s", "build", "-l", "3000"]
