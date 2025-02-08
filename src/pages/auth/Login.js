@@ -33,7 +33,6 @@ const Login = () => {
   const onSubmit = async ({ email, password }) => {
     try {
       const response = await dispatch(fetchLoginToolkit({ email, password }));
-      console.log("response.payload", response.payload);
       if (response.payload.error === 1) {
         if (/email/i.test(response.payload.message)) {
           setError("email", {
@@ -47,7 +46,6 @@ const Login = () => {
             message: response.payload.message,
           });
         }
-        // console.log("response.payload", response.payload);
         // setError("password", {
         //   type: "server",
         //   message: response.payload.message,

@@ -62,7 +62,7 @@ const RoleBasedSidebar = () => {
   const [items, setItems] = useState(userDataUpdate);
   useEffect(() => {
     dispatch(fetchGetUserByIdToolkit()).then((result) => {
-      if (result.payload.userData) {
+      if (result.payload?.userData) {
         items[0].value = result.payload.userData.avatar;
         items[1].value = result.payload.userData.name;
         items[2].value = result.payload.userData.email;
