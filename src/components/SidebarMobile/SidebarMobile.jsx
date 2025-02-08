@@ -70,7 +70,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
       </div>
 
       {/* Các mục bên dưới */}
-      <div className="p-4 space-y-4 ">
+      <div className="p-4 space-y-2 ">
         {/* Trang chủ */}
         <Link
           to="/"
@@ -108,13 +108,6 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
               >
                 {category.value}
               </NavLink>
-              // <Link
-              //   key={category.id}
-              //   to={`/category-${category.code}`}
-              //   className="block py-2 text-sm hover:ml-[-48px] hover:mr-[-16px] hover:w-[calc(100%+64px)] hover:pl-[48px] hover:px-4 text-gray-600 hover:text-white hover:bg-blue-500 rounded-md"
-              // >
-              //   {category.value}
-              // </Link>
             ))}
           </div>
         )}

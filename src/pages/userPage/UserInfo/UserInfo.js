@@ -71,7 +71,7 @@ const UserInfo = () => {
 
   useEffect(() => {
     dispatch(fetchGetUserByIdToolkit()).then((result) => {
-      if (result.payload.userData) {
+      if (result.payload?.userData) {
         items[0].value = result.payload.userData.avatar;
         items[1].value = result.payload.userData.name;
         items[2].value = result.payload.userData.email;
@@ -132,7 +132,7 @@ const UserInfo = () => {
 
       dispatch(fetchUpdateNewUserToolkit(formData)).then(() => {
         dispatch(fetchGetUserByIdToolkit()).then((result) => {
-          if (result.payload.userData) {
+          if (result.payload?.userData) {
             items[0].value = result.payload.userData.avatar;
             items[1].value = result.payload.userData.name;
             items[2].value = result.payload.userData.email;
@@ -170,6 +170,7 @@ const UserInfo = () => {
             type="file"
             id="avatar"
             className="hidden"
+            disabled={isLoadingInfoUser}
             onChange={(e) => handleUpdateUserData(items[0], e)}
           />
 
@@ -177,6 +178,7 @@ const UserInfo = () => {
           <button
             className="bg-blue-500 text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-blue-600"
             onClick={() => document.getElementById("avatar").click()} // Kích hoạt input file
+            disabled={isLoadingInfoUser}
           >
             <Upload className="w-5 h-5" />
             Tải Avatar
