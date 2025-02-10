@@ -190,11 +190,9 @@ const AminBook = () => {
       item.error = "";
     });
   };
-  const limitListBook = 5;
+  const limit = 3;
   useEffect(() => {
-    dispatch(
-      fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-    );
+    dispatch(fetchGetListBookToolkit({ limit, pageCurent, searchString }));
   }, [pageCurent]);
 
   const handleCancelEdit = () => {
@@ -302,9 +300,7 @@ const AminBook = () => {
         toast.error(result.payload.message);
       } else {
         toast.success(result.payload.message);
-        dispatch(
-          fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-        );
+        dispatch(fetchGetListBookToolkit({ limit, pageCurent, searchString }));
       }
     });
   };
@@ -326,7 +322,7 @@ const AminBook = () => {
         } else {
           toast.success(result.payload.message, { autoClose: 500 });
           dispatch(
-            fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
+            fetchGetListBookToolkit({ limit, pageCurent, searchString })
           );
           setIsShowAddModel(false);
         }
@@ -349,7 +345,7 @@ const AminBook = () => {
     setOptionsFieldSort([...optionsFieldSort]);
     dispatch(
       fetchGetListBookToolkit({
-        limitListBook,
+        limit,
         pageCurent,
         field: selected.sort,
         sort: selected.sort_by,
@@ -376,7 +372,7 @@ const AminBook = () => {
         } else {
           toast.success(result.payload.message, { autoClose: 500 });
           dispatch(
-            fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
+            fetchGetListBookToolkit({ limit, pageCurent, searchString })
           );
           setIsShowEditModel(false);
         }
@@ -394,13 +390,13 @@ const AminBook = () => {
         <div>
           <button
             onClick={openAdd}
-            className="rounded-[5px]  bg-blue-600 px-[20px] py-[5px] my-[10px] mr-[10px] text-white"
+            className="rounded-[5px]  border-[1px] border-solid border-gray-500 px-[20px] py-[5px] my-[10px] mr-[10px] hover:bg-slate-600 hover:text-gray-50"
           >
             Add
           </button>
         </div>
-        <div className="overflow-auto rounded-[12px]">
-          <table className="w-full p-[5px]">
+        <div className="overflow-auto ">
+          <table className="w-full">
             <thead>
               <tr>
                 <th className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600">
@@ -549,7 +545,7 @@ const AminBook = () => {
       </div>
       <Pagination
         totalPosts={totalBooks}
-        postsPerPage={limitListBook}
+        postsPerPage={limit}
         setCurrentPage={setCurrentPage}
         currentPage={pageCurent}
       />
