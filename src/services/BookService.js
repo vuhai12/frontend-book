@@ -17,6 +17,7 @@ export const apiGetBook = (param) => {
     sort,
     signal,
   } = param;
+  console.log("limitListBook", limitListBook);
   if (category) {
     return axiosConfig.get(
       `/book?limit=${limitListBook}&page=${pageCurent}&name=${searchString}&category_code=${category}`,

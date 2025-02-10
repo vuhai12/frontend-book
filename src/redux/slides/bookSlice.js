@@ -11,7 +11,9 @@ export const fetchGetListBookToolkit = createAsyncThunk(
   "users/fetchGetListBookToolkit",
   async (data, { rejectWithValue, signal }) => {
     try {
+      console.log("datâ", data);
       const response = await apiGetBook({ ...data, signal });
+      console.log("response", response);
       return {
         response,
         data,

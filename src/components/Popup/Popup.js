@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Alert from "../Alert/Alert";
 import ImageDefault from "../../assets/image_default.png";
 
 const Popup = ({
@@ -17,136 +15,123 @@ const Popup = ({
   const [items, setItems] = useState(options);
   const [checked, setChecked] = useState("R1");
 
-  const handleOnchange = async (option, e) => {
-    const item = items?.find((item) => option.id === item.id);
-    if (item.type == "file") {
-      item.value = URL.createObjectURL(e.target.files[0]);
-      item.file = e.target.files[0];
-    } else if (item.inputType == "select") {
-      item.value = e.target.value;
-
-      if (e.target.value == "default") {
-        item.value = "";
+  const handleOnchange = (option, e) => {
+    const updatedItems = items.map((item) => {
+      if (item.id === option.id) {
+        if (item.type === "file") {
+          item.value = URL.createObjectURL(e.target.files[0]);
+          item.file = e.target.files[0];
+        } else if (item.inputType === "select") {
+          item.value = e.target.value === "default" ? "" : e.target.value;
+        } else if (item.type === "radio") {
+          item.value = e.target.value;
+          setChecked(e.target.value);
+        } else {
+          item.value = e.target.value;
+        }
+        item.error = item.value ? "" : item.error;
       }
-    } else if (item.type == "radio") {
-      item.value = e.target.value; // Lấy giá trị của radio
-      setChecked(e.target.value); // Cập nhật giá trị đã chọn
-    } else {
-      item.value = e.target.value;
-    }
-    setItems([...items]);
-    items.map((item) => {
-      if (item.value !== "") {
-        item.error = "";
-      }
+      return item;
     });
+
+    setItems([...updatedItems]);
   };
 
+  if (!isShow) return null;
+
   return (
-    <div className="absolute top-0 bg-red ">
-      <Modal
-        show={isShow}
-        onHide={onCancel}
-        className=" boder-solid border-gray-500  fixed top-0 left-0 right-0 bottom-0 rounded-[10px] bg-white p-[20px] 
-        sm:w-[30%] flex flex-col gap-3 sm:translate-x-[-50%] sm:left-[50%] sm:h-[80%] sm:top-[50%] sm:translate-y-[-50%] sm:overflow-auto
-      "
+    <>
+      {/* Nền mờ nhẹ và tối đi */}
+      <div
+        className="fixed inset-0 bg-black/60 flex justify-center items-center z-50"
+        onClick={onCancel}
       >
-        <Modal.Body>
-          <p className="text-center text-[15px] font-bold">{title}</p>
-          {items.map((option) => {
-            return (
+        {/* Nội dung Popup */}
+        <div
+          className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative"
+          onClick={(e) => e.stopPropagation()} // Ngăn đóng khi bấm vào popup
+        >
+          {/* Tiêu đề */}
+          <h2 className="text-xl font-semibold text-center mb-4">{title}</h2>
+
+          {/* Nội dung Form */}
+          <div className="space-y-4">
+            {items.map((option) => (
               <div key={option.id}>
-                {option.inputType == "input" && (
+                {option.inputType === "input" && (
                   <div>
-                    {option.type == "file" ? (
+                    {option.type === "file" && (
                       <img
-                        alt="image"
-                        src={option.value != "" ? option.value : ImageDefault}
-                        className="h-[60px]"
+                        alt="preview"
+                        src={option.value || ImageDefault}
+                        className="h-16 mx-auto"
                       />
-                    ) : (
-                      ""
                     )}
-                    {option.type == "radio" ? (
-                      role.map((item) => {
-                        return (
-                          <div
-                            key={item.id}
-                            style={{ display: "inline-block" }}
-                          >
-                            {item.value}
-                            <input
-                              value={item.code}
-                              checked={checked === item.code}
-                              className="border inline-block w-full rounded-[4px] border-gray-400 my-[6px] mx-0 py-[8px] px-[10px]"
-                              type="radio"
-                              onChange={(e) => handleOnchange(option, e)}
-                            />
-                          </div>
-                        );
-                      })
+                    {option.type === "radio" ? (
+                      role.map((item) => (
+                        <label
+                          key={item.id}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="radio"
+                            value={item.code}
+                            checked={checked === item.code}
+                            className="accent-blue-500"
+                            onChange={(e) => handleOnchange(option, e)}
+                          />
+                          <span>{item.value}</span>
+                        </label>
+                      ))
                     ) : (
                       <input
-                        className="border w-full rounded-[4px] border-gray-400 my-[6px] mx-0 py-[8px] px-[10px]"
+                        className="border w-full rounded-lg px-4 py-2"
                         placeholder={option.name}
-                        name={option.name}
                         defaultValue={
-                          option.type == "file" ? "" : option?.value
+                          option.type === "file" ? "" : option?.value
                         }
                         type={option.type}
                         onChange={(e) => handleOnchange(option, e)}
                       />
                     )}
-                    {option.error && (
-                      <Alert error={true} message={option.error} />
-                    )}
                   </div>
                 )}
-                {option.inputType == "select" && (
-                  <div>
-                    <select
-                      value={option.value}
-                      onChange={(e) => handleOnchange(option, e)}
-                      className="border w-full rounded-[4px] border-gray-400 my-[6px] mx-0 py-[8px] px-[10px]"
-                    >
-                      <option value="default">-- category --</option>
-                      {listCategory.map((item) => {
-                        return (
-                          <option
-                            value={item.code}
-                            lable={item.value}
-                            style={{ height: "100px", display: "inline-block" }}
-                          >
-                            {item.value}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    {option.error && (
-                      <Alert error={true} message={option.error} />
-                    )}
-                  </div>
+                {option.inputType === "select" && (
+                  <select
+                    className="border w-full rounded-lg px-4 py-2"
+                    value={option.value}
+                    onChange={(e) => handleOnchange(option, e)}
+                  >
+                    <option value="default">-- Chọn danh mục --</option>
+                    {listCategory.map((item) => (
+                      <option key={item.code} value={item.code}>
+                        {item.value}
+                      </option>
+                    ))}
+                  </select>
                 )}
               </div>
-            );
-          })}
-        </Modal.Body>
-        <Modal.Footer className="flex flex-col gap-2">
-          <button
-            className="bg-red-500 text-white rounded-[5px] p-[10px]"
-            onClick={onCancel}
-          >
-            {subActionText}
-          </button>
-          <button
-            className="bg-slate-700 text-white rounded-[5px] p-[10px]"
-            onClick={onAction}
-          >
-            {actionText}
-          </button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+            ))}
+          </div>
+
+          {/* Nút Hành động */}
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              className="w-full bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 rounded-lg"
+              onClick={onCancel}
+            >
+              {subActionText}
+            </button>
+            <button
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg"
+              onClick={onAction}
+            >
+              {actionText}
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
