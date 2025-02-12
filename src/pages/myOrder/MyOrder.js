@@ -5,7 +5,6 @@ import Container from "react-bootstrap/Container";
 const MyOrder = () => {
   const listOrder = useSelector((state) => state.order.listOrder);
 
-  useEffect(() => {}, []);
   return (
     <>
       <Container>

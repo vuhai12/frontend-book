@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchGetUserByIdToolkit,
-  fetchUpdateNewUserToolkit,
+  fetchUpdateCurrentUser,
 } from "../../../redux/slides/userSlice";
-import { toast } from "react-toastify";
 import ImageDefault from "../../../assets/image_default.png";
 import { Upload } from "lucide-react"; // Import icon tải lên
 
@@ -76,13 +75,12 @@ const UserInfo = () => {
         items[1].value = result.payload.userData.name;
         items[2].value = result.payload.userData.email;
         items[3].value = result.payload.userData.address;
-
         setItems([...items]);
       }
     });
   }, [dispatch]);
 
-  const handleUpdateUserData = (item, e) => {
+  const handleOnchangeUserData = (item, e) => {
     if (item.type === "text" || item.type === "password") {
       item.value = e.target.value;
       item.error = item.value.trim()
@@ -107,12 +105,11 @@ const UserInfo = () => {
     setItems([...items]);
     return isValid;
   };
-
   const handleUpdate = () => {
     if (validate()) {
       const formData = new FormData();
 
-      if (items[0].value) {
+      if (items[0].file) {
         formData.append("avatar", items[0].file);
       }
 
@@ -130,23 +127,27 @@ const UserInfo = () => {
       formData.append("email", items[2].value);
       formData.append("address", items[3].value);
 
-      dispatch(fetchUpdateNewUserToolkit(formData)).then(() => {
-        dispatch(fetchGetUserByIdToolkit()).then((result) => {
-          if (result.payload?.userData) {
-            items[0].value = result.payload.userData.avatar;
-            items[1].value = result.payload.userData.name;
-            items[2].value = result.payload.userData.email;
-            items[3].value = result.payload.userData.address;
-            items[4].value = "";
-            setItems([...items]);
-            Swal.fire({
-              title: "Thông báo!",
-              text: "Cập nhật thông tin thành công",
-              icon: "success",
-              confirmButtonText: "Đóng",
-            });
-          }
-        });
+      dispatch(fetchUpdateCurrentUser(formData)).then((res) => {
+        if (res.payload.error == 2) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: res.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          });
+        }
+        if (res.payload.error == 0) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: res.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((response) => {
+            if (response.isConfirmed) {
+              items[0].file = "";
+            }
+          });
+        }
       });
     }
   };
@@ -171,7 +172,7 @@ const UserInfo = () => {
             id="avatar"
             className="hidden"
             disabled={isLoadingInfoUser}
-            onChange={(e) => handleUpdateUserData(items[0], e)}
+            onChange={(e) => handleOnchangeUserData(items[0], e)}
           />
 
           {/* Nút button để tải lên ảnh */}
@@ -200,7 +201,7 @@ const UserInfo = () => {
                     type={item.type}
                     value={item.value}
                     className="block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
-                    onChange={(e) => handleUpdateUserData(item, e)}
+                    onChange={(e) => handleOnchangeUserData(item, e)}
                     placeholder={item.placeholder}
                   />
                   {item.error && (

@@ -5,7 +5,6 @@ import userReducer from "./slides/userSlice";
 import bookReducer from "./slides/bookSlice";
 import cartReducer from "./slides/cartSlice";
 import orderReducer from "./slides/orderSlice";
-import profileUserReducer from "./slides/profileUserSlice";
 
 // Persist configuration
 const persistConfig = {
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   user: userReducer,
   order: orderReducer,
   book: bookReducer,
-  profileUser: profileUserReducer,
 });
 
 // Create a persisted reducer
