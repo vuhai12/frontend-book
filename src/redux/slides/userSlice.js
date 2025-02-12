@@ -8,6 +8,7 @@ import {
   apiCreateUser,
   apiGetUserById,
   apiLogout,
+  apiUpdateCurrentUser,
 } from "../../services/UserService";
 
 export const fetchLoginToolkit = createAsyncThunk(
@@ -89,6 +90,18 @@ export const fetchUpdateNewUserToolkit = createAsyncThunk(
   }
 );
 
+export const fetchUpdateCurrentUser = createAsyncThunk(
+  "users/fetchUpdateCurrentUser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await apiUpdateCurrentUser(data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const fetchCreatNewUserToolkit = createAsyncThunk(
   "users/fetchCreatNewUserToolkit",
   async (data, { rejectWithValue }) => {
@@ -105,7 +118,7 @@ export const fetchDeleteNewUserToolkit = createAsyncThunk(
   "users/fetchDeleteNewUserToolkit",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await apiDeleteUser();
+      const response = await apiDeleteUser(data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -144,6 +157,8 @@ export const userSlice = createSlice({
     isOpenSideBarMenu: false,
     userData: [],
     isLoadingInfoUser: false,
+    isLoadingAddUser: false,
+    isLoadingEditUser: false,
   },
   reducers: {
     openSideBarMenu: (state, action) => {
@@ -215,20 +230,42 @@ export const userSlice = createSlice({
     builder.addCase(fetchCreatNewUserToolkit.pending, (state, action) => {
       // Add user to the state array
       state.statusLoading = true;
+      state.isLoadingAddUser = true;
     });
 
     //add create new book
     builder.addCase(fetchCreatNewUserToolkit.fulfilled, (state, action) => {
       // Add user to the state array
       state.statusLoading = false;
+      state.isLoadingAddUser = false;
+    });
+    builder.addCase(fetchCreatNewUserToolkit.rejected, (state, action) => {
+      // Add user to the state array
+      state.isLoadingAddUser = false;
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.pending, (state, action) => {
       state.statusLoading = true;
+      state.isLoadingEditUser = true;
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.fulfilled, (state, action) => {
       state.statusLoading = false;
+      state.isLoadingEditUser = false;
+    });
+    builder.addCase(fetchUpdateNewUserToolkit.rejected, (state, action) => {
+      state.isLoadingEditUser = false;
+    });
+
+    builder.addCase(fetchUpdateCurrentUser.pending, (state, action) => {
+      state.isLoadingInfoUser = true;
+    });
+
+    builder.addCase(fetchUpdateCurrentUser.fulfilled, (state, action) => {
+      state.isLoadingInfoUser = false;
+    });
+    builder.addCase(fetchUpdateCurrentUser.rejected, (state, action) => {
+      state.isLoadingInfoUser = false;
     });
   },
 });

@@ -8,13 +8,15 @@ export const apiGetUsers = (limit, currentPage, searchString, field, sort) => {
 };
 
 export const apiGetUserById = () => {
-  return axiosConfig.get(`/user/account`);
+  return axiosConfig.get(`/user/me`);
 };
 
 export const apiCreateUser = (data) => axiosConfig.post("/user", data);
 
 export const apiUpdateUser = (data) => axiosConfig.put("/user", data);
 
-export const apiDeleteUser = () => axiosConfig.delete(`/user`);
+export const apiUpdateCurrentUser = (data) => axiosConfig.put("/user/me", data);
+
+export const apiDeleteUser = (userId) => axiosConfig.delete(`/user/${userId}`);
 
 export const apiLogout = () => axiosConfig.post("/auth/logout");

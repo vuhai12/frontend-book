@@ -11,9 +11,7 @@ export const fetchGetListBookToolkit = createAsyncThunk(
   "users/fetchGetListBookToolkit",
   async (data, { rejectWithValue, signal }) => {
     try {
-      console.log("datâ", data);
       const response = await apiGetBook({ ...data, signal });
-      console.log("response", response);
       return {
         response,
         data,
@@ -66,9 +64,9 @@ export const fetchCreatNewBookToolkit = createAsyncThunk(
 
 export const fetchDeleteNewBookToolkit = createAsyncThunk(
   "users/fetchDeleteNewBookToolkit",
-  async (data, { rejectWithValue }) => {
+  async (bid, { rejectWithValue }) => {
     try {
-      const res = await apiDeleteBook(data.bid);
+      const res = await apiDeleteBook(bid);
       return res;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -92,6 +90,8 @@ export const bookSlice = createSlice({
     quantityBook: 1,
     countAllBook: 0,
     isLoading: false,
+    isLoadingAddBook: false,
+    isLoadingEditBook: false,
   },
   reducers: {
     startEdittingPostBook: (state, action) => {
@@ -142,24 +142,32 @@ export const bookSlice = createSlice({
 
     builder.addCase(fetchCreatNewBookToolkit.pending, (state, action) => {
       state.statusLoading = true;
+      state.isLoadingAddBook = true;
     });
 
     builder.addCase(fetchCreatNewBookToolkit.fulfilled, (state, action) => {
       state.statusLoading = false;
+      state.isLoadingAddBook = false;
     });
 
     builder.addCase(fetchCreatNewBookToolkit.rejected, (state, action) => {
       state.error = action.payload.message;
+      state.isLoadingAddBook = false;
     });
 
     builder.addCase(fetchDeleteNewBookToolkit.fulfilled, (state, action) => {});
 
     builder.addCase(fetchUpdateNewBookToolkit.pending, (state, action) => {
       state.statusLoading = true;
+      state.isLoadingEditBook = true;
     });
 
     builder.addCase(fetchUpdateNewBookToolkit.fulfilled, (state, action) => {
       state.statusLoading = false;
+      state.isLoadingEditBook = false;
+    });
+    builder.addCase(fetchUpdateNewBookToolkit.rejected, (state, action) => {
+      state.isLoadingEditBook = false;
     });
   },
 });

@@ -50,10 +50,6 @@ export const orderSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addCase(fetchCreateOrderToolkit.fulfilled, (state, action) => {});
-  },
-
-  extraReducers: (builder) => {
     builder.addCase(fetchGetOrdersToolkit.fulfilled, (state, action) => {
       state.listOrders = action.payload;
     });

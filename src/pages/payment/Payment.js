@@ -5,7 +5,6 @@ import {
   fetchGetCartToolkit,
 } from "../../redux/slides/cartSlice";
 import { fetchCreateOrderToolkit } from "../../redux/slides/orderSlice";
-import { fetchGetProfileUserToolkit } from "../../redux/slides/profileUserSlice";
 import { useNavigate } from "react-router-dom";
 
 const Payment = () => {
@@ -42,7 +41,6 @@ const Payment = () => {
   ];
 
   useEffect(() => {
-    dispatch(fetchGetProfileUserToolkit());
     dispatch(fetchGetBookInCartChecked());
   }, [dispatch]);
 

@@ -12,8 +12,9 @@ import {
 } from "../../../redux/slides/bookSlice";
 import { toast } from "react-toastify";
 import Pagination from "../../../components/Pagination/Pagination";
+import Search from "../../../components/Search/Search";
 
-const optionEdit = [
+const defaultBookFields = [
   {
     id: 1,
     label: "image",
@@ -28,7 +29,7 @@ const optionEdit = [
   {
     id: 2,
     label: "category_code",
-    inputType: "select",
+    type: "select",
     name: "category_code",
     code: "",
     value: "",
@@ -43,7 +44,7 @@ const optionEdit = [
     name: "available",
     value: "",
     required: true,
-    type: "text",
+    type: "number",
     error: "",
   },
   {
@@ -63,7 +64,7 @@ const optionEdit = [
     name: "price",
     value: "",
     required: true,
-    type: "text",
+    type: "number",
     error: "",
   },
   {
@@ -101,125 +102,44 @@ const fileds = [
   },
 ];
 
-const optionAdd = [
-  {
-    id: 1,
-    label: "image",
-    inputType: "input",
-    name: "image",
-    value: "",
-    file: "",
-    required: true,
-    type: "file",
-    error: "",
-  },
-  {
-    id: 2,
-    label: "category_code",
-    inputType: "select",
-    name: "category_code",
-    value: "",
-    code: "",
-    items: [],
-    required: true,
-    error: "",
-  },
-  {
-    id: 3,
-    label: "available",
-    inputType: "input",
-    name: "available",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-  {
-    id: 4,
-    label: "title",
-    inputType: "input",
-    name: "title",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-  {
-    id: 5,
-    label: "price",
-    inputType: "input",
-    name: "price",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-  {
-    id: 6,
-    label: "description",
-    inputType: "input",
-    name: "description",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-];
-
 const AminBook = () => {
   const [isShowAddModel, setIsShowAddModel] = useState(false);
-  const [listCategory, setListCategory] = useState([]);
+  const listCategory = useSelector((state) => state.user.listCategory);
   const listBook = useSelector((state) => state.book.listBook);
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
-  const [optionsEditPopup, setOptionEditPopup] = useState(optionEdit);
+  const [popupBookFields, setPopupBookFields] = useState(defaultBookFields);
   const [optionsFieldSort, setOptionsFieldSort] = useState(fileds);
-  const [optionsAddPopup, setOptionAddPopup] = useState(optionAdd);
   const [pageCurent, setCurrentPage] = useState(1);
   const [searchString, setSearchString] = useState("");
+  const limitListBook = 5;
+  const isLoadingEditBook = useSelector(
+    (state) => state.book.isLoadingEditBook
+  );
+  const isLoadingAddBook = useSelector((state) => state.book.isLoadingAddBook);
 
   const dispatch = useDispatch();
   const openAdd = () => {
     setIsShowAddModel(true);
-    dispatch(fetchGetListCategoryToolkit()).then((result) => {
-      setListCategory(result.payload);
-    });
-    optionAdd.map((item) => {
-      item.value = "";
-      item.error = "";
-    });
   };
-  const limitListBook = 5;
+
   useEffect(() => {
     dispatch(
       fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
     );
   }, [pageCurent]);
 
-  const handleCancelEdit = () => {
+  const handleCancel = () => {
     setIsShowEditModel(false);
-    optionEdit.map((item) => (item.value = ""));
-  };
-
-  const validateEdit = () => {
-    let count = 0;
-    optionsEditPopup.map((item) => {
-      if (!item.value.toString().trim()) {
-        item.error = `missing ${item.name}`;
-        count++;
-      }
-    });
-    return count;
+    setIsShowAddModel(false);
+    setPopupBookFields(defaultBookFields.map((item) => ({ ...item })));
   };
 
   const handleStartEdittingPostBook = (book) => {
     setSelectedId(book.id.toString());
     setIsShowEditModel(true);
-    dispatch(fetchGetListCategoryToolkit()).then((result) => {
-      setListCategory(result.payload);
-    });
-    setOptionEditPopup([
+    setPopupBookFields([
       {
         id: 1,
         label: "image",
@@ -233,10 +153,10 @@ const AminBook = () => {
       {
         id: 2,
         label: "category_code",
-        inputType: "select",
+        type: "select",
         name: "category_code",
-        value: book.categoryData.code,
-        type: "text",
+        value: book.categoryData?.code,
+        type: "select",
         required: true,
         error: "",
       },
@@ -247,7 +167,7 @@ const AminBook = () => {
         name: "available",
         value: book.available,
         required: true,
-        type: "text",
+        type: "number",
         error: "",
       },
       {
@@ -267,7 +187,7 @@ const AminBook = () => {
         name: "price",
         value: book.price,
         required: true,
-        type: "text",
+        type: "number",
         error: "",
       },
       {
@@ -283,60 +203,101 @@ const AminBook = () => {
     ]);
   };
 
-  const validateAdd = () => {
+  const validateForm = (options) => {
     let count = 0;
-    optionsAddPopup.map((item, idx) => {
+    options.map((item, idx) => {
       if (item.required && !item.value.toString().trim()) {
         item.error = `missing ${item.name}`;
+        setPopupBookFields([...popupBookFields]);
         count++;
       }
     });
     return count;
   };
 
-  const handleDeleteBook = async (id) => {
-    let bid = [id];
-    // let filename = [filedata]
-    dispatch(fetchDeleteNewBookToolkit({ bid })).then((result) => {
+  const handleDeleteBook = async (bid) => {
+    dispatch(fetchDeleteNewBookToolkit(bid)).then((result) => {
+      if (result.payload.error == 0) {
+        Swal.fire({
+          title: "Thông báo!",
+          text: result.payload.message,
+          icon: "success",
+          confirmButtonText: "Đóng",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(
+              fetchGetListBookToolkit({
+                limitListBook,
+                pageCurent,
+                searchString,
+              })
+            ).then(() => {
+              setPopupBookFields(
+                defaultBookFields.map((item) => ({ ...item }))
+              );
+              setIsShowEditModel(false);
+            });
+          }
+        });
+      }
       if (result.payload.error == 1) {
-        toast.error(result.payload.message);
-      } else {
-        toast.success(result.payload.message);
-        dispatch(
-          fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-        );
+        Swal.fire({
+          title: "Thông báo!",
+          text: result.payload.message,
+          icon: "error",
+          confirmButtonText: "Đóng",
+        });
       }
     });
   };
+  const containsWord = (str, word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "i"); // 'i' để không phân biệt hoa thường
+    return regex.test(str);
+  };
 
   const handleAdd = () => {
-    if (!validateAdd()) {
+    if (!validateForm(popupBookFields)) {
       const formData = new FormData();
-
-      formData.append("image", optionsAddPopup[0].file);
-      formData.append("category_code", optionsAddPopup[1].value);
-      formData.append("available", optionsAddPopup[2].value);
-      formData.append("title", optionsAddPopup[3].value);
-      formData.append("price", optionsAddPopup[4].value);
-      formData.append("description", optionsAddPopup[5].value);
+      formData.append("image", popupBookFields[0].file);
+      formData.append("category_code", popupBookFields[1].value);
+      formData.append("available", popupBookFields[2].value);
+      formData.append("title", popupBookFields[3].value);
+      formData.append("price", popupBookFields[4].value);
+      formData.append("description", popupBookFields[5].value);
 
       dispatch(fetchCreatNewBookToolkit(formData)).then((result) => {
+        if (result.payload.error == 0) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(
+                fetchGetListBookToolkit({
+                  limitListBook,
+                  pageCurent,
+                  searchString,
+                })
+              ).then(() => {
+                setPopupBookFields(
+                  defaultBookFields.map((item) => ({ ...item }))
+                );
+                setIsShowAddModel(false);
+              });
+            }
+          });
+        }
         if (result.payload.error == 1) {
-          toast.error(result.payload.message, { autoClose: 1500 });
-        } else {
-          toast.success(result.payload.message, { autoClose: 500 });
-          dispatch(
-            fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-          );
-          setIsShowAddModel(false);
+          defaultBookFields.map((item) => {
+            if (containsWord(result.payload.message, item.name)) {
+              item.error = result.payload.message;
+            }
+          });
         }
       });
     }
-    setOptionAddPopup([...optionAdd]);
-  };
-
-  const handleCancelAdd = () => {
-    setIsShowAddModel(false);
   };
 
   const handleSort = (field) => {
@@ -358,114 +319,161 @@ const AminBook = () => {
   };
 
   const handleEdit = () => {
-    if (!validateEdit()) {
+    if (!validateForm(popupBookFields)) {
       const formData = new FormData();
       formData.append("bid", seclectedId);
-      if (optionsEditPopup[0].file) {
-        formData.append("image", optionsEditPopup[0].file);
+      if (popupBookFields[0].file) {
+        formData.append("image", popupBookFields[0].file);
       }
-      formData.append("category_code", optionsEditPopup[1].value);
-      formData.append("available", optionsEditPopup[2].value);
-      formData.append("title", optionsEditPopup[3].value);
-      formData.append("price", optionsEditPopup[4].value);
-      formData.append("description", optionsEditPopup[5].value);
+
+      formData.append("category_code", popupBookFields[1].value);
+      formData.append("available", popupBookFields[2].value);
+      formData.append("title", popupBookFields[3].value);
+      formData.append("price", popupBookFields[4].value);
+      formData.append("description", popupBookFields[5].value);
 
       dispatch(fetchUpdateNewBookToolkit(formData)).then((result) => {
+        if (result.payload.error == 0) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(
+                fetchGetListBookToolkit({
+                  limitListBook,
+                  pageCurent,
+                  searchString,
+                })
+              ).then(() => {
+                setPopupBookFields(
+                  defaultBookFields.map((item) => ({ ...item }))
+                );
+                setIsShowEditModel(false);
+              });
+            }
+          });
+        }
         if (result.payload.error == 1) {
-          toast.error(result.payload.message, { autoClose: 1500 });
-        } else {
-          toast.success(result.payload.message, { autoClose: 500 });
-          dispatch(
-            fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-          );
-          setIsShowEditModel(false);
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          });
+        }
+        if (result.payload.error == 2) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          });
         }
       });
     }
-    setOptionEditPopup([...optionsEditPopup]);
   };
 
   const truncateText = (text, maxLength) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
+
+  const handleSearch = (searchString) => {
+    dispatch(
+      fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
+    );
+  };
   return (
     <>
-      <div className="mt-[60px] sm:mt-0 p-[10px]">
-        <div>
+      <div className="p-5 bg-gray-50 rounded-lg shadow-md">
+        <div className="flex justify-between items-center mb-4">
           <button
             onClick={openAdd}
-            className="rounded-[5px]  bg-blue-600 px-[20px] py-[5px] my-[10px] mr-[10px] text-white"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
           >
-            Add
+            Add Book
           </button>
+          <Search onKeySearch={handleSearch} />
         </div>
-        <div className="overflow-auto rounded-[12px]">
-          <table className="w-full p-[5px]">
+        <div className="overflow-x-auto mt-4">
+          <table className="min-w-full bg-white shadow-lg rounded-lg">
             <thead>
               <tr>
-                <th className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600">
+                <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
                   <span>No</span>
                 </th>
-                <th className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  ">
+                <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
                   Book
                 </th>
                 <th
                   onClick={() => handleSort("title")}
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                 >
-                  <span>Title</span>
-                  {optionsFieldSort[0].sort_by == "DESC" ? (
-                    <FaSortDown />
-                  ) : (
-                    <FaSortUp />
-                  )}
+                  <div className="flex justify-between">
+                    <span>Title</span>
+                    {optionsFieldSort[0].sort_by == "DESC" ? (
+                      <FaSortDown />
+                    ) : (
+                      <FaSortUp />
+                    )}
+                  </div>
                 </th>
                 <th
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                   onClick={() => handleSort("available")}
                 >
-                  <span>Available</span>
-                  {optionsFieldSort[1].sort_by == "DESC" ? (
-                    <FaSortDown />
-                  ) : (
-                    <FaSortUp />
-                  )}
+                  <div className="flex justify-between">
+                    <span>Available</span>
+                    {optionsFieldSort[1].sort_by == "DESC" ? (
+                      <FaSortDown />
+                    ) : (
+                      <FaSortUp />
+                    )}
+                  </div>
                 </th>
                 <th
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                   onClick={() => handleSort("category_code")}
                 >
-                  <span>Category</span>
-                  {optionsFieldSort[2].sort_by == "DESC" ? (
-                    <FaSortDown />
-                  ) : (
-                    <FaSortUp />
-                  )}
+                  <div className="flex justify-between">
+                    <span>Category</span>
+                    {optionsFieldSort[2].sort_by == "DESC" ? (
+                      <FaSortDown />
+                    ) : (
+                      <FaSortUp />
+                    )}
+                  </div>
                 </th>
                 <th
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                   onClick={() => handleSort("price")}
                 >
-                  <span>Price</span>
-                  {optionsFieldSort[3].sort_by == "DESC" ? (
-                    <FaSortDown />
-                  ) : (
-                    <FaSortUp />
-                  )}
+                  <div className="flex justify-between">
+                    <span>Price</span>
+                    {optionsFieldSort[3].sort_by == "DESC" ? (
+                      <FaSortDown />
+                    ) : (
+                      <FaSortUp />
+                    )}
+                  </div>
                 </th>
                 <th
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                   onClick={() => handleSort("description")}
                 >
-                  <span>Description</span>
-                  {optionsFieldSort[4].sort_by == "DESC" ? (
-                    <FaSortDown />
-                  ) : (
-                    <FaSortUp />
-                  )}
+                  <div className="flex justify-between">
+                    <span>Description</span>
+                    {optionsFieldSort[4].sort_by == "DESC" ? (
+                      <FaSortDown />
+                    ) : (
+                      <FaSortUp />
+                    )}
+                  </div>
                 </th>
                 <th
-                  className="px-[5px] border-[1px]  border-gray-200 bg-gray-100 text-left text-[12px] font-semibold text-gray-600  "
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
                   colSpan={3}
                 >
                   Action
@@ -477,42 +485,42 @@ const AminBook = () => {
                 listBook?.length > 0 &&
                 listBook?.map((item, idx) => {
                   return (
-                    <tr key={item.id}>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                    <tr key={item.id} className="border-b border-gray-200">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {idx + 1}
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         <img
                           style={{ width: "50px", height: "50px" }}
                           src={item.image}
                         ></img>
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {item.title}
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {item.available}
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {item.categoryData?.value}
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {item.price.toLocaleString()} VND
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {truncateText(item.description, 50)}
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         <button
                           onClick={() => handleStartEdittingPostBook(item)}
-                          className="bg-gray-700 rounded-[5px] text-white p-[5px]"
+                          className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
                         >
                           EDIT
                         </button>
                       </td>
-                      <td className="px-[5px] border-[1px]  border-gray-200 bg-white text-[12px]">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         <button
-                          className="bg-red-700 rounded-[5px] text-white p-[5px]"
+                          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
                           onClick={() => handleDeleteBook(item.id)}
                         >
                           DELETE
@@ -527,23 +535,27 @@ const AminBook = () => {
         {isShowAddModel && (
           <Popup
             isShow={isShowAddModel}
-            options={optionsAddPopup}
+            options={popupBookFields}
             onAction={handleAdd}
-            onCancel={handleCancelAdd}
+            onCancel={handleCancel}
             actionText={"Save"}
             subActionText={"Close"}
             listCategory={listCategory}
+            title="Add New Book"
+            isLoading={isLoadingAddBook}
           />
         )}
         {isShowEditModel && (
           <Popup
             isShow={isShowEditModel}
-            options={optionsEditPopup}
+            options={popupBookFields}
             onAction={handleEdit}
-            onCancel={handleCancelEdit}
+            onCancel={handleCancel}
             actionText={"Save"}
             subActionText={"Close"}
             listCategory={listCategory}
+            title="Edit Book"
+            isLoading={isLoadingEditBook}
           />
         )}
       </div>

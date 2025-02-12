@@ -8,15 +8,11 @@ import {
   fetchGetCartToolkit,
   fetchDeleteBookInCartToolkit,
   fetchCheckedBookCartToolkit,
-  // fetchCheckedAllBookCartToolkit,
-  // fetchDeleteAllBookCartToolkit,
   fetchIncrementQuantityBookInCart,
   fetchDecrementQuantityBookInCart,
 } from "../../redux/slides/cartSlice";
-// import { fetchGetProfileUserToolkit } from "../../redux/slides/profileUserSlice";
 import { fetchGetUserByIdToolkit } from "../../redux/slides/userSlice";
 import Modal from "react-bootstrap/Modal";
-// import OrderSuccessPopup from "../../components/OrderSuccessPopup/OrderSuccessPopup";
 
 const CartDetail = () => {
   const dispatch = useDispatch();
@@ -38,7 +34,6 @@ const CartDetail = () => {
   const [showPopup, setShowPopup] = useState(false); // Để kiểm tra xem modal có hiển thị không
 
   useEffect(() => {
-    // dispatch(fetchGetProfileUserToolkit());
     dispatch(fetchGetCartToolkit());
     dispatch(fetchGetUserByIdToolkit());
   }, []);

@@ -8,14 +8,13 @@ import {
   fetchUpdateNewUserToolkit,
   fetchCreatNewUserToolkit,
 } from "../../../redux/slides/userSlice";
-import { toast } from "react-toastify";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
 
 const roleOptions = [
-  { id: 1, code: "R1", value: "Admin" },
-  { id: 2, code: "R2", value: "User" },
+  { id: 1, value: "R1", name: "Admin" },
+  { id: 2, value: "R2", name: "User" },
 ];
 
 const fieldSortOptions = [
@@ -24,7 +23,7 @@ const fieldSortOptions = [
   { sort: "role_code", sort_by: "DESC" },
 ];
 
-const initialAddUserOptions = [
+const defaultUserFields = [
   {
     id: 1,
     label: "Avatar",
@@ -32,7 +31,7 @@ const initialAddUserOptions = [
     name: "Avatar",
     value: "",
     file: "",
-    required: true,
+    required: false,
     type: "file",
     error: "",
   },
@@ -53,7 +52,7 @@ const initialAddUserOptions = [
     name: "Email",
     value: "",
     required: true,
-    type: "text",
+    type: "email",
     error: "",
   },
   {
@@ -61,7 +60,7 @@ const initialAddUserOptions = [
     label: "Role",
     inputType: "input",
     name: "Role",
-    value: "",
+    value: "R2",
     required: true,
     type: "radio",
     error: "",
@@ -76,55 +75,11 @@ const initialAddUserOptions = [
     type: "password",
     error: "",
   },
-];
-
-const optionEditUser = [
   {
-    id: 1,
-    label: "Avatar",
+    id: 6,
+    label: "Address",
     inputType: "input",
-    name: "Avatar",
-    value: "",
-    file: "",
-    required: true,
-    type: "file",
-    error: "",
-  },
-  {
-    id: 2,
-    label: "Name",
-    inputType: "input",
-    name: "Name",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-  {
-    id: 3,
-    label: "Email",
-    inputType: "input",
-    name: "Email",
-    value: "",
-    required: true,
-    type: "text",
-    error: "",
-  },
-  {
-    id: 4,
-    label: "Role",
-    inputType: "input",
-    name: "Role",
-    value: "",
-    required: true,
-    type: "radio",
-    error: "",
-  },
-  {
-    id: 5,
-    label: "Password",
-    inputType: "input",
-    name: "Password",
+    name: "Address",
     value: "",
     required: false,
     type: "text",
@@ -135,67 +90,108 @@ const optionEditUser = [
 const AdminUser = () => {
   const dispatch = useDispatch();
   const listUsers = useSelector((state) => state.user.listUsers);
-  const [isShowAddUser, setIsShowAddUser] = useState(false);
-  const [isShowEditUser, setIsShowEditUser] = useState(false);
-  const [addUserOptions, setAddUserOptions] = useState(initialAddUserOptions);
+  const [isShowPopupAddUser, setIsShowPopupAddUser] = useState(false);
+  const [isShowPopupEditUser, setIsShowPopupEditUser] = useState(false);
   const [fieldSort, setFieldSort] = useState(fieldSortOptions);
   const [currentPage, setCurrentPage] = useState(1);
   const limitListUser = process.env.REACT_APP_LIMIT_LIST_USER || 5;
+  const [optionsPopup, setOptionsPopup] = useState(defaultUserFields);
+  const [seclectedUserId, setSeclectedUserId] = useState(null);
+  const isLoadingAddUser = useSelector((state) => state.user.isLoadingAddUser);
+  const isLoadingEditUser = useSelector(
+    (state) => state.user.isLoadingEditUser
+  );
 
   useEffect(() => {
     dispatch(fetchGetListUserToolkit({ limitListUser, currentPage }));
   }, [currentPage]);
 
-  const openAddUserPopup = () => {
-    setIsShowAddUser(true);
-    setAddUserOptions(
-      initialAddUserOptions.map((item) => ({ ...item, value: "", error: "" }))
-    );
+  const handleStartOpenPopupAddUser = () => {
+    setIsShowPopupAddUser(true);
   };
 
   const validateForm = (options) => {
-    return options.filter((item) => item.required && !item.value.trim()).length;
+    return options.filter((item) => {
+      if (!item.value?.trim()) {
+        item.error = `Missing ${item.name}`;
+        setOptionsPopup([...optionsPopup]);
+      }
+      return !item.value?.trim();
+    }).length;
   };
 
   const handleAddUser = () => {
-    if (!validateForm(addUserOptions)) {
+    const filteredOptions = optionsPopup.filter(
+      (item) => item.type !== "file" && item.type !== "radio"
+    );
+    if (!validateForm(filteredOptions)) {
       const formData = new FormData();
-      if (addUserOptions[0].file)
-        formData.append("avatar", addUserOptions[0].file);
-      formData.append("name", addUserOptions[1].value);
-      formData.append("email", addUserOptions[2].value);
-      formData.append("role_code", addUserOptions[3].value);
-      formData.append("password", addUserOptions[4].value);
-
+      if (optionsPopup[0].file) {
+        formData.append("avatar", optionsPopup[0].file);
+      }
+      formData.append("name", optionsPopup[1].value);
+      formData.append("email", optionsPopup[2].value);
+      formData.append("role_code", optionsPopup[3].value);
+      formData.append("password", optionsPopup[4].value);
+      formData.append("address", optionsPopup[5].value);
       dispatch(fetchCreatNewUserToolkit(formData)).then((result) => {
+        if (result.payload.error == 0) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(
+                fetchGetListUserToolkit({ limitListUser, currentPage })
+              ).then(() => {
+                setIsShowPopupAddUser(false);
+                setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
+              });
+            }
+          });
+        }
         if (result.payload.error === 1) {
-          toast.error(result.payload.message);
-        } else {
-          toast.success(result.payload.message);
-          dispatch(fetchGetListUserToolkit({ limitListUser, currentPage }));
-          setIsShowAddUser(false);
+          optionsPopup.map((item) => {
+            if (containsWord(result.payload.message, item.name)) {
+              item.error = result.payload.message;
+              setOptionsPopup([...optionsPopup]);
+            }
+          });
+        }
+        if (result.payload.error === 2) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "error",
+            confirmButtonText: "Đóng",
+          });
         }
       });
     }
   };
-  const validateEditUser = () => {
-    let count = 0;
-    optionsEditUserPopup.map((item) => {
-      if (!item.value.toString().trim()) {
-        item.error = `missing ${item.name}`;
-        count++;
-      }
-    });
-    return count;
-  };
 
-  const handleDeleteUser = () => {
-    dispatch(fetchDeleteNewUserToolkit()).then((result) => {
+  const handleDeleteUser = (user) => {
+    dispatch(fetchDeleteNewUserToolkit(user.id)).then((result) => {
       if (result.payload.error === 1) {
-        toast.error(result.payload.message);
+        Swal.fire({
+          title: "Thông báo!",
+          text: result.payload.message,
+          icon: "error",
+          confirmButtonText: "Đóng",
+        });
       } else {
-        toast.success(result.payload.message);
-        dispatch(fetchGetListUserToolkit({ limitListUser, currentPage }));
+        Swal.fire({
+          title: "Thông báo!",
+          text: result.payload.message,
+          icon: "success",
+          confirmButtonText: "Đóng",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(fetchGetListUserToolkit({ limitListUser, currentPage }));
+          }
+        });
       }
     });
   };
@@ -217,49 +213,86 @@ const AdminUser = () => {
       })
     );
   };
-  const [seclectedUserId, setSeclectedUserId] = useState(0);
 
   const handleSearch = (searchString) => {
     dispatch(
       fetchGetListUserToolkit({ limitListUser, currentPage, searchString })
     );
   };
-  const handleEdit = () => {
-    if (!validateEditUser()) {
+
+  const containsWord = (str, word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "i"); // 'i' để không phân biệt hoa thường
+    return regex.test(str);
+  };
+
+  const handleEditUser = () => {
+    const filteredOptions = optionsPopup.filter(
+      (item) =>
+        item.type !== "password" &&
+        item.type !== "file" &&
+        item.type !== "radio"
+    );
+    if (!validateForm(filteredOptions)) {
       const formData = new FormData();
-      if (optionsEditUserPopup[0].file) {
-        formData.append("avatar", optionsEditUserPopup[0].file);
+      if (optionsPopup[0].file) {
+        formData.append("avatar", optionsPopup[0].file);
       }
-      formData.append("name", optionsEditUserPopup[1].value);
-      formData.append("email", optionsEditUserPopup[2].value);
-      formData.append("role_code", optionsEditUserPopup[3].value);
+      if (optionsPopup[4].value) {
+        formData.append("password", optionsPopup[4].value);
+      }
+      formData.append("name", optionsPopup[1].value);
+      formData.append("email", optionsPopup[2].value);
+      formData.append("role_code", optionsPopup[3].value);
+      formData.append("address", optionsPopup[5].value);
+      if (seclectedUserId) {
+        formData.append("id", seclectedUserId);
+      }
 
       dispatch(fetchUpdateNewUserToolkit(formData)).then((result) => {
+        if (result.payload.error == 2) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "error",
+            confirmButtonText: "Đóng",
+          });
+        }
+        if (result.payload.error == 0) {
+          Swal.fire({
+            title: "Thông báo!",
+            text: result.payload.message,
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(
+                fetchGetListUserToolkit({
+                  limitListUser,
+                  currentPage,
+                })
+              ).then(() => {
+                setIsShowPopupEditUser(false);
+                setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
+              });
+            }
+          });
+        }
         if (result.payload.error == 1) {
-          toast.error(result.payload.message, { autoClose: 1500 });
-        } else {
-          toast.success(result.payload.message, { autoClose: 500 });
-          dispatch(
-            fetchGetListUserToolkit({
-              limitListUser,
-              currentPage,
-              searchString,
-            })
-          );
-          setIsShowEditUser(false);
+          optionsPopup.map((item) => {
+            if (containsWord(result.payload.message, item.name)) {
+              item.error = result.payload.message;
+              setOptionsPopup([...optionsPopup]);
+            }
+          });
         }
       });
     }
-    setOptionsEditUserPopup([...optionsEditUserPopup]);
   };
 
-  const [optionsEditUserPopup, setOptionsEditUserPopup] =
-    useState(optionEditUser);
-
-  const handleOpenEditUser = (user) => {
-    setIsShowEditUser(true);
+  const handleStartOpenPopupEditUser = (user) => {
+    setIsShowPopupEditUser(true);
     setSeclectedUserId(user.id);
-    setOptionsEditUserPopup([
+    setOptionsPopup([
       {
         id: 1,
         label: "",
@@ -307,14 +340,26 @@ const AdminUser = () => {
         name: "Password",
         value: "",
         required: false,
+        type: "password",
+        error: "",
+      },
+      {
+        id: 6,
+        label: "Address",
+        inputType: "input",
+        name: "Address",
+        value: user.address,
+        required: false,
         type: "text",
         error: "",
       },
     ]);
   };
 
-  const handleCancelEdit = () => {
-    setIsShowEditUser(false);
+  const handleCancelPopup = () => {
+    setIsShowPopupAddUser(false);
+    setIsShowPopupEditUser(false);
+    setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
   };
 
   return (
@@ -322,10 +367,11 @@ const AdminUser = () => {
       <div className="flex justify-between items-center mb-4">
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
-          onClick={openAddUserPopup}
+          onClick={handleStartOpenPopupAddUser}
         >
           Add User
         </button>
+
         <Search onKeySearch={handleSearch} />
       </div>
 
@@ -343,34 +389,43 @@ const AdminUser = () => {
                 className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200 cursor-pointer"
                 onClick={() => handleSort("name")}
               >
-                Name{" "}
-                {fieldSort[0].sort_by === "DESC" ? (
-                  <FaSortDown />
-                ) : (
-                  <FaSortUp />
-                )}
+                <div className="flex justify-between">
+                  <span>Name</span>
+                  {fieldSort[0].sort_by === "DESC" ? (
+                    <FaSortDown />
+                  ) : (
+                    <FaSortUp />
+                  )}
+                </div>
               </th>
               <th
                 className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200 cursor-pointer"
                 onClick={() => handleSort("email")}
               >
-                Email{" "}
-                {fieldSort[1].sort_by === "DESC" ? (
-                  <FaSortDown />
-                ) : (
-                  <FaSortUp />
-                )}
+                <div className="flex justify-between">
+                  <span>Email</span>
+                  {fieldSort[1].sort_by === "DESC" ? (
+                    <FaSortDown />
+                  ) : (
+                    <FaSortUp />
+                  )}
+                </div>
               </th>
               <th
                 className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200 cursor-pointer"
                 onClick={() => handleSort("role_code")}
               >
-                Role{" "}
-                {fieldSort[2].sort_by === "DESC" ? (
-                  <FaSortDown />
-                ) : (
-                  <FaSortUp />
-                )}
+                <div className="flex justify-between">
+                  <span>Role</span>
+                  {fieldSort[2].sort_by === "DESC" ? (
+                    <FaSortDown />
+                  ) : (
+                    <FaSortUp />
+                  )}
+                </div>
+              </th>
+              <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
+                Address
               </th>
               <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
                 Actions
@@ -396,15 +451,18 @@ const AdminUser = () => {
                   {user.role_code}
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-600">
+                  {user.address}
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-600 text-center">
                   <button
                     className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
-                    onClick={() => handleOpenEditUser(user)}
+                    onClick={() => handleStartOpenPopupEditUser(user)}
                   >
                     Edit
                   </button>
                   <button
                     className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
-                    onClick={() => handleDeleteUser()}
+                    onClick={() => handleDeleteUser(user)}
                   >
                     Delete
                   </button>
@@ -421,28 +479,30 @@ const AdminUser = () => {
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-      {isShowAddUser && (
+      {isShowPopupAddUser && (
         <Popup
-          isShow={isShowAddUser}
-          options={addUserOptions}
+          isShow={isShowPopupAddUser}
+          options={optionsPopup}
           onAction={handleAddUser}
-          onCancel={() => setIsShowAddUser(false)}
+          onCancel={handleCancelPopup}
           actionText="Save"
           subActionText="Close"
           role={roleOptions}
           title="Add New User"
+          isLoading={isLoadingAddUser}
         />
       )}
-      {isShowEditUser && (
+      {isShowPopupEditUser && (
         <Popup
-          isShow={isShowEditUser}
-          options={optionsEditUserPopup}
-          onAction={handleEdit}
-          onCancel={handleCancelEdit}
+          isShow={isShowPopupEditUser}
+          options={optionsPopup}
+          onAction={handleEditUser}
+          onCancel={handleCancelPopup}
           actionText={"Save"}
           subActionText={"Close"}
           role={roleOptions}
           title="Edit User"
+          isLoading={isLoadingEditUser}
         />
       )}
     </div>

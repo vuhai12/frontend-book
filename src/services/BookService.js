@@ -1,7 +1,6 @@
 import axiosConfig from "../axiosConfig";
 
-export const apiDeleteBook = (id) =>
-  axiosConfig.delete(`/book`, { params: { bids: id } });
+export const apiDeleteBook = (bid) => axiosConfig.delete(`/book/${bid}`);
 
 export const apiUpdateBook = (data) => axiosConfig.put("/book", data);
 
@@ -17,7 +16,6 @@ export const apiGetBook = (param) => {
     sort,
     signal,
   } = param;
-  console.log("limitListBook", limitListBook);
   if (category) {
     return axiosConfig.get(
       `/book?limit=${limitListBook}&page=${pageCurent}&name=${searchString}&category_code=${category}`,
