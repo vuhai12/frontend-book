@@ -137,9 +137,10 @@ const Popup = ({
                     <label>{option.name}</label>
                     <input
                       autoComplete="off"
+                      name={`input-${option.id}`}
                       className="border w-full rounded-lg px-4 py-2"
                       placeholder={option.name}
-                      defaultValue={option?.value}
+                      value={option?.value || ""}
                       type={option.type}
                       onChange={(e) => handleOnchange(option, e)}
                     />
