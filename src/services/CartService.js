@@ -6,7 +6,8 @@ export const apiGetCart = () => axiosConfig.get(`/cart`);
 
 export const apiGetBookInCartChecked = () => axiosConfig.get(`/cart/checked`);
 
-export const apiCheckedBookCart = (data) => axiosConfig.put("/cart", data);
+export const apiUpdateCheckedBooksInCart = (data) =>
+  axiosConfig.put("/cart", data);
 
 export const apiCheckedAllBookCart = (data) =>
   axiosConfig.put("/cart/checked-all", data);

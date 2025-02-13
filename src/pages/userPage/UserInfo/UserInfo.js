@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ImageDefault from "../../../assets/image_default.png";
+import { Upload } from "lucide-react"; // Import icon tải lên
 import {
   fetchGetUserByIdToolkit,
   fetchUpdateCurrentUser,
 } from "../../../redux/slides/userSlice";
-import ImageDefault from "../../../assets/image_default.png";
-import { Upload } from "lucide-react"; // Import icon tải lên
 
 const UserInfo = () => {
   const dispatch = useDispatch();

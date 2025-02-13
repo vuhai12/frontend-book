@@ -16,7 +16,7 @@ import { SidebarDataAdmin } from "../RoleBasedSidebar/SidebarDataAdmin";
 import { jwtDecode } from "jwt-decode";
 import SidebarItem from "../RoleBasedSidebar/SidebarItem";
 import { fetchLogoutToolkit } from "../../redux/slides/userSlice";
-import { fetchGetCartToolkit } from "../../redux/slides/cartSlice";
+import { fetchCart } from "../../redux/slides/cartSlice";
 
 const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false); // State để điều khiển danh mục sách
@@ -45,7 +45,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
   const handleLogout = () => {
     dispatch(fetchLogoutToolkit()).then(() => {
       localStorage.clear();
-      dispatch(fetchGetCartToolkit());
+      dispatch(fetchCart());
       navigate("/login");
     });
   };

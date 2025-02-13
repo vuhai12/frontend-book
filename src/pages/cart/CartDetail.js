@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { GoTrash } from "react-icons/go";
 import SelectQuantity from "../../components/SelectQuantity/SelectQuantity";
 import Cart from "../../assets/pngwing.png";
+import { fetchGetUserByIdToolkit } from "../../redux/slides/userSlice";
+import Modal from "react-bootstrap/Modal";
 import {
-  fetchGetCartToolkit,
-  fetchDeleteBookInCartToolkit,
-  fetchCheckedBookCartToolkit,
+  fetchCart,
+  fetchRemoveBookFromCart,
+  updateCheckedBooksInCart,
   fetchIncrementQuantityBookInCart,
   fetchDecrementQuantityBookInCart,
 } from "../../redux/slides/cartSlice";
-import { fetchGetUserByIdToolkit } from "../../redux/slides/userSlice";
-import Modal from "react-bootstrap/Modal";
 
 const CartDetail = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const CartDetail = () => {
   const [showPopup, setShowPopup] = useState(false); // Để kiểm tra xem modal có hiển thị không
 
   useEffect(() => {
-    dispatch(fetchGetCartToolkit());
+    dispatch(fetchCart());
     dispatch(fetchGetUserByIdToolkit());
   }, []);
 
@@ -48,7 +48,7 @@ const CartDetail = () => {
           quantity: item.books.quantity - 1,
         })
       ).then(() => {
-        dispatch(fetchGetCartToolkit());
+        dispatch(fetchCart());
       });
     }
     if (flag === "plus") {
@@ -58,30 +58,30 @@ const CartDetail = () => {
           quantity: item.books.quantity + 1,
         })
       ).then(() => {
-        dispatch(fetchGetCartToolkit());
+        dispatch(fetchCart());
       });
     }
   }, []);
 
   const handleCheckBox = (itemBook) => {
     dispatch(
-      fetchCheckedBookCartToolkit({
+      updateCheckedBooksInCart({
         cartBookId: itemBook.books.id,
         isChecked: !itemBook.books.cartBooks.isChecked,
       })
     ).then(() => {
-      dispatch(fetchGetCartToolkit());
+      dispatch(fetchCart());
     });
   };
 
   // const handleSelectAll = () => {
   //   dispatch(
-  //     fetchCheckedAllBookCartToolkit({
+  //     fetchToggleCheckedAllBooksInCart({
   //       isChecked: !isCheckedAll,
   //       listCartBookId,
   //     })
   //   ).then(() => {
-  //     dispatch(fetchGetCartToolkit());
+  //     dispatch(fetchCart());
   //   });
   // };
 
@@ -116,27 +116,13 @@ const CartDetail = () => {
         confirmButtonText: "Đóng",
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(fetchDeleteBookInCartToolkit(item.books.id)).then(
-            (result) => {
-              if (result.payload.error === 0) {
-                dispatch(fetchGetCartToolkit());
-              }
+          dispatch(fetchRemoveBookFromCart(item.books.id)).then((result) => {
+            if (result.payload.error === 0) {
+              dispatch(fetchCart());
             }
-          );
+          });
         }
       });
-
-      // dispatch(fetchDeleteBookInCartToolkit(item.books.id)).then((result) => {
-      //   Swal.fire({
-      //     title: "Thông báo!",
-      //     text: "Bạn đã xóa sản phẩm",
-      //     icon: "success",
-      //     confirmButtonText: "Đóng",
-      //   });
-      //   if (result.payload.error === 0) {
-      //     dispatch(fetchGetCartToolkit());
-      //   }
-      // });
     } else {
       Swal.fire({
         title: "Thông báo!",
@@ -149,10 +135,10 @@ const CartDetail = () => {
 
   // const handleDeleteAllItemChecked = () => {
   //   if (isCheckedOrder) {
-  //     dispatch(fetchDeleteAllBookCartToolkit()).then((result) => {
+  //     dispatch(fetchDeleteCheckedBooksInCart()).then((result) => {
   //       alert("Bạn có muốn xóa tất cả sản phẩm?");
   //       if (result.payload.error === 0) {
-  //         dispatch(fetchGetCartToolkit());
+  //         dispatch(fetchCart());
   //       }
   //     });
   //   } else {

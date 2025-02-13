@@ -7,8 +7,8 @@ import {
   apiUpdateBook,
 } from "../../services/BookService";
 
-export const fetchGetListBookToolkit = createAsyncThunk(
-  "users/fetchGetListBookToolkit",
+export const fetchListBooks = createAsyncThunk(
+  "users/fetchListBooks",
   async (data, { rejectWithValue, signal }) => {
     try {
       const response = await apiGetBook({ ...data, signal });
@@ -26,8 +26,8 @@ export const fetchGetListBookToolkit = createAsyncThunk(
   }
 );
 
-export const fetchGetBookByIdToolkit = createAsyncThunk(
-  "users/fetchGetBookByIdToolkit",
+export const fetchBookById = createAsyncThunk(
+  "books/fetchBookById",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetBookById(data);
@@ -38,8 +38,8 @@ export const fetchGetBookByIdToolkit = createAsyncThunk(
   }
 );
 
-export const fetchUpdateNewBookToolkit = createAsyncThunk(
-  "users/fetchUpdateNewBookToolkit",
+export const updateBook = createAsyncThunk(
+  "books/updateBook",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiUpdateBook(data);
@@ -50,8 +50,8 @@ export const fetchUpdateNewBookToolkit = createAsyncThunk(
   }
 );
 
-export const fetchCreatNewBookToolkit = createAsyncThunk(
-  "users/fetchCreatNewBookToolkit",
+export const createBook = createAsyncThunk(
+  "books/createBook",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiCreateBook(data);
@@ -62,8 +62,8 @@ export const fetchCreatNewBookToolkit = createAsyncThunk(
   }
 );
 
-export const fetchDeleteNewBookToolkit = createAsyncThunk(
-  "users/fetchDeleteNewBookToolkit",
+export const deleteBook = createAsyncThunk(
+  "books/deleteBook",
   async (bid, { rejectWithValue }) => {
     try {
       const res = await apiDeleteBook(bid);
@@ -121,17 +121,17 @@ export const bookSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchGetBookByIdToolkit.fulfilled, (state, action) => {
+    builder.addCase(fetchBookById.fulfilled, (state, action) => {
       state.bookDataById = action.payload;
     });
 
-    builder.addCase(fetchGetListBookToolkit.pending, (state, action) => {
+    builder.addCase(fetchListBooks.pending, (state, action) => {
       (state.statusLoading = true),
         (state.searchString = ""),
         (state.isLoading = true);
     });
 
-    builder.addCase(fetchGetListBookToolkit.fulfilled, (state, action) => {
+    builder.addCase(fetchListBooks.fulfilled, (state, action) => {
       (state.listBook = action.payload?.response?.bookData?.rows),
         (state.totalBooks = action.payload?.response.bookData?.count),
         (state.statusLoading = false),
@@ -140,33 +140,33 @@ export const bookSlice = createSlice({
         (state.isLoading = false);
     });
 
-    builder.addCase(fetchCreatNewBookToolkit.pending, (state, action) => {
+    builder.addCase(createBook.pending, (state, action) => {
       state.statusLoading = true;
       state.isLoadingAddBook = true;
     });
 
-    builder.addCase(fetchCreatNewBookToolkit.fulfilled, (state, action) => {
+    builder.addCase(createBook.fulfilled, (state, action) => {
       state.statusLoading = false;
       state.isLoadingAddBook = false;
     });
 
-    builder.addCase(fetchCreatNewBookToolkit.rejected, (state, action) => {
+    builder.addCase(createBook.rejected, (state, action) => {
       state.error = action.payload.message;
       state.isLoadingAddBook = false;
     });
 
-    builder.addCase(fetchDeleteNewBookToolkit.fulfilled, (state, action) => {});
+    builder.addCase(deleteBook.fulfilled, (state, action) => {});
 
-    builder.addCase(fetchUpdateNewBookToolkit.pending, (state, action) => {
+    builder.addCase(updateBook.pending, (state, action) => {
       state.statusLoading = true;
       state.isLoadingEditBook = true;
     });
 
-    builder.addCase(fetchUpdateNewBookToolkit.fulfilled, (state, action) => {
+    builder.addCase(updateBook.fulfilled, (state, action) => {
       state.statusLoading = false;
       state.isLoadingEditBook = false;
     });
-    builder.addCase(fetchUpdateNewBookToolkit.rejected, (state, action) => {
+    builder.addCase(updateBook.rejected, (state, action) => {
       state.isLoadingEditBook = false;
     });
   },

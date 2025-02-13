@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  fetchAddCartToolkit,
-  fetchGetCartToolkit,
-} from "../../redux/slides/cartSlice";
+import { fetchAddCartToolkit, fetchCart } from "../../redux/slides/cartSlice";
 import SelectQuantity from "../../components/SelectQuantity/SelectQuantity";
 import { jwtDecode } from "jwt-decode";
 
@@ -12,6 +9,15 @@ const BookDetail = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+  const token = localStorage.getItem("access_token");
+  // Đảm bảo giá trị mặc định nếu location.state không tồn tại
+  const {
+    title = "",
+    description = "",
+    price = 0,
+    image = "",
+  } = location.state?.props || {};
 
   useEffect(() => {
     // Nếu không có dữ liệu trong location.state, chuyển hướng về trang chính
@@ -19,9 +25,6 @@ const BookDetail = () => {
       navigate("/");
     }
   }, [location, navigate]);
-
-  const [quantity, setQuantity] = useState(1);
-  const token = localStorage.getItem("access_token");
 
   const handleChangeQuantity = useCallback((flag) => {
     setQuantity((prev) =>
@@ -33,18 +36,23 @@ const BookDetail = () => {
     );
   }, []);
 
-  // Đảm bảo giá trị mặc định nếu location.state không tồn tại
-  const {
-    title = "",
-    description = "",
-    price = 0,
-    image = "",
-  } = location.state?.props || {};
-
   const handleActionAddToCart = (redirectToCart) => {
-    if (!token) return navigate("/login");
     const { role_code } = jwtDecode(token);
-    if (role_code !== "R2") return navigate("/login");
+    if (!role_code) {
+      return navigate("/login");
+    }
+    if (role_code == "R1") {
+      Swal.fire({
+        title: "Thông báo!",
+        text: "Tài khoản Admin không mua được sách",
+        icon: "warning",
+        confirmButtonText: "Đóng",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/");
+        }
+      });
+    }
     const payload = {
       image: location.state.props.image,
       bid: String(location.state.props.id),
@@ -52,13 +60,15 @@ const BookDetail = () => {
       totalPrices: +location.state.props.price * +quantity,
       isChecked: "0",
     };
-    dispatch(fetchAddCartToolkit(payload)).then(() => {
-      dispatch(fetchGetCartToolkit()).then(() => {
-        if (redirectToCart) {
-          navigate("/cart");
-        }
+    if (role_code == "R2") {
+      dispatch(fetchAddCartToolkit(payload)).then(() => {
+        dispatch(fetchCart()).then(() => {
+          if (redirectToCart) {
+            navigate("/cart");
+          }
+        });
       });
-    });
+    }
   };
 
   return (
