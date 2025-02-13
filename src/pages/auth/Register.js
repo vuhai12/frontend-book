@@ -75,6 +75,7 @@ const Register = () => {
       <form
         className="bg-white shadow-lg rounded px-8 pt-6 pb-8 w-96"
         onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
       >
         <h2 className="text-2xl font-bold text-center mb-6">Đăng ký</h2>
 
