@@ -107,6 +107,7 @@ const AdminUser = () => {
   }, [currentPage]);
 
   const handleStartOpenPopupAddUser = () => {
+    setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
     setIsShowPopupAddUser(true);
   };
 
