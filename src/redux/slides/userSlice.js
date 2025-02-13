@@ -156,9 +156,7 @@ export const userSlice = createSlice({
     quantityBook: 1,
     isOpenSideBarMenu: false,
     userData: [],
-    isLoadingInfoUser: false,
-    isLoadingAddUser: false,
-    isLoadingEditUser: false,
+    isLoading: false,
   },
   reducers: {
     openSideBarMenu: (state, action) => {
@@ -181,12 +179,12 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchGetUserByIdToolkit.fulfilled, (state, action) => {
       state.userData = action.payload.userData;
-      state.isLoadingInfoUser = false;
+      state.isLoading = false;
       // Add user to the state array
     });
 
     builder.addCase(fetchGetUserByIdToolkit.pending, (state, action) => {
-      state.isLoadingInfoUser = true;
+      state.isLoading = true;
       // Add user to the state array
     });
 
@@ -195,6 +193,7 @@ export const userSlice = createSlice({
       // Add user to the state array
       state.statusLoading = true;
       state.auth = false;
+      state.isLoading = true;
     });
 
     builder.addCase(fetchLoginToolkit.fulfilled, (state, action) => {
@@ -203,6 +202,7 @@ export const userSlice = createSlice({
         localStorage.setItem("access_token", action.payload?.access_token);
         localStorage.setItem("refresh_token", action.payload?.refresh_token);
       }
+      state.isLoading = false;
 
       (state.access_token = action.payload.access_token),
         (state.refresh_token = action.payload.refresh_token),
@@ -210,9 +210,23 @@ export const userSlice = createSlice({
         (state.statusLoading = false);
     });
 
+    builder.addCase(fetchLoginToolkit.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(fetchRegisterToolkit.pending, (state, action) => {
+      // Add user to the state array
+      state.isLoading = true;
+    });
+
     builder.addCase(fetchRegisterToolkit.fulfilled, (state, action) => {
       // Add user to the state array
-      state.statusLoading = false;
+      state.isLoading = false;
+    });
+
+    builder.addCase(fetchRegisterToolkit.rejected, (state, action) => {
+      // Add user to the state array
+      state.isLoading = false;
     });
 
     builder.addCase(fetchGetListUserToolkit.pending, (state, action) => {});
@@ -230,42 +244,42 @@ export const userSlice = createSlice({
     builder.addCase(fetchCreatNewUserToolkit.pending, (state, action) => {
       // Add user to the state array
       state.statusLoading = true;
-      state.isLoadingAddUser = true;
+      state.isLoading = true;
     });
 
     //add create new book
     builder.addCase(fetchCreatNewUserToolkit.fulfilled, (state, action) => {
       // Add user to the state array
       state.statusLoading = false;
-      state.isLoadingAddUser = false;
+      state.isLoading = false;
     });
     builder.addCase(fetchCreatNewUserToolkit.rejected, (state, action) => {
       // Add user to the state array
-      state.isLoadingAddUser = false;
+      state.isLoading = false;
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.pending, (state, action) => {
       state.statusLoading = true;
-      state.isLoadingEditUser = true;
+      state.isLoading = true;
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.fulfilled, (state, action) => {
       state.statusLoading = false;
-      state.isLoadingEditUser = false;
+      state.isLoading = false;
     });
     builder.addCase(fetchUpdateNewUserToolkit.rejected, (state, action) => {
-      state.isLoadingEditUser = false;
+      state.isLoading = false;
     });
 
     builder.addCase(fetchUpdateCurrentUser.pending, (state, action) => {
-      state.isLoadingInfoUser = true;
+      state.isLoading = true;
     });
 
     builder.addCase(fetchUpdateCurrentUser.fulfilled, (state, action) => {
-      state.isLoadingInfoUser = false;
+      state.isLoading = false;
     });
     builder.addCase(fetchUpdateCurrentUser.rejected, (state, action) => {
-      state.isLoadingInfoUser = false;
+      state.isLoading = false;
     });
   },
 });

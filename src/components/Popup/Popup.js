@@ -32,12 +32,10 @@ const Popup = ({
       option.value = e.target.value;
       if (e.target.value !== "" && option.type == "text") {
         option.error = "";
-        setItems([...items]);
       }
 
       if (e.target.value !== "" && option.type == "number") {
         option.error = "";
-        setItems([...items]);
       }
 
       if (option.type == "email") {
@@ -46,7 +44,6 @@ const Popup = ({
         } else {
           option.error = "Không đúng định dạng email";
         }
-        setItems([...items]);
       }
 
       if (
@@ -55,8 +52,8 @@ const Popup = ({
         e.target.value.length >= 6
       ) {
         option.error = "";
-        setItems([...items]);
       }
+      setItems([...items]);
     }
     if (option.type == "file") {
       option.value = URL.createObjectURL(e.target.files[0]);
@@ -68,16 +65,17 @@ const Popup = ({
       setItems([...items]);
     }
     if (option.type == "radio") {
-      setChecked(e.target.value);
       option.value = e.target.value;
+      setChecked(e.target.value);
     }
     if (option.type == "select") {
+      option.value = e.target.value;
       if (e.target.value !== "") {
         option.error = "";
-        setItems([...items]);
       }
-      option.value = e.target.value;
+
       setSelectedValue(e.target.value);
+      setItems([...items]);
     }
   };
 
@@ -140,7 +138,7 @@ const Popup = ({
                       name={`input-${option.id}`}
                       className="border w-full rounded-lg px-4 py-2"
                       placeholder={option.name}
-                      value={option?.value || ""}
+                      value={option?.value}
                       type={option.type}
                       onChange={(e) => handleOnchange(option, e)}
                     />

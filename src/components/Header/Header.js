@@ -40,7 +40,12 @@ const Header = () => {
         navigate("/cart");
       }
       if (roleCode() == "R1") {
-        navigate("/login");
+        Swal.fire({
+          title: "Thông báo!",
+          text: "Tài khoản Admin không truy cập được giỏ hàng",
+          icon: "success",
+          confirmButtonText: "Đóng",
+        });
       }
     } else {
       navigate("/login");

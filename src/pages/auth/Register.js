@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import * as yup from "yup";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   // Schema validation với yup
   const schema = yup.object({
@@ -156,9 +157,13 @@ const Register = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className={`w-full ${
+            isLoading
+              ? "bg-gray-600 text-white"
+              : "bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          }  font-bold py-2 px-4 rounded `}
         >
-          Đăng ký
+          {isLoading ? "Đang Đăng Ký" : "Đăng ký"}
         </button>
 
         <div className="text-center mt-4">
