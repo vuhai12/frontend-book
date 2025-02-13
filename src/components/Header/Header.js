@@ -39,6 +39,9 @@ const Header = () => {
       if (roleCode() == "R2") {
         navigate("/cart");
       }
+      if (roleCode() == "R1") {
+        navigate("/login");
+      }
     } else {
       navigate("/login");
     }
