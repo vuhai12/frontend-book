@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ImageDefault from "../../assets/image_default.png";
 import { Upload } from "lucide-react";
+import { isValidEmail } from "../../ultils/commonUltils";
 
 const Popup = ({
   isShow,
@@ -17,10 +18,6 @@ const Popup = ({
   const [items, setItems] = useState(options);
   const [checked, setChecked] = useState(options[3].value);
   const [selectedValue, setSelectedValue] = useState(options[1].value);
-
-  const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
 
   const handleOnchange = (option, e) => {
     if (

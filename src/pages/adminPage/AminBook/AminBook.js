@@ -11,6 +11,7 @@ import {
 } from "../../../redux/slides/bookSlice";
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
+import { containsWord } from "../../../ultils/commonUltils";
 
 const defaultBookFields = [
   {
@@ -246,10 +247,6 @@ const AminBook = () => {
       }
     });
   };
-  const containsWord = (str, word) => {
-    const regex = new RegExp(`\\b${word}\\b`, "i"); // 'i' để không phân biệt hoa thường
-    return regex.test(str);
-  };
 
   const handleAdd = () => {
     if (!validateForm(popupBookFields)) {
@@ -321,7 +318,6 @@ const AminBook = () => {
       if (popupBookFields[0].file) {
         formData.append("image", popupBookFields[0].file);
       }
-
       formData.append("category_code", popupBookFields[1].value);
       formData.append("available", popupBookFields[2].value);
       formData.append("title", popupBookFields[3].value);
