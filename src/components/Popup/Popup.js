@@ -136,6 +136,9 @@ const Popup = ({
                   <>
                     <label>{option.name}</label>
                     <input
+                      autoComplete={
+                        option.type === "password" ? "new-password" : "off"
+                      }
                       className="border w-full rounded-lg px-4 py-2"
                       placeholder={option.name}
                       defaultValue={option?.value}
