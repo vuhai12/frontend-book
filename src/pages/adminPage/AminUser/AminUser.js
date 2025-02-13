@@ -11,6 +11,7 @@ import {
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
+import { containsWord } from "../../../ultils/commonUltils";
 
 const roleOptions = [
   { id: 1, value: "R1", name: "Admin" },
@@ -215,11 +216,6 @@ const AdminUser = () => {
     dispatch(
       fetchGetListUserToolkit({ limitListUser, currentPage, searchString })
     );
-  };
-
-  const containsWord = (str, word) => {
-    const regex = new RegExp(`\\b${word}\\b`, "i"); // 'i' để không phân biệt hoa thường
-    return regex.test(str);
   };
 
   const handleEditUser = () => {

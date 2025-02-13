@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrderByIdToolkit } from "../../../redux/slides/orderSlice";
 import PopupShowOrderDetail from "../../../components/PopupShowOrderDetail/PopupShowOrderDetail";
-import { formatDateTime } from "../../../ultils/formatDateTime";
+import { formatDateTime } from "../../../ultils/commonUltils";
 
 const UserOrder = () => {
   const orderById = useSelector((state) => state.order.listOrderById);
