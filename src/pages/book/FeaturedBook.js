@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
+import { fetchListBooks } from "../../redux/slides/bookSlice";
 import BookCard from "../../components/BookCard/BookCard";
 import BannerSlider from "../../components/BannerSlider/BannerSlider";
 import Loading from "../../components/Loading/Loading";
@@ -9,13 +9,10 @@ import Loading from "../../components/Loading/Loading";
 const FeaturedBook = () => {
   const dispatch = useDispatch();
   const limitListBook = process.env.REACT_APP_LIMIT_LIST_BOOK || 12;
-  // const listBook = useSelector((state) => state.book.listBook);
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const isLoading = useSelector((state) => state.book.isLoading);
-
   const [pageCurent, setCurrentPage] = useState(1);
   const [allBooks, setAllBooks] = useState([]);
-  // const [searchString, setSearchString] = useState("");
   const params = useParams();
   const category = params.code;
   useEffect(() => {
@@ -25,7 +22,7 @@ const FeaturedBook = () => {
   useEffect(() => {
     const controller = new AbortController();
     dispatch(
-      fetchGetListBookToolkit({
+      fetchListBooks({
         limitListBook,
         pageCurent,
         searchString: "",

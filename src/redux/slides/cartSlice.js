@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   apiAddCart,
   apiGetCart,
-  apiCheckedBookCart,
+  apiUpdateCheckedBooksInCart,
   apiDeleteBookInCart,
   apiCheckedAllBookCart,
   apiDeleteAllBookCart,
@@ -10,8 +10,8 @@ import {
   apiQuantityBookInCart,
 } from "../../services/CartService";
 
-export const fetchGetCartToolkit = createAsyncThunk(
-  "users/fetchGetCartToolkit",
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetCart();
@@ -22,8 +22,8 @@ export const fetchGetCartToolkit = createAsyncThunk(
   }
 );
 
-export const fetchGetBookInCartChecked = createAsyncThunk(
-  "users/fetchGetBookInCartChecked",
+export const fetchCheckedBooksInCart = createAsyncThunk(
+  "cart/fetchCheckedBooksInCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetBookInCartChecked();
@@ -35,7 +35,7 @@ export const fetchGetBookInCartChecked = createAsyncThunk(
 );
 
 export const fetchAddCartToolkit = createAsyncThunk(
-  "users/fetchAddCartToolkit",
+  "cart/fetchAddCartToolkit",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiAddCart(data);
@@ -46,11 +46,11 @@ export const fetchAddCartToolkit = createAsyncThunk(
   }
 );
 
-export const fetchCheckedBookCartToolkit = createAsyncThunk(
-  "users/fetchCheckedBookCartToolkit",
+export const updateCheckedBooksInCart = createAsyncThunk(
+  "cart/updateCheckedBooksInCart",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await apiCheckedBookCart(data);
+      const response = await apiUpdateCheckedBooksInCart(data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -58,8 +58,8 @@ export const fetchCheckedBookCartToolkit = createAsyncThunk(
   }
 );
 
-export const fetchCheckedAllBookCartToolkit = createAsyncThunk(
-  "users/fetchCheckedAllBookCartToolkit",
+export const fetchToggleCheckedAllBooksInCart = createAsyncThunk(
+  "cart/fetchToggleCheckedAllBooksInCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiCheckedAllBookCart(data);
@@ -70,8 +70,8 @@ export const fetchCheckedAllBookCartToolkit = createAsyncThunk(
   }
 );
 
-export const fetchDeleteAllBookCartToolkit = createAsyncThunk(
-  "users/fetchDeleteAllBookCartToolkit",
+export const fetchDeleteCheckedBooksInCart = createAsyncThunk(
+  "cart/fetchDeleteCheckedBooksInCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiDeleteAllBookCart();
@@ -82,8 +82,8 @@ export const fetchDeleteAllBookCartToolkit = createAsyncThunk(
   }
 );
 
-export const fetchDeleteBookInCartToolkit = createAsyncThunk(
-  "users/fetchDeleteBookInCartToolkit",
+export const fetchRemoveBookFromCart = createAsyncThunk(
+  "cart/fetchRemoveBookFromCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiDeleteBookInCart(data);
@@ -95,7 +95,7 @@ export const fetchDeleteBookInCartToolkit = createAsyncThunk(
 );
 
 export const fetchDecrementQuantityBookInCart = createAsyncThunk(
-  "users/fetchDecrementQuantityBookInCart",
+  "cart/fetchDecrementQuantityBookInCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiQuantityBookInCart(data);
@@ -107,7 +107,7 @@ export const fetchDecrementQuantityBookInCart = createAsyncThunk(
 );
 
 export const fetchIncrementQuantityBookInCart = createAsyncThunk(
-  "users/fetchIncrementQuantityBookInCart",
+  "cart/fetchIncrementQuantityBookInCart",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiQuantityBookInCart(data);
@@ -209,15 +209,15 @@ export const cartSlice = createSlice({
       };
     });
 
-    builder.addCase(fetchGetCartToolkit.rejected, (state, action) => {
+    builder.addCase(fetchCart.rejected, (state, action) => {
       state.listCart = [];
     });
 
-    builder.addCase(fetchGetCartToolkit.fulfilled, (state, action) => {
+    builder.addCase(fetchCart.fulfilled, (state, action) => {
       state.listCart = action.payload.res;
     });
 
-    builder.addCase(fetchGetBookInCartChecked.fulfilled, (state, action) => {
+    builder.addCase(fetchCheckedBooksInCart.fulfilled, (state, action) => {
       state.listBookInCartChecked = action.payload.res;
     });
   },

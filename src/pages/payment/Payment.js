@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchGetBookInCartChecked,
-  fetchGetCartToolkit,
-} from "../../redux/slides/cartSlice";
 import { fetchCreateOrderToolkit } from "../../redux/slides/orderSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  fetchCheckedBooksInCart,
+  fetchCart,
+} from "../../redux/slides/cartSlice";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const Payment = () => {
   ];
 
   useEffect(() => {
-    dispatch(fetchGetBookInCartChecked());
+    dispatch(fetchCheckedBooksInCart());
   }, [dispatch]);
 
   const handleOrder = () => {
@@ -60,9 +60,9 @@ const Payment = () => {
         confirmButtonText: "Đóng",
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(fetchGetBookInCartChecked())
+          dispatch(fetchCheckedBooksInCart())
             .then(() => {
-              dispatch(fetchGetCartToolkit());
+              dispatch(fetchCart());
             })
             .then(() => {
               navigate("/");

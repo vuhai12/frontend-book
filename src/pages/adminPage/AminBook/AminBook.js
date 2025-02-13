@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import Popup from "../../../components/Popup/Popup";
 import { FaSortDown } from "react-icons/fa";
 import { FaSortUp } from "react-icons/fa";
-import { fetchGetListCategoryToolkit } from "../../../redux/slides/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchCreatNewBookToolkit,
-  fetchDeleteNewBookToolkit,
-  fetchGetListBookToolkit,
-  fetchUpdateNewBookToolkit,
+  createBook,
+  deleteBook,
+  fetchListBooks,
+  updateBook,
 } from "../../../redux/slides/bookSlice";
-import { toast } from "react-toastify";
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
 
@@ -125,9 +123,7 @@ const AminBook = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-    );
+    dispatch(fetchListBooks({ limitListBook, pageCurent, searchString }));
   }, [pageCurent]);
 
   const handleCancel = () => {
@@ -216,7 +212,7 @@ const AminBook = () => {
   };
 
   const handleDeleteBook = async (bid) => {
-    dispatch(fetchDeleteNewBookToolkit(bid)).then((result) => {
+    dispatch(deleteBook(bid)).then((result) => {
       if (result.payload.error == 0) {
         Swal.fire({
           title: "Thông báo!",
@@ -226,7 +222,7 @@ const AminBook = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             dispatch(
-              fetchGetListBookToolkit({
+              fetchListBooks({
                 limitListBook,
                 pageCurent,
                 searchString,
@@ -265,7 +261,7 @@ const AminBook = () => {
       formData.append("price", popupBookFields[4].value);
       formData.append("description", popupBookFields[5].value);
 
-      dispatch(fetchCreatNewBookToolkit(formData)).then((result) => {
+      dispatch(createBook(formData)).then((result) => {
         if (result.payload.error == 0) {
           Swal.fire({
             title: "Thông báo!",
@@ -275,7 +271,7 @@ const AminBook = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               dispatch(
-                fetchGetListBookToolkit({
+                fetchListBooks({
                   limitListBook,
                   pageCurent,
                   searchString,
@@ -309,7 +305,7 @@ const AminBook = () => {
     }
     setOptionsFieldSort([...optionsFieldSort]);
     dispatch(
-      fetchGetListBookToolkit({
+      fetchListBooks({
         limitListBook,
         pageCurent,
         field: selected.sort,
@@ -332,7 +328,7 @@ const AminBook = () => {
       formData.append("price", popupBookFields[4].value);
       formData.append("description", popupBookFields[5].value);
 
-      dispatch(fetchUpdateNewBookToolkit(formData)).then((result) => {
+      dispatch(updateBook(formData)).then((result) => {
         if (result.payload.error == 0) {
           Swal.fire({
             title: "Thông báo!",
@@ -342,7 +338,7 @@ const AminBook = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               dispatch(
-                fetchGetListBookToolkit({
+                fetchListBooks({
                   limitListBook,
                   pageCurent,
                   searchString,
@@ -381,9 +377,7 @@ const AminBook = () => {
   };
 
   const handleSearch = (searchString) => {
-    dispatch(
-      fetchGetListBookToolkit({ limitListBook, pageCurent, searchString })
-    );
+    dispatch(fetchListBooks({ limitListBook, pageCurent, searchString }));
   };
   return (
     <>

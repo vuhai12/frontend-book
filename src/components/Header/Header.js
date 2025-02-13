@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetCartToolkit } from "../../redux/slides/cartSlice";
-import { fetchGetListBookToolkit } from "../../redux/slides/bookSlice";
+import { fetchCart } from "../../redux/slides/cartSlice";
+import { fetchListBooks } from "../../redux/slides/bookSlice";
 import { fetchLogoutToolkit } from "../../redux/slides/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,10 +22,10 @@ const Header = () => {
   const token = localStorage?.getItem("access_token");
 
   useEffect(() => {
-    if (token) {
-      dispatch(fetchGetCartToolkit());
+    if (roleCode() == "R2") {
+      dispatch(fetchCart());
     }
-  }, [dispatch, token]);
+  }, []);
 
   const roleCode = () => {
     if (token) {
@@ -49,7 +49,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(fetchLogoutToolkit()).then(() => {
       localStorage.clear();
-      dispatch(fetchGetCartToolkit());
+      dispatch(fetchCart());
       navigate("/login");
     });
   };
@@ -58,7 +58,7 @@ const Header = () => {
 
   const handleSubmit = () => {
     dispatch(
-      fetchGetListBookToolkit({
+      fetchListBooks({
         limitListBook: process.env.REACT_APP_LIMIT_LIST_BOOK,
         pageCurent: 1,
         searchString,
@@ -131,11 +131,6 @@ const Header = () => {
 
       {/* Navbar Links & Cart */}
       <div className="flex  items-center gap-3 ">
-        {/* Trang Chủ */}
-        {/* <Link
-          to="/"
-          className={`${isActive} && bg-gray-200 hidden lg:flex items-center space-x-2 text-sm font-medium text-gray-600 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]`}
-        > */}
         <NavLink
           to="/"
           className={({ isActive }) =>
