@@ -96,7 +96,9 @@ const AdminUser = () => {
   const [fieldSort, setFieldSort] = useState(fieldSortOptions);
   const [currentPage, setCurrentPage] = useState(1);
   const limitListUser = process.env.REACT_APP_LIMIT_LIST_USER || 5;
-  const [optionsPopup, setOptionsPopup] = useState(defaultUserFields);
+  const [optionsPopup, setOptionsPopup] = useState(
+    defaultUserFields.map((field) => ({ ...field }))
+  );
   const [seclectedUserId, setSeclectedUserId] = useState(null);
   const isLoading = useSelector((state) => state.user.isLoading);
 
@@ -108,21 +110,41 @@ const AdminUser = () => {
     setIsShowPopupAddUser(true);
   };
 
-  const validateForm = (options) => {
-    return options.filter((item) => {
-      if (!item.value?.trim()) {
-        item.error = `Missing ${item.name}`;
-        setOptionsPopup([...optionsPopup]);
+  const validateForm = () => {
+    let count = 0;
+    optionsPopup.map((item, idx) => {
+      if (
+        !item.value.toString().trim() &&
+        item.type != "file" &&
+        item.type != "radio"
+      ) {
+        item.error = `missing ${item.name}`;
+        count++;
       }
-      return !item.value?.trim();
-    }).length;
+    });
+    setOptionsPopup([...optionsPopup]);
+    return count;
+  };
+
+  const validateFormEdit = () => {
+    let count = 0;
+    optionsPopup.map((item, idx) => {
+      if (
+        !item.value.toString().trim() &&
+        item.type != "file" &&
+        item.type != "radio" &&
+        item.type != "password"
+      ) {
+        item.error = `missing ${item.name}`;
+        count++;
+      }
+    });
+    setOptionsPopup([...optionsPopup]);
+    return count;
   };
 
   const handleAddUser = () => {
-    const filteredOptions = optionsPopup.filter(
-      (item) => item.type !== "file" && item.type !== "radio"
-    );
-    if (!validateForm(filteredOptions)) {
+    if (!validateForm()) {
       const formData = new FormData();
       if (optionsPopup[0].file) {
         formData.append("avatar", optionsPopup[0].file);
@@ -219,13 +241,7 @@ const AdminUser = () => {
   };
 
   const handleEditUser = () => {
-    const filteredOptions = optionsPopup.filter(
-      (item) =>
-        item.type !== "password" &&
-        item.type !== "file" &&
-        item.type !== "radio"
-    );
-    if (!validateForm(filteredOptions)) {
+    if (!validateFormEdit()) {
       const formData = new FormData();
       if (optionsPopup[0].file) {
         formData.append("avatar", optionsPopup[0].file);

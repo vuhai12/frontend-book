@@ -11,7 +11,7 @@ import {
 } from "../../../redux/slides/bookSlice";
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
-import { containsWord } from "../../../ultils/commonUltils";
+import { containsWord, truncateText } from "../../../ultils/commonUltils";
 
 const defaultBookFields = [
   {
@@ -108,7 +108,9 @@ const AminBook = () => {
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
-  const [popupBookFields, setPopupBookFields] = useState(defaultBookFields);
+  const [popupBookFields, setPopupBookFields] = useState(
+    defaultBookFields.map((field) => ({ ...field }))
+  );
   const [optionsFieldSort, setOptionsFieldSort] = useState(fileds);
   const [pageCurent, setCurrentPage] = useState(1);
   const [searchString, setSearchString] = useState("");
@@ -200,15 +202,15 @@ const AminBook = () => {
     ]);
   };
 
-  const validateForm = (options) => {
+  const validateForm = () => {
     let count = 0;
-    options.map((item, idx) => {
-      if (item.required && !item.value.toString().trim()) {
+    popupBookFields.map((item, idx) => {
+      if (!item.value.toString().trim()) {
         item.error = `missing ${item.name}`;
-        setPopupBookFields([...popupBookFields]);
         count++;
       }
     });
+    setPopupBookFields([...popupBookFields]);
     return count;
   };
 
@@ -249,7 +251,7 @@ const AminBook = () => {
   };
 
   const handleAdd = () => {
-    if (!validateForm(popupBookFields)) {
+    if (!validateForm()) {
       const formData = new FormData();
       formData.append("image", popupBookFields[0].file);
       formData.append("category_code", popupBookFields[1].value);
@@ -312,7 +314,7 @@ const AminBook = () => {
   };
 
   const handleEdit = () => {
-    if (!validateForm(popupBookFields)) {
+    if (!validateForm()) {
       const formData = new FormData();
       formData.append("bid", seclectedId);
       if (popupBookFields[0].file) {
@@ -366,10 +368,6 @@ const AminBook = () => {
         }
       });
     }
-  };
-
-  const truncateText = (text, maxLength) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
   const handleSearch = (searchString) => {

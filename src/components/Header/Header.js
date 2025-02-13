@@ -3,7 +3,10 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../redux/slides/cartSlice";
 import { fetchListBooks } from "../../redux/slides/bookSlice";
-import { fetchLogoutToolkit } from "../../redux/slides/userSlice";
+import {
+  fetchGetListCategoryToolkit,
+  fetchLogoutToolkit,
+} from "../../redux/slides/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +25,7 @@ const Header = () => {
   const token = localStorage?.getItem("access_token");
 
   useEffect(() => {
+    dispatch(fetchGetListCategoryToolkit());
     if (roleCode() == "R2") {
       dispatch(fetchCart());
     }

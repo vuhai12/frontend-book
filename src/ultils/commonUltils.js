@@ -43,3 +43,7 @@ export const formatDateTime = (isoString) => {
 
   return `${formattedDate} ${formattedTime}`;
 };
+
+export const truncateText = (text, maxLength) => {
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+};
