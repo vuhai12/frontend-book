@@ -97,10 +97,7 @@ const AdminUser = () => {
   const limitListUser = process.env.REACT_APP_LIMIT_LIST_USER || 5;
   const [optionsPopup, setOptionsPopup] = useState(defaultUserFields);
   const [seclectedUserId, setSeclectedUserId] = useState(null);
-  const isLoadingAddUser = useSelector((state) => state.user.isLoadingAddUser);
-  const isLoadingEditUser = useSelector(
-    (state) => state.user.isLoadingEditUser
-  );
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
     dispatch(fetchGetListUserToolkit({ limitListUser, currentPage }));
@@ -489,7 +486,7 @@ const AdminUser = () => {
           subActionText="Close"
           role={roleOptions}
           title="Add New User"
-          isLoading={isLoadingAddUser}
+          isLoading={isLoading}
         />
       )}
       {isShowPopupEditUser && (
@@ -502,7 +499,7 @@ const AdminUser = () => {
           subActionText={"Close"}
           role={roleOptions}
           title="Edit User"
-          isLoading={isLoadingEditUser}
+          isLoading={isLoading}
         />
       )}
     </div>

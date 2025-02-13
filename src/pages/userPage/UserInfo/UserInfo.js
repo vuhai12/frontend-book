@@ -64,9 +64,7 @@ const UserInfo = () => {
   ];
 
   const [items, setItems] = useState(userDataUpdate);
-  const isLoadingInfoUser = useSelector(
-    (state) => state.user.isLoadingInfoUser
-  );
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
     dispatch(fetchGetUserByIdToolkit()).then((result) => {
@@ -171,7 +169,7 @@ const UserInfo = () => {
             type="file"
             id="avatar"
             className="hidden"
-            disabled={isLoadingInfoUser}
+            disabled={isLoading}
             onChange={(e) => handleOnchangeUserData(items[0], e)}
           />
 
@@ -179,7 +177,7 @@ const UserInfo = () => {
           <button
             className="bg-blue-500 text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-blue-600"
             onClick={() => document.getElementById("avatar").click()} // Kích hoạt input file
-            disabled={isLoadingInfoUser}
+            disabled={isLoading}
           >
             <Upload className="w-5 h-5" />
             Tải Avatar
@@ -215,14 +213,14 @@ const UserInfo = () => {
 
           <button
             onClick={handleUpdate}
-            disabled={isLoadingInfoUser} // Nút sẽ bị vô hiệu hóa khi loading = true
+            disabled={isLoading} // Nút sẽ bị vô hiệu hóa khi loading = true
             className={`w-full py-2 px-4 rounded-md focus:outline-none focus:ring ${
-              isLoadingInfoUser
+              isLoading
                 ? "bg-gray-400 cursor-not-allowed" // Khi loading, đổi màu và không thể nhấn
                 : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-300"
             }`}
           >
-            {isLoadingInfoUser ? "Đang lưu..." : "Lưu Thông Tin"}
+            {isLoading ? "Đang lưu..." : "Lưu Thông Tin"}
           </button>
         </div>
       </div>

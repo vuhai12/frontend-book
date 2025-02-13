@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import { fetchLoginToolkit } from "../../redux/slides/userSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   const schema = yup.object({
     email: yup
@@ -124,10 +125,15 @@ const Login = () => {
         </div>
 
         <button
+          disabled={isLoading}
           type="submit"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className={`w-full ${
+            isLoading
+              ? "bg-gray-600 text-white"
+              : "bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          }   font-bold py-2 px-4 rounded `}
         >
-          Đăng nhập
+          {isLoading ? "Đang Đăng Nhập..." : "Đăng nhập"}
         </button>
 
         <div className="text-center mt-4">
