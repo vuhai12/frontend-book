@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ImageDefault from "../../assets/image_default.png";
-import { Upload } from "lucide-react";
+import { AlertCircle, Upload } from "lucide-react";
 import { isValidEmail } from "../../ultils/commonUltils";
 
 const Popup = ({
@@ -120,7 +120,10 @@ const Popup = ({
                       Tải Avatar
                     </button>
                     {option.error && (
-                      <p className="text-red-600">{option.error}</p>
+                      <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                        {option.error}
+                      </p>
                     )}
                   </>
                 )}
@@ -140,8 +143,14 @@ const Popup = ({
                       onChange={(e) => handleOnchange(option, e)}
                     />
                     {option.error && (
-                      <p className="text-red-600">{option.error}</p>
+                      <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                        {option.error}
+                      </p>
                     )}
+                    {/* {option.error && (
+                      <p className="text-red-600">{option.error}</p>
+                    )} */}
                   </>
                 )}
                 {option.type === "radio" &&
@@ -176,7 +185,10 @@ const Popup = ({
                       ))}
                     </select>
                     {option.error && (
-                      <p className="text-red-600">{option.error}</p>
+                      <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                        {option.error}
+                      </p>
                     )}
                   </>
                 )}

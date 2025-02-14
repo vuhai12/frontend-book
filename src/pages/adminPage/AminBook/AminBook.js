@@ -206,7 +206,7 @@ const AminBook = () => {
     let count = 0;
     popupBookFields.map((item, idx) => {
       if (!item.value.toString().trim()) {
-        item.error = `missing ${item.name}`;
+        item.error = `Missing ${item.name}`;
         count++;
       }
     });
