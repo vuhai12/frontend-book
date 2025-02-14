@@ -118,7 +118,7 @@ const AdminUser = () => {
         item.type != "file" &&
         item.type != "radio"
       ) {
-        item.error = `missing ${item.name}`;
+        item.error = `Missing ${item.name}`;
         count++;
       }
     });
@@ -135,7 +135,7 @@ const AdminUser = () => {
         item.type != "radio" &&
         item.type != "password"
       ) {
-        item.error = `missing ${item.name}`;
+        item.error = `Missing ${item.name}`;
         count++;
       }
     });
