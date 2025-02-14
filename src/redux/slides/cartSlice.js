@@ -128,6 +128,7 @@ export const cartSlice = createSlice({
     cartsChecked: [],
     listBookInCartChecked: [],
     listCart: [],
+    isLoadingCart: false,
   },
   reducers: {
     addToCart: (state, action) => {
@@ -211,14 +212,28 @@ export const cartSlice = createSlice({
 
     builder.addCase(fetchCart.rejected, (state, action) => {
       state.listCart = [];
+      state.isLoadingCart = false;
+    });
+    builder.addCase(fetchCart.pending, (state, action) => {
+      state.isLoadingCart = true;
     });
 
     builder.addCase(fetchCart.fulfilled, (state, action) => {
       state.listCart = action.payload.res;
+      state.isLoadingCart = false;
+    });
+
+    builder.addCase(fetchCheckedBooksInCart.pending, (state, action) => {
+      state.isLoadingCart = true;
     });
 
     builder.addCase(fetchCheckedBooksInCart.fulfilled, (state, action) => {
       state.listBookInCartChecked = action.payload.res;
+      state.isLoadingCart = false;
+    });
+
+    builder.addCase(fetchCheckedBooksInCart.rejected, (state, action) => {
+      state.isLoadingCart = false;
     });
   },
 });

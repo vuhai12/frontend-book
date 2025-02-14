@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GoTrash } from "react-icons/go";
 import SelectQuantity from "../../components/SelectQuantity/SelectQuantity";
+import Loading from "../../components/Loading/Loading";
 import Cart from "../../assets/pngwing.png";
 import { fetchGetUserByIdToolkit } from "../../redux/slides/userSlice";
 import Modal from "react-bootstrap/Modal";
@@ -21,6 +22,7 @@ const CartDetail = () => {
   const token = localStorage.getItem("access_token");
   const listCart = useSelector((state) => state.cart.listCart);
   const address = useSelector((state) => state.user.userData.address);
+  const isLoadingCart = useSelector((state) => state.cart.isLoadingCart);
 
   let isCheckedOrder = listCart?.some(
     (item) => item.books.cartBooks.isChecked === true
@@ -37,6 +39,8 @@ const CartDetail = () => {
     dispatch(fetchCart());
     dispatch(fetchGetUserByIdToolkit());
   }, []);
+
+  console.log("isLoadingCart", isLoadingCart);
 
   const handleChangeQuantity = useCallback((item, flag) => {
     if (flag === "minus" && item.books.quantity === 1) return;
@@ -159,68 +163,75 @@ const CartDetail = () => {
       {listCart?.length > 0 ? (
         <div className="grid grid-cols-12 gap-4 mt-6">
           {/* Table Section */}
-          <div className="col-span-12 md:col-span-8 border rounded-lg bg-white shadow-md p-4">
-            <div className="overflow-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-sm font-semibold text-gray-600">
-                    <th className="p-3 border">Chọn</th>
-                    <th className="p-3 border">Sản phẩm</th>
-                    <th className="p-3 border">Đơn giá</th>
-                    <th className="p-3 border">Số lượng</th>
-                    <th className="p-3 border">Thành tiền</th>
-                    <th className="p-3 border">Xóa</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listCart.map((item, idx) => (
-                    <tr key={idx} className="text-sm text-gray-700">
-                      <td className="p-3 border text-center">
-                        <input
-                          type="checkbox"
-                          checked={item.books.cartBooks.isChecked}
-                          onChange={() => handleCheckBox(item)}
-                        />
-                      </td>
-                      <td className="p-3 border text-left flex items-center">
-                        <img
-                          src={item.books.image}
-                          alt="product"
-                          className="w-16 h-16 object-cover rounded-md mr-4"
-                        />
-                        {item.books.name}
-                      </td>
-                      <td className="p-3 border text-center">
-                        {item.books.price.toLocaleString()} đ
-                      </td>
-                      <td className="p-3 border text-center">
-                        <SelectQuantity
-                          quantity={item.books.quantity}
-                          handleChangeQuantity={(flag) =>
-                            handleChangeQuantity(item, flag)
-                          }
-                        />
-                      </td>
-                      <td className="p-3 border text-center">
-                        {(
-                          item.books.price * item.books.quantity
-                        ).toLocaleString()}{" "}
-                        đ
-                      </td>
-                      <td className="p-3 border text-center">
-                        <button
-                          className="text-red-500 hover:text-red-700"
-                          onClick={() => handleDeleteItemChecked(item)}
-                        >
-                          <GoTrash size={20} />
-                        </button>
-                      </td>
+          {!isLoadingCart ? (
+            <div className="col-span-12 md:col-span-8 border rounded-lg bg-white shadow-md p-4">
+              <div className="overflow-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="text-sm font-semibold text-gray-600">
+                      <th className="p-3 border">Chọn</th>
+                      <th className="p-3 border">Sản phẩm</th>
+                      <th className="p-3 border">Đơn giá</th>
+                      <th className="p-3 border">Số lượng</th>
+                      <th className="p-3 border">Thành tiền</th>
+                      <th className="p-3 border">Xóa</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {listCart.map((item, idx) => (
+                      <tr key={idx} className="text-sm text-gray-700">
+                        <td className="p-3 border text-center">
+                          <input
+                            type="checkbox"
+                            checked={item.books.cartBooks.isChecked}
+                            onChange={() => handleCheckBox(item)}
+                            className="w-[18px] h-[18px] accent-blue-500 cursor-pointer"
+                          />
+                        </td>
+                        <td className="p-3 border text-left flex items-center">
+                          <img
+                            src={item.books.image}
+                            alt="product"
+                            className="w-16 h-16 object-cover rounded-md mr-4"
+                          />
+                          {item.books.name}
+                        </td>
+                        <td className="p-3 border text-center">
+                          {item.books.price.toLocaleString()} đ
+                        </td>
+                        <td className="p-3 border text-center">
+                          <SelectQuantity
+                            quantity={item.books.quantity}
+                            handleChangeQuantity={(flag) =>
+                              handleChangeQuantity(item, flag)
+                            }
+                          />
+                        </td>
+                        <td className="p-3 border text-center">
+                          {(
+                            item.books.price * item.books.quantity
+                          ).toLocaleString()}{" "}
+                          đ
+                        </td>
+                        <td className="p-3 border text-center">
+                          <button
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() => handleDeleteItemChecked(item)}
+                          >
+                            <GoTrash size={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="col-span-12 md:col-span-8 border rounded-lg bg-white shadow-md p-4">
+              <Loading />
+            </div>
+          )}
 
           {/* Summary Section */}
           <div className="col-span-12 md:col-span-4 border rounded-lg bg-white shadow-md p-4">
