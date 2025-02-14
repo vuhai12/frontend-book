@@ -436,8 +436,11 @@ const AdminUser = () => {
               <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
                 Address
               </th>
-              <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
-                Actions
+              <th
+                className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                colSpan={2}
+              >
+                Action
               </th>
             </tr>
           </thead>
@@ -462,7 +465,24 @@ const AdminUser = () => {
                 <td className="px-4 py-2 text-sm text-gray-600">
                   {user.address}
                 </td>
-                <td className="px-4 py-2 text-sm text-gray-600 text-center">
+                <td className="px-4 py-2 text-sm text-gray-600">
+                  <button
+                    className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
+                    onClick={() => handleStartOpenPopupEditUser(user)}
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-600">
+                  <button
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
+                    onClick={() => handleDeleteUser(user)}
+                  >
+                    Delete
+                  </button>
+                </td>
+
+                {/* <td className="px-4 py-2 text-sm text-gray-600 text-center">
                   <button
                     className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
                     onClick={() => handleStartOpenPopupEditUser(user)}
@@ -475,7 +495,7 @@ const AdminUser = () => {
                   >
                     Delete
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

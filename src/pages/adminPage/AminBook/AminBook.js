@@ -462,7 +462,7 @@ const AminBook = () => {
                 </th>
                 <th
                   className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  colSpan={3}
+                  colSpan={2}
                 >
                   Action
                 </th>
