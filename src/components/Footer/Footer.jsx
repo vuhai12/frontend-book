@@ -1,3 +1,4 @@
+import { Copyright } from "lucide-react";
 import React from "react";
 import {
   FaFacebook,
@@ -120,8 +121,17 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {/* <p className="text-center text-gray-500 text-sm flex items-center justify-center gap-1 border-t border-gray-300">
+        <Copyright className="w-4 h-4" /> 2025 by{" "}
+        <span className="font-semibold">VuHai</span>.
+      </p> */}
       <div className="text-center text-sm text-gray-500 pt-5 mt-5 border-t border-gray-300">
-        © 2025 by VuHai.
+        <p className="flex justify-center items-center">
+          <Copyright className="w-4 h-4 mr-1" />
+          <span>
+            2025 by <span className="font-semibold">VuHai</span>.
+          </span>
+        </p>
       </div>
     </footer>
   );
