@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { fetchRegisterToolkit } from "../../redux/slides/userSlice";
 import Swal from "sweetalert2";
 import * as yup from "yup";
+import { AlertCircle } from "lucide-react";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -93,8 +94,14 @@ const Register = () => {
             {...register("name")}
           />
           {errors.name && (
-            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+              {errors.name.message}
+            </p>
           )}
+          {/* {errors.name && (
+            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+          )} */}
         </div>
 
         <div className="mb-4">
@@ -111,8 +118,14 @@ const Register = () => {
             {...register("email")}
           />
           {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+              {errors.email.message}
+            </p>
           )}
+          {/* {errors.email && (
+            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+          )} */}
         </div>
 
         <div className="mb-4">
@@ -128,11 +141,18 @@ const Register = () => {
             placeholder="Nhập mật khẩu"
             {...register("password")}
           />
+
           {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
               {errors.password.message}
             </p>
           )}
+          {/* {errors.password && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.password.message}
+            </p>
+          )} */}
         </div>
 
         <div className="mb-4">
@@ -149,10 +169,17 @@ const Register = () => {
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
               {errors.confirmPassword.message}
             </p>
           )}
+
+          {/* {errors.confirmPassword && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.confirmPassword.message}
+            </p>
+          )} */}
         </div>
 
         <button
