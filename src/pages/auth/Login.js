@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, Link } from "react-router-dom";
 import * as yup from "yup";
 import { fetchLoginToolkit } from "../../redux/slides/userSlice";
+import { AlertCircle } from "lucide-react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -98,8 +99,17 @@ const Login = () => {
             placeholder="Nhập email"
             {...register("email")}
           />
+          {/* {option.error && (
+                      <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                        {errors.email.message}
+                      </p>
+                    )} */}
           {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+              {errors.email.message}
+            </p>
           )}
         </div>
 
@@ -118,10 +128,17 @@ const Login = () => {
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
               {errors.password.message}
             </p>
           )}
+
+          {/* {errors.password && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.password.message}
+            </p>
+          )} */}
         </div>
 
         <button
