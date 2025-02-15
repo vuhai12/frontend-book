@@ -460,7 +460,11 @@ const AdminUser = () => {
                   {user.email}
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-600">
-                  {user.role_code}
+                  {user.role_code == "R1"
+                    ? "Admin"
+                    : user.role_code == "R2"
+                    ? "User"
+                    : user.role_code}
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-600">
                   {user.address}
