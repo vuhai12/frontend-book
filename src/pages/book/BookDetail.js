@@ -37,37 +37,39 @@ const BookDetail = () => {
   }, []);
 
   const handleActionAddToCart = (redirectToCart) => {
-    const { role_code } = jwtDecode(token);
-    if (!role_code) {
+    if (!token) {
       return navigate("/login");
-    }
-    if (role_code == "R1") {
-      Swal.fire({
-        title: "Thông báo!",
-        text: "Tài khoản Admin không mua được sách",
-        icon: "warning",
-        confirmButtonText: "Đóng",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          navigate("/");
-        }
-      });
-    }
-    const payload = {
-      image: location.state.props.image,
-      bid: String(location.state.props.id),
-      quantity,
-      totalPrices: +location.state.props.price * +quantity,
-      isChecked: "0",
-    };
-    if (role_code == "R2") {
-      dispatch(fetchAddCartToolkit(payload)).then(() => {
-        dispatch(fetchCart()).then(() => {
-          if (redirectToCart) {
-            navigate("/cart");
+    } else {
+      const { role_code } = jwtDecode(token);
+      const payload = {
+        image: location.state.props.image,
+        bid: String(location.state.props.id),
+        quantity,
+        totalPrices: +location.state.props.price * +quantity,
+        isChecked: "0",
+      };
+      if (role_code == "R1") {
+        Swal.fire({
+          title: "Thông báo!",
+          text: "Tài khoản Admin không mua được sách",
+          icon: "warning",
+          confirmButtonText: "Đóng",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            navigate("/");
           }
         });
-      });
+      }
+
+      if (role_code == "R2") {
+        dispatch(fetchAddCartToolkit(payload)).then(() => {
+          dispatch(fetchCart()).then(() => {
+            if (redirectToCart) {
+              navigate("/cart");
+            }
+          });
+        });
+      }
     }
   };
 

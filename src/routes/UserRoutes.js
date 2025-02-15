@@ -5,8 +5,8 @@ import { jwtDecode } from "jwt-decode";
 const ProtectedRouteUser = (props) => {
   const token = localStorage?.getItem("access_token");
   const history = createBrowserHistory();
-  const { role_code } = jwtDecode(token);
   if (!token) return <Navigate to="/login" />;
+  const { role_code } = jwtDecode(token);
   if (role_code === "R2") {
     return <>{props.children}</>;
   } else {
