@@ -38,11 +38,11 @@ const BookCard = ({ props }) => {
         {/* Price */}
         <div className="flex items-center gap-2">
           <span className="text-red-500 text-lg font-bold">
-            {props.price.toLocaleString()}₫
+            {(props.price * 1000).toLocaleString()}₫
           </span>
           {props.price && (
             <span className="text-gray-400 text-sm line-through">
-              {(props.price + props.price * 0.5).toLocaleString()}₫
+              {((props.price + props.price * 0.5) * 1000).toLocaleString()}₫
             </span>
           )}
         </div>

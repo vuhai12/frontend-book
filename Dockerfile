@@ -8,10 +8,14 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Cài đặt dependency
-RUN npm install
+RUN npm install 
+
+
 
 # Copy toàn bộ mã nguồn vào container
 COPY . .
+
+RUN npm install 
 
 # Thiết lập biến môi trường
 ARG REACT_APP_API_URL
@@ -24,11 +28,8 @@ ENV REACT_APP_LIMIT_LIST_BOOK=${REACT_APP_LIMIT_LIST_BOOK}
 # Build ứng dụng
 RUN npm run build
 
-# Cài đặt server phục vụ ứng dụng React
-RUN npm install -g serve
-
 # Mở cổng
 EXPOSE 3000
 
 # Chạy ứng dụng
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["npm", "start"]
