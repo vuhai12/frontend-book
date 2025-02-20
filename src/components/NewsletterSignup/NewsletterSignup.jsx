@@ -25,12 +25,12 @@ const NewsletterSignup = () => {
   };
 
   return (
-    <div className=" p-3 flex justify-between  gap-5">
-      <div className="w-[30%] ">
-        <h3 className="text-xl font-semibold flex items-center  gap-3">
+    <div className="p-3 flex flex-col lg:flex-row justify-center lg:justify-between gap-5">
+      <div className="lg:w-[30%] w-full text-center lg:text-start">
+        <h3 className="text-xl flex justify-center items-center lg:justify-start font-semibold lg:flex lg:items-center  gap-3">
           <Mail size={22} /> <span>Đăng ký nhận tin</span>
         </h3>
-        <p className="text-sm text-white mt-1 mb-4">
+        <p className="text-sm text-white mt-1">
           Nhận thông tin mới nhất về sách và khuyến mãi hấp dẫn!
         </p>
       </div>

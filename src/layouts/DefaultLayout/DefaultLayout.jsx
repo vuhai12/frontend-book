@@ -32,7 +32,7 @@ const DefaultLayout = ({ children }) => {
 
       {/* Footer */}
 
-      <div class="w-full pt-3 bg-[#003366] text-white shadow-lg  mx-auto">
+      <div class="w-full py-3 bg-[#003366] text-white shadow-lg  mx-auto">
         <div class="container box-border">
           <NewsletterSignup />
         </div>
