@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Send } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    setEmail("");
+    setMessage("");
+  }, [location.pathname]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

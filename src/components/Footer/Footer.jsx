@@ -125,14 +125,6 @@ const Footer = () => {
         <Copyright className="w-4 h-4" /> 2025 by{" "}
         <span className="font-semibold">VuHai</span>.
       </p> */}
-      <div className="text-center text-sm text-gray-500 pt-5 mt-5 border-t border-gray-300">
-        <p className="flex justify-center items-center">
-          <Copyright className="w-4 h-4 mr-1" />
-          <span>
-            2025 by <span className="font-semibold">VuHai</span>.
-          </span>
-        </p>
-      </div>
     </footer>
   );
 };

@@ -4,6 +4,7 @@ import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Footer from "../../components/Footer/Footer";
 import CommitmentBar from "../../components/CommitmentBar/CommitmentBar";
 import NewsletterSignup from "../../components/NewsletterSignup/NewsletterSignup";
+import { Copyright } from "lucide-react";
 
 const DefaultLayout = ({ children }) => {
   return (
@@ -31,7 +32,7 @@ const DefaultLayout = ({ children }) => {
 
       {/* Footer */}
 
-      <div class="w-full pt-3 bg-[#0073e6] text-white shadow-lg  mx-auto">
+      <div class="w-full pt-3 bg-[#003366] text-white shadow-lg  mx-auto">
         <div class="container box-border">
           <NewsletterSignup />
         </div>
@@ -39,6 +40,12 @@ const DefaultLayout = ({ children }) => {
       <div class="w-full bg-white pt-5">
         <div class="container box-border">
           <Footer />
+        </div>
+        <div className="bg-[#efefef] text-sm text-gray-500 border-t flex items-center justify-center h-12">
+          <Copyright className="w-4 h-4 mr-1" />
+          <span>
+            2025 by <span className="font-semibold">VuHai</span>.
+          </span>
         </div>
       </div>
     </div>
