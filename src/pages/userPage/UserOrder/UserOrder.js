@@ -68,7 +68,7 @@ const UserOrder = () => {
                     {item.isDelivered ? "Đã giao hàng" : "Chưa giao hàng"}
                   </td>
                   <td className="px-4 py-2">
-                    {item.totalPrices.toLocaleString()} VND
+                    {(item.totalPrices * 1000).toLocaleString()} VND
                   </td>
                   <td className="px-4 py-2">
                     {formatDateTime(item.createdAt)}

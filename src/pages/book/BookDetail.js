@@ -49,7 +49,6 @@ const BookDetail = () => {
         totalPrices: +location.state.props.price * +quantity,
         isChecked: "0",
       };
-      console.log("payload", payload);
       if (role_code == "R1") {
         Swal.fire({
           title: "Thông báo!",
@@ -94,11 +93,11 @@ const BookDetail = () => {
 
           <div className="mt-6 flex items-center gap-4">
             <h4 className="text-xl font-semibold text-red-600">
-              {price.toLocaleString()} VNĐ
+              {(price * 1000).toLocaleString()} VNĐ
             </h4>
             {price && (
               <p className="text-lg line-through text-gray-500">
-                {(price + price * 0.5).toLocaleString()} VNĐ
+                {((price + price * 0.5) * 1000).toLocaleString()} VNĐ
               </p>
             )}
           </div>
