@@ -41,10 +41,10 @@ const Footer = () => {
 
         {/* Về Book */}
         <div>
-          <h3 className="font-bold text-lg mb-4">Về Book</h3>
+          <h3 className="font-bold text-lg mb-4">Về BookEng</h3>
           <ul className="space-y-2 text-gray-500 footer-section">
             <li>
-              <a href="#">Giới thiệu về Book</a>
+              <a href="#">Giới thiệu về BookEng</a>
             </li>
             <li>
               <a href="#">Tuyển dụng</a>
@@ -66,7 +66,7 @@ const Footer = () => {
               <a href="#">Quy chế hoạt động</a>
             </li>
             <li>
-              <a href="#">Bán hàng cùng Book</a>
+              <a href="#">Bán hàng cùng BookEng</a>
             </li>
           </ul>
         </div>
@@ -116,7 +116,7 @@ const Footer = () => {
               className="flex items-center space-x-2"
             >
               <HiOutlineMail className="text-xl" />
-              <span>support@Book.vn</span>
+              <span>support@BookEng.vn</span>
             </a>
           </div>
         </div>

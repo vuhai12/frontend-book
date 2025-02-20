@@ -111,7 +111,7 @@ const Header = () => {
           to="/"
           className="text-2xl font-bold text-blue-500 hidden lg:block"
         >
-          Book
+          BookEng
         </Link>
         <FontAwesomeIcon
           className="text-2xl text-blue-500 cursor-pointer block lg:hidden"

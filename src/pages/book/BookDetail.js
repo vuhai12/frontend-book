@@ -41,6 +41,7 @@ const BookDetail = () => {
       return navigate("/login");
     } else {
       const { role_code } = jwtDecode(token);
+
       const payload = {
         image: location.state.props.image,
         bid: String(location.state.props.id),
@@ -48,6 +49,7 @@ const BookDetail = () => {
         totalPrices: +location.state.props.price * +quantity,
         isChecked: "0",
       };
+      console.log("payload", payload);
       if (role_code == "R1") {
         Swal.fire({
           title: "Thông báo!",

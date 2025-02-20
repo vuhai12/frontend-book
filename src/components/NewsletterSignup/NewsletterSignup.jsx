@@ -1,48 +1,53 @@
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Mail, Send } from "lucide-react";
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email.trim() === "") return;
-    setSubmitted(true);
-    setEmail("");
+
+    if (!email.includes("@") || !email.includes(".")) {
+      setMessage("Vui lòng nhập email hợp lệ!");
+      return;
+    }
+
+    setMessage("Cảm ơn bạn đã đăng ký!");
+    setEmail(""); // Xóa input sau khi gửi
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 mt-6">
-      <h5 className="text-lg font-semibold mb-2 flex items-center gap-2">
-        <Mail size={18} /> Đăng ký nhận tin
-      </h5>
-      <p className="text-sm text-gray-600 mb-3">
-        Nhận thông tin khuyến mãi và sách mới nhất!
-      </p>
-
-      {submitted ? (
-        <p className="text-green-600 font-medium">
-          Cảm ơn! Bạn đã đăng ký thành công.
+    <div className=" p-3 flex justify-between  gap-5">
+      <div className="w-[30%] ">
+        <h3 className="text-xl font-semibold flex items-center  gap-3">
+          <Mail size={22} /> <span>Đăng ký nhận tin</span>
+        </h3>
+        <p className="text-sm text-white mt-1 mb-4">
+          Nhận thông tin mới nhất về sách và khuyến mãi hấp dẫn!
         </p>
-      ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      </div>
+      <div className="flex-1">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col sm:flex-row gap-3"
+        >
           <input
             type="email"
-            className="border p-2 rounded w-full"
             placeholder="Nhập email của bạn"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            className="flex-1 w-full p-2 border border-white rounded-md text-black focus:outline-none"
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            className="flex items-center justify-center gap-2 bg-white text-[#0073e6] font-semibold py-2 px-4 rounded-md hover:bg-gray-100 transition-all"
           >
-            Đăng ký
+            <Send size={16} /> Đăng ký
           </button>
         </form>
-      )}
+        {message && <p className="mt-3 text-sm text-yellow-200">{message}</p>}
+      </div>
     </div>
   );
 };

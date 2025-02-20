@@ -1,18 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import bannerSidebar from "../../assets/banner-sidebar.png";
-import bannerSidebar2 from "../../assets/banner-sidebar2.png";
-import bannerSidebar3 from "../../assets/banner-sidebar3.jpg";
-// import bannerSidebar5 from "../../assets/banner-sidebar5.jpg";
+import sidebarBanner from "../../assets/sidebar-banner.png";
+import BestSellerBooks from "../BestSellerBooks/BestSellerBooks";
 
 const SideBarHome = ({ listCategory, titleSideBar }) => {
   return (
     <div className=" w-[270px] h-full   hidden lg:block ">
       <div className="bg-white rounded-[8px] shadow-md">
         <div className="border-b p-4">
-          <h5 className="text-[16px] font-bold text-gray-800">
+          <h3 className="text-[16px] font-bold text-[#0073e6]">
             {titleSideBar}
-          </h5>
+          </h3>
         </div>
         <div className="mt-2">
           {listCategory?.length > 0 &&
@@ -32,26 +30,12 @@ const SideBarHome = ({ listCategory, titleSideBar }) => {
         </div>
       </div>
 
-      {/* <div className="mt-[30px] ">
-        <AdvancedFilters />
-      </div> */}
-
-      <div className="mt-[30px] ">
-        <img src={bannerSidebar} />
-      </div>
       <div className="mt-[30px] rounded-[8px]">
-        <img className="rounded-[8px]" src={bannerSidebar2} />
+        <img className="rounded-[8px]" src={sidebarBanner} />
       </div>
-      <div className="mt-[30px] rounded-[8px]">
-        <img className="rounded-[8px]" src={bannerSidebar3} />
+      <div className="mt-[30px]">
+        <BestSellerBooks />
       </div>
-      {/* <div className="mt-[30px] rounded-[8px]">
-        <img className="rounded-[8px]" src={bannerSidebar5} />
-      </div> */}
-
-      {/* <div className="mt-[30px] ">
-        <NewsletterSignup />
-      </div> */}
     </div>
   );
 };

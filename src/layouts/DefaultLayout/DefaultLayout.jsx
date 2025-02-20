@@ -3,6 +3,7 @@ import Header from "../../components/Header/Header";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Footer from "../../components/Footer/Footer";
 import CommitmentBar from "../../components/CommitmentBar/CommitmentBar";
+import NewsletterSignup from "../../components/NewsletterSignup/NewsletterSignup";
 
 const DefaultLayout = ({ children }) => {
   return (
@@ -29,6 +30,12 @@ const DefaultLayout = ({ children }) => {
       </div>
 
       {/* Footer */}
+
+      <div class="w-full pt-3 bg-[#0073e6] text-white shadow-lg  mx-auto">
+        <div class="container box-border">
+          <NewsletterSignup />
+        </div>
+      </div>
       <div class="w-full bg-white pt-5">
         <div class="container box-border">
           <Footer />
