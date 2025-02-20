@@ -115,7 +115,9 @@ const Payment = () => {
                         <td className="text-center">x {item.books.quantity}</td>
                         <td className="text-right">
                           {(
-                            +item.books.price * +item.books.quantity
+                            +item.books.price *
+                            +item.books.quantity *
+                            1000
                           ).toLocaleString()}{" "}
                           VNĐ
                         </td>

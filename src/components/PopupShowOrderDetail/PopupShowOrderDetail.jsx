@@ -57,11 +57,14 @@ const PopupShowOrderDetail = ({ handleClosePopup, listBooks }) => {
                     </td>
                     <td className="px-4 py-2 border-b">{book.title}</td>
                     <td className="px-4 py-2 border-b">
-                      {book.price.toFixed(2)} VNĐ
+                      {(book.price * 1000).toLocaleString("en-US")} VNĐ
                     </td>
                     <td className="px-4 py-2 border-b">{book.quantity}</td>
                     <td className="px-4 py-2 border-b">
-                      {calculateTotal(book.price, book.quantity).toFixed(2)} VNĐ
+                      {(
+                        calculateTotal(book.price, book.quantity) * 1000
+                      ).toLocaleString("en-US")}{" "}
+                      VNĐ
                     </td>
                   </tr>
                 ))

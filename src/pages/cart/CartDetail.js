@@ -34,17 +34,25 @@ const CartDetail = () => {
   // let listCartBookId = listCart?.map((item) => item.books.id);
 
   const [showPopup, setShowPopup] = useState(false); // Để kiểm tra xem modal có hiển thị không
+  const [idBook, setIdBook] = useState("");
 
   useEffect(() => {
     dispatch(fetchCart());
     dispatch(fetchGetUserByIdToolkit());
   }, []);
 
-  console.log("isLoadingCart", isLoadingCart);
-
   const handleChangeQuantity = useCallback((item, flag) => {
     if (flag === "minus" && item.books.quantity === 1) return;
-    if (flag === "plus" && item.books.quantity > item.books.available) return;
+    if (flag === "plus" && item.books.quantity > item.books.available) {
+      Swal.fire({
+        title: "Thông báo!",
+        text: "Vượt quá số lượng sách có sẵn!",
+        icon: "warning",
+        confirmButtonText: "Đóng",
+      });
+
+      return;
+    }
     if (flag === "minus") {
       dispatch(
         fetchDecrementQuantityBookInCart({
@@ -156,6 +164,8 @@ const CartDetail = () => {
     }
   };
 
+  console.log("listCart", listCart);
+
   return (
     <div className="container mx-auto lg:mt-1 mt-[100px]">
       <h3 className="text-xl font-semibold text-gray-800">Giỏ hàng của bạn</h3>
@@ -165,8 +175,8 @@ const CartDetail = () => {
           {/* Table Section */}
           {!isLoadingCart ? (
             <div className="col-span-12 md:col-span-8 border rounded-lg bg-white shadow-md p-4">
-              <div className="overflow-auto">
-                <table className="w-full">
+              <div className="overflow-auto w-full">
+                <table className="w-full overflow-auto">
                   <thead>
                     <tr className="text-sm font-semibold text-gray-600">
                       <th className="p-3 border">Chọn</th>
@@ -197,8 +207,9 @@ const CartDetail = () => {
                           {item.books.name}
                         </td>
                         <td className="p-3 border text-center">
-                          {item.books.price.toLocaleString()} đ
+                          {(item.books.price * 1000).toLocaleString()} đ
                         </td>
+
                         <td className="p-3 border text-center">
                           <SelectQuantity
                             quantity={item.books.quantity}
@@ -209,7 +220,9 @@ const CartDetail = () => {
                         </td>
                         <td className="p-3 border text-center">
                           {(
-                            item.books.price * item.books.quantity
+                            item.books.price *
+                            item.books.quantity *
+                            1000
                           ).toLocaleString()}{" "}
                           đ
                         </td>
