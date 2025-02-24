@@ -31,7 +31,7 @@ const UserOrder = () => {
         <div className="overflow-x-auto">
           <table className="table-auto w-full bg-white shadow-md rounded-lg">
             <thead>
-              <tr className="bg-blue-500 text-white">
+              <tr className="bg-[#003366] text-white">
                 <th className="px-4 py-2 text-left">STT</th>
                 <th className="px-4 py-2 text-left">Phương thức thanh toán</th>
                 <th className="px-4 py-2 text-left">Số lượng</th>

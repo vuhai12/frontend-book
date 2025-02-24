@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchListBooks } from "../../redux/slides/bookSlice";
@@ -11,16 +11,18 @@ const FeaturedBook = () => {
   const limitListBook = process.env.REACT_APP_LIMIT_LIST_BOOK || 12;
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const isLoading = useSelector((state) => state.book.isLoading);
+  const listBook = useSelector((state) => state.book.listBook);
   const [pageCurent, setCurrentPage] = useState(1);
-  const [allBooks, setAllBooks] = useState([]);
   const params = useParams();
   const category = params.code;
+
   useEffect(() => {
     setCurrentPage(1);
   }, [category]);
 
   useEffect(() => {
     const controller = new AbortController();
+
     dispatch(
       fetchListBooks({
         limitListBook,
@@ -29,16 +31,8 @@ const FeaturedBook = () => {
         category,
         // signal,
       })
-    ).then((res) => {
-      if (pageCurent === 1) {
-        setAllBooks(res.payload?.response?.bookData?.rows || []);
-      } else {
-        setAllBooks((prev) => [
-          ...prev,
-          ...(res.payload?.response?.bookData?.rows || []),
-        ]);
-      }
-    });
+    );
+
     return () => {
       controller.abort();
     };
@@ -60,9 +54,9 @@ const FeaturedBook = () => {
           </div>
         ) : (
           <div className="flex flex-wrap ">
-            {allBooks &&
-              allBooks?.length > 0 &&
-              allBooks?.map((item, index) => {
+            {listBook &&
+              listBook?.length > 0 &&
+              listBook?.map((item, index) => {
                 return (
                   <div
                     className="basis-[100%] mb-[20px] rounded-[8px] p-[5px] md:basis-[33.33%] sm:basis-[50%] lg:basis-[25%]"
@@ -79,14 +73,14 @@ const FeaturedBook = () => {
         )}
 
         {/* Hiển thị nút Xem thêm khi có sách để load */}
-        {allBooks &&
-          allBooks?.length > 0 &&
-          totalBooks > +allBooks.length &&
+        {listBook &&
+          listBook?.length > 0 &&
+          totalBooks > +listBook.length &&
           !isLoading && (
             <div className="text-center">
               <button
                 onClick={handleLoadMore}
-                className="rounded-[5px] border border-blue-500 text-blue-500 px-[30px] py-[5px]"
+                className="rounded-[5px] border border-[#003366] text-[#003366] px-[30px] py-[5px]"
               >
                 Xem thêm
               </button>

@@ -11,7 +11,7 @@ const Breadcrumb = () => {
         <li>
           <Link
             to="/"
-            className="text-blue-600 hover:underline hover:text-blue-800"
+            className="text-[#003366] hover:underline hover:text-[#003366]"
           >
             Home
           </Link>
@@ -30,7 +30,7 @@ const Breadcrumb = () => {
               ) : (
                 <Link
                   to={fullPath}
-                  className="text-blue-600 hover:underline hover:text-blue-800"
+                  className="text-[#003366] hover:underline hover:text-[#003366]"
                 >
                   {decodeURIComponent(path)}
                 </Link>

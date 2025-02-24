@@ -87,7 +87,7 @@ const Register = () => {
           <input
             type="text"
             autoComplete="off"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
               errors.name ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Nhập tên"
@@ -111,7 +111,7 @@ const Register = () => {
           <input
             type="email"
             autoComplete="off"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Nhập email"
@@ -135,7 +135,7 @@ const Register = () => {
           <input
             type="password"
             autoComplete="off"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Nhập mật khẩu"
@@ -162,7 +162,7 @@ const Register = () => {
           <input
             type="password"
             autoComplete="off"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
               errors.confirmPassword ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Xác nhận mật khẩu"
@@ -187,7 +187,7 @@ const Register = () => {
           className={`w-full ${
             isLoading
               ? "bg-gray-600 text-white"
-              : "bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              : "bg-[#003366] text-white hover:bg-[#1c4063] focus:outline-none focus:ring-2 focus:ring-[red-200] "
           }  font-bold py-2 px-4 rounded `}
         >
           {isLoading ? "Đang Đăng Ký" : "Đăng ký"}
@@ -196,7 +196,7 @@ const Register = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Bạn đã có tài khoản rồi?{" "}
-            <Link to="/login" className="text-blue-500 hover:underline">
+            <Link to="/login" className="text-[#003366] hover:underline">
               Đăng nhập
             </Link>
           </p>

@@ -93,7 +93,7 @@ const Login = () => {
           <input
             type="email"
             autoComplete="new-password"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Nhập email"
@@ -121,7 +121,7 @@ const Login = () => {
             type="password"
             autoComplete="new-password"
             name="password"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-[red-200] ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Nhập mật khẩu"
@@ -147,7 +147,7 @@ const Login = () => {
           className={`w-full ${
             isLoading
               ? "bg-gray-600 text-white"
-              : "bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              : "bg-[#003366] text-white hover:bg-[#193b5c] focus:outline-none focus:ring-[red-200]"
           }   font-bold py-2 px-4 rounded `}
         >
           {isLoading ? "Đang Đăng Nhập..." : "Đăng nhập"}
@@ -156,7 +156,7 @@ const Login = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Bạn chưa có tài khoản?{" "}
-            <Link to="/register" className="text-blue-500 hover:underline">
+            <Link to="/register" className="text-[#003366] hover:underline">
               Đăng ký
             </Link>
           </p>

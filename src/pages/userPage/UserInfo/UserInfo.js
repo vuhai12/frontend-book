@@ -6,6 +6,7 @@ import {
   fetchGetUserByIdToolkit,
   fetchUpdateCurrentUser,
 } from "../../../redux/slides/userSlice";
+import Loading from "../../../components/Loading/Loading";
 
 const UserInfo = () => {
   const dispatch = useDispatch();
@@ -153,77 +154,85 @@ const UserInfo = () => {
   return (
     <div className=" min-h-screen">
       <h1 className="text-[20px]  mb-6 ">Cập nhật thông tin cá nhân</h1>
-      <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
-        {/* Ảnh đại diện */}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
+            {/* Ảnh đại diện */}
 
-        <div className="lg:w-1/3 p-6 flex flex-col items-center">
-          {/* Ảnh đại diện */}
-          <img
-            src={items[0].value || ImageDefault}
-            alt="Avatar"
-            className="w-32 h-32 rounded-full object-cover mb-4 border"
-          />
+            <div className="lg:w-1/3 p-6 flex flex-col items-center">
+              {/* Ảnh đại diện */}
+              <img
+                src={items[0].value || ImageDefault}
+                alt="Avatar"
+                className="w-32 h-32 rounded-full object-cover mb-4 border"
+              />
 
-          {/* Input file (ẩn) */}
-          <input
-            type="file"
-            id="avatar"
-            className="hidden"
-            disabled={isLoading}
-            onChange={(e) => handleOnchangeUserData(items[0], e)}
-          />
+              {/* Input file (ẩn) */}
+              <input
+                type="file"
+                id="avatar"
+                className="hidden"
+                disabled={isLoading}
+                onChange={(e) => handleOnchangeUserData(items[0], e)}
+              />
 
-          {/* Nút button để tải lên ảnh */}
-          <button
-            className="bg-blue-500 text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-blue-600"
-            onClick={() => document.getElementById("avatar").click()} // Kích hoạt input file
-            disabled={isLoading}
-          >
-            <Upload className="w-5 h-5" />
-            Tải Avatar
-          </button>
-        </div>
-        {/* Form thông tin */}
-        <div className="lg:w-2/3 p-6">
-          {items.map((item) => {
-            if (item.type === "text" || item.type === "password") {
-              return (
-                <div key={item.id} className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {item.label}
-                  </label>
-                  <input
-                    autoComplete={
-                      item.type === "password" ? "new-password" : "off"
-                    }
-                    type={item.type}
-                    value={item.value}
-                    className="block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
-                    onChange={(e) => handleOnchangeUserData(item, e)}
-                    placeholder={item.placeholder}
-                  />
-                  {item.error && (
-                    <p className="text-red-500 text-sm mt-1">{item.error}</p>
-                  )}
-                </div>
-              );
-            }
-            return null;
-          })}
+              {/* Nút button để tải lên ảnh */}
+              <button
+                className="bg-[#003366] text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-[#1a4067]"
+                onClick={() => document.getElementById("avatar").click()} // Kích hoạt input file
+                disabled={isLoading}
+              >
+                <Upload className="w-5 h-5" />
+                Tải Avatar
+              </button>
+            </div>
+            {/* Form thông tin */}
+            <div className="lg:w-2/3 p-6">
+              {items.map((item) => {
+                if (item.type === "text" || item.type === "password") {
+                  return (
+                    <div key={item.id} className="mb-4">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {item.label}
+                      </label>
+                      <input
+                        autoComplete={
+                          item.type === "password" ? "new-password" : "off"
+                        }
+                        type={item.type}
+                        value={item.value}
+                        className="block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
+                        onChange={(e) => handleOnchangeUserData(item, e)}
+                        placeholder={item.placeholder}
+                      />
+                      {item.error && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {item.error}
+                        </p>
+                      )}
+                    </div>
+                  );
+                }
+                return null;
+              })}
 
-          <button
-            onClick={handleUpdate}
-            disabled={isLoading} // Nút sẽ bị vô hiệu hóa khi loading = true
-            className={`w-full py-2 px-4 rounded-md focus:outline-none focus:ring ${
-              isLoading
-                ? "bg-gray-400 cursor-not-allowed" // Khi loading, đổi màu và không thể nhấn
-                : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-300"
-            }`}
-          >
-            {isLoading ? "Đang lưu..." : "Lưu Thông Tin"}
-          </button>
-        </div>
-      </div>
+              <button
+                onClick={handleUpdate}
+                disabled={isLoading} // Nút sẽ bị vô hiệu hóa khi loading = true
+                className={`w-full py-2 px-4 rounded-md focus:outline-none focus:ring ${
+                  isLoading
+                    ? "bg-gray-400 cursor-not-allowed" // Khi loading, đổi màu và không thể nhấn
+                    : "bg-[#003366] text-white hover:bg-[#183b5e] focus:ring-[#1c4975]"
+                }`}
+              >
+                {isLoading ? "Đang lưu..." : "Lưu Thông Tin"}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

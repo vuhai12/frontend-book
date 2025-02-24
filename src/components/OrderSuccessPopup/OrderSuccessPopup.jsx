@@ -40,7 +40,7 @@ const OrderSuccessPopup = () => {
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <button
         onClick={showSuccessToast}
-        className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none"
+        className="bg-[#003366] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#1c4167] focus:outline-none"
       >
         Place Order
       </button>

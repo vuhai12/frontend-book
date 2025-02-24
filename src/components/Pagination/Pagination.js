@@ -39,7 +39,7 @@ const Pagination = ({
         className={`px-4 py-2 rounded-md text-sm font-semibold ${
           currentPage === 1
             ? "bg-gray-200 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600 text-white"
+            : "bg-[#003366] hover:bg-[#1f4872] text-white"
         }`}
         disabled={currentPage === 1}
         onClick={handlePrev}
@@ -53,7 +53,7 @@ const Pagination = ({
           <button
             className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
               currentPage === 1
-                ? "bg-blue-600 text-white"
+                ? "bg-[#003366] text-white"
                 : "bg-white text-gray-600 hover:bg-blue-100"
             }`}
             onClick={() => setCurrentPage(1)}
@@ -74,7 +74,7 @@ const Pagination = ({
           key={page}
           className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
             page === currentPage
-              ? "bg-blue-600 text-white"
+              ? "bg-[#003366] text-white"
               : "bg-white text-gray-600 hover:bg-blue-100"
           }`}
           onClick={() => setCurrentPage(page)}
@@ -94,7 +94,7 @@ const Pagination = ({
           <button
             className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
               currentPage === pageCount
-                ? "bg-blue-600 text-white"
+                ? "bg-[#003366] text-white"
                 : "bg-white text-gray-600 hover:bg-blue-100"
             }`}
             onClick={() => setCurrentPage(pageCount)}
@@ -109,7 +109,7 @@ const Pagination = ({
         className={`px-4 py-2 rounded-md text-sm font-semibold ${
           currentPage === pageCount
             ? "bg-gray-200 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600 text-white"
+            : "bg-[#003366] hover:bg-[#1f4a75] text-white"
         }`}
         disabled={currentPage === pageCount}
         onClick={handleNext}

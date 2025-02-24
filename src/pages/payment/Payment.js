@@ -7,6 +7,9 @@ import {
   fetchCart,
 } from "../../redux/slides/cartSlice";
 import Loading from "../../components/Loading/Loading";
+import Cash from "../../assets/cash.png";
+import Vnpay from "../../assets/vnpay.png";
+import Momo from "../../assets/momo.jpg";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -32,12 +35,20 @@ const Payment = () => {
   const payments = [
     {
       id: 1,
+      icon: Cash,
       name: "Thanh toán trực tiếp",
       value: "COD",
     },
     {
       id: 2,
-      name: "Thanh toán qua Paypal",
+      icon: Vnpay,
+      name: "Thanh toán qua VNpay",
+      value: "PAYPAL",
+    },
+    {
+      id: 3,
+      icon: Momo,
+      name: "Thanh toán qua Momo",
       value: "PAYPAL",
     },
   ];
@@ -108,7 +119,7 @@ const Payment = () => {
                           <div>
                             <p className="font-semibold">{item.books.name}</p>
                             <p className="text-sm text-gray-500">
-                              {item.books.price.toLocaleString()} VNĐ
+                              {(item.books.price * 1000).toLocaleString()} VNĐ
                             </p>
                           </div>
                         </td>
@@ -141,7 +152,7 @@ const Payment = () => {
                 <div className="mb-3">
                   <h4 className="font-semibold">Hình thức thanh toán:</h4>
                   {payments.map((item) => (
-                    <div key={item.id} className="flex items-center mt-2">
+                    <div key={item.id} className="flex items-center mt-2 gap-2">
                       <input
                         type="radio"
                         checked={isChecked === item.id}
@@ -152,6 +163,7 @@ const Payment = () => {
                         }}
                         id={item.name}
                       />
+                      <img src={item.icon} className="w-6 h-6" />
                       <label htmlFor={item.name} className="text-sm">
                         {item.name}
                       </label>
@@ -161,13 +173,13 @@ const Payment = () => {
                 <div className="mb-3">
                   <p>
                     <span className="font-semibold">Tạm tính:</span>{" "}
-                    {totalPriceCheckedInCart.toLocaleString()} VNĐ
+                    {(totalPriceCheckedInCart * 1000).toLocaleString()} VNĐ
                   </p>
                 </div>
                 <div className="mb-3">
                   <p>
                     <span className="font-semibold">Tổng tiền:</span>{" "}
-                    {totalPriceCheckedInCart.toLocaleString()} VNĐ
+                    {(totalPriceCheckedInCart * 1000).toLocaleString()} VNĐ
                   </p>
                 </div>
                 {isChecked === 2 ? (
@@ -188,7 +200,7 @@ const Payment = () => {
                   </div>
                 ) : (
                   <button
-                    className="w-full bg-blue-600 text-white py-3 rounded-md mt-3 hover:bg-blue-700"
+                    className="w-full bg-[#003366] text-white py-3 rounded-md mt-3 hover:bg-[#003366]"
                     onClick={handleOrder}
                   >
                     Đặt hàng

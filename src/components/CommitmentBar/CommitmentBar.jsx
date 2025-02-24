@@ -4,29 +4,29 @@ import "./CommitmentBar.css";
 export default function CommitmentBar() {
   const items = [
     {
-      icon: <CheckCircle className="w-6 h-6 text-blue-500" />,
+      icon: <CheckCircle className="w-6 h-6 text-[#003366]" />,
       text: "100% Hàng Chính Hãng",
     },
     {
-      icon: <Truck className="w-6 h-6 text-blue-500" />,
+      icon: <Truck className="w-6 h-6 text-[#003366]" />,
       text: "Freeship Mọi Đơn",
     },
     {
-      icon: <RefreshCcw className="w-6 h-6 text-blue-500" />,
+      icon: <RefreshCcw className="w-6 h-6 text-[#003366]" />,
       text: "Hoàn 200% Nếu Hàng Giả",
     },
     {
-      icon: <Clock className="w-6 h-6 text-blue-500" />,
+      icon: <Clock className="w-6 h-6 text-[#003366]" />,
       text: "30 Ngày Đổi Trả",
     },
-    { icon: <Zap className="w-6 h-6 text-blue-500" />, text: "Giao Nhanh 2H" },
-    { icon: <Tag className="w-6 h-6 text-blue-500" />, text: "Giá Siêu Rẻ" },
+    { icon: <Zap className="w-6 h-6 text-[#003366]" />, text: "Giao Nhanh 2H" },
+    { icon: <Tag className="w-6 h-6 text-[#003366]" />, text: "Giá Siêu Rẻ" },
   ];
 
   return (
     <div className="flex items-center bg-white overflow-hidden ">
       {/* Phần chữ "Cam kết" đứng yên */}
-      <h3 className="text-blue-500 font-bold px-4 flex-shrink-0">Cam kết</h3>
+      <h3 className="text-[#003366] font-bold px-4 flex-shrink-0">Cam kết</h3>
 
       {/* Nội dung cuộn liên tục */}
       <div className="relative w-full overflow-hidden">

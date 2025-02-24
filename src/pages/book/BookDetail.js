@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAddCartToolkit, fetchCart } from "../../redux/slides/cartSlice";
 import SelectQuantity from "../../components/SelectQuantity/SelectQuantity";
 import { jwtDecode } from "jwt-decode";
+// import CommentSection from "../../components/CommentSection/CommentSection";
 
 const BookDetail = () => {
   const dispatch = useDispatch();
@@ -118,7 +119,7 @@ const BookDetail = () => {
           <div className="flex flex-col justify-between gap-4">
             <button
               onClick={() => handleActionAddToCart(false)}
-              className="py-2 px-6 w-full flex-1 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              className="py-2 px-6 w-full flex-1 text-white bg-[#003366] rounded-md hover:bg-[#1d456c] focus:outline-none focus:ring-2 focus:ring-[#1d4975] transition-all"
             >
               Thêm giỏ hàng
             </button>
@@ -131,6 +132,7 @@ const BookDetail = () => {
           </div>
         </div>
       </div>
+      {/* <CommentSection idBook={location.state.props.id} /> */}
     </div>
   );
 };

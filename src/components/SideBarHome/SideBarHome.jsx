@@ -8,7 +8,7 @@ const SideBarHome = ({ listCategory, titleSideBar }) => {
     <div className=" w-[270px] h-full   hidden lg:block ">
       <div className="bg-white rounded-[8px] shadow-md">
         <div className="border-b p-4">
-          <h3 className="text-[16px] font-bold text-[#0073e6]">
+          <h3 className="text-[16px] font-bold text-[#003366]">
             {titleSideBar}
           </h3>
         </div>
@@ -20,7 +20,7 @@ const SideBarHome = ({ listCategory, titleSideBar }) => {
                 className={({ isActive }) =>
                   isActive
                     ? "text-blue-900 font-semibold bg-gray-200 block py-3 px-4 text-sm "
-                    : "text-gray-700 hover:text-white hover:bg-blue-600 block py-3 px-4 text-sm"
+                    : "text-gray-700 hover:text-white hover:bg-[#003366] block py-3 px-4 text-sm"
                 }
                 to={`/category-${item.code}`}
               >

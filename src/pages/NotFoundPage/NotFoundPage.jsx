@@ -19,7 +19,7 @@ const NotFoundPage = () => {
       </p>
       <button
         onClick={goHome}
-        className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+        className="px-6 py-2 bg-[#003366] text-white rounded-lg shadow hover:bg-[#1b4168]"
       >
         Go Back to Home
       </button>

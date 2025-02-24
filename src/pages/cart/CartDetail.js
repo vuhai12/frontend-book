@@ -164,8 +164,6 @@ const CartDetail = () => {
     }
   };
 
-  console.log("listCart", listCart);
-
   return (
     <div className="container mx-auto lg:mt-1 mt-[100px]">
       <h3 className="text-xl font-semibold text-gray-800">Giỏ hàng của bạn</h3>
@@ -278,7 +276,7 @@ const CartDetail = () => {
             Hãy thêm một vài sản phẩm vào giỏ hàng để bắt đầu mua sắm.
           </p>
           <button
-            className="bg-blue-500 text-white py-2 px-6 mt-6 rounded-md hover:bg-blue-600"
+            className="bg-[#003366] text-white py-2 px-6 mt-6 rounded-md hover:bg-[#1e4770]"
             onClick={() => navigate("/")}
           >
             Mua sắm ngay
