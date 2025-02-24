@@ -182,6 +182,10 @@ export const userSlice = createSlice({
       state.isLoading = false;
       // Add user to the state array
     });
+    builder.addCase(fetchGetUserByIdToolkit.rejected, (state, action) => {
+      state.isLoading = false;
+      // Add user to the state array
+    });
 
     builder.addCase(fetchGetUserByIdToolkit.pending, (state, action) => {
       state.isLoading = true;

@@ -375,7 +375,7 @@ const AdminUser = () => {
     <div className=" p-5 bg-gray-50 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+          className="bg-[#003366] text-white px-4 py-2 rounded-lg hover:bg-[#003366"
           onClick={handleStartOpenPopupAddUser}
         >
           Add User

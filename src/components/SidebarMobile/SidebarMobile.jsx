@@ -56,7 +56,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
   return (
     <div className="w-[60%] h-full bg-white shadow-lg overflow-y-auto absolute left-0 top-0 z-50">
       {/* Logo */}
-      <div className="flex justify-between items-center  p-4 bg-blue-500">
+      <div className="flex justify-between items-center  p-4 bg-[#003366">
         <Link to="/" className="text-2xl font-bold text-white">
           Book
         </Link>
@@ -102,7 +102,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
                 className={({ isActive }) =>
                   isActive
                     ? "text-blue-900   pl-[64px] ml-[-48px] w-[calc(100%+64px)] font-semibold bg-gray-200 block py-3 px-4 text-sm "
-                    : "text-gray-700  hover:pl-[64px] hover:ml-[-48px] hover:w-[calc(100%+64px)]      hover:text-white hover:bg-blue-600 block py-3 px-4 text-sm"
+                    : "text-gray-700  hover:pl-[64px] hover:ml-[-48px] hover:w-[calc(100%+64px)] hover:text-white hover:bg-[#003366] block py-3 px-4 text-sm"
                 }
                 to={`/category-${category.code}`}
               >
@@ -149,7 +149,7 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
           ) : (
             <Link
               to="/login"
-              className="w-full flex items-center justify-center gap-3 px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-md transition-transform transform  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+              className="w-full flex items-center justify-center gap-3 px-4 py-2 text-sm font-medium text-white bg-[#003366] hover:bg-[#003366] rounded-md shadow-md transition-transform transform  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1b426a]"
             >
               <FaUser size={20} />
               <span>Đăng nhập</span>

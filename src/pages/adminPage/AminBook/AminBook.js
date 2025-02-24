@@ -104,7 +104,7 @@ const fileds = [
 const AminBook = () => {
   const [isShowAddModel, setIsShowAddModel] = useState(false);
   const listCategory = useSelector((state) => state.user.listCategory);
-  const listBook = useSelector((state) => state.book.listBook);
+  const listBookAdmin = useSelector((state) => state.book.listBookAdmin);
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
@@ -118,6 +118,7 @@ const AminBook = () => {
   const isLoadingEditBook = useSelector(
     (state) => state.book.isLoadingEditBook
   );
+  const offset = (pageCurent - 1) * limitListBook;
   const isLoadingAddBook = useSelector((state) => state.book.isLoadingAddBook);
 
   const dispatch = useDispatch();
@@ -379,7 +380,7 @@ const AminBook = () => {
         <div className="flex justify-between items-center mb-4">
           <button
             onClick={openAdd}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+            className="bg-[#003366] text-white px-4 py-2 rounded-lg hover:bg-[#003366"
           >
             Add Book
           </button>
@@ -469,13 +470,13 @@ const AminBook = () => {
               </tr>
             </thead>
             <tbody>
-              {listBook &&
-                listBook?.length > 0 &&
-                listBook?.map((item, idx) => {
+              {listBookAdmin &&
+                listBookAdmin?.length > 0 &&
+                listBookAdmin?.map((item, idx) => {
                   return (
                     <tr key={item.id} className="border-b border-gray-200">
                       <td className="px-4 py-2 text-sm text-gray-600">
-                        {idx + 1}
+                        {offset + idx + 1}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600">
                         <img

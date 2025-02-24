@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../redux/slides/cartSlice";
-import { fetchListBooks } from "../../redux/slides/bookSlice";
+import { fetchListBooks, searchBooks } from "../../redux/slides/bookSlice";
 import {
   fetchGetListCategoryToolkit,
   fetchLogoutToolkit,
@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import SidebarMobile from "../SidebarMobile/SidebarMobile";
 import account from "../../assets/header-account.png";
-import cart from "../../assets/header-cart.png";
 import { AiOutlineHome, AiFillHome, AiOutlineSearch } from "react-icons/ai";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
@@ -109,12 +109,12 @@ const Header = () => {
       <div className="flex items-center">
         <Link
           to="/"
-          className="text-2xl font-bold text-blue-500 hidden lg:block"
+          className="text-2xl font-bold text-[#003366] hidden lg:block"
         >
           BookEng
         </Link>
         <FontAwesomeIcon
-          className="text-2xl text-blue-500 cursor-pointer block lg:hidden"
+          className="text-2xl text-[#003366] cursor-pointer block lg:hidden"
           onClick={handleOpenSideBarMobile}
           icon={faBars}
         />
@@ -134,7 +134,7 @@ const Header = () => {
           />
           <button
             onClick={handleSubmit}
-            className="w-[25%] h-full py-2 hidden lg:block text-white bg-blue-500 rounded-r-lg hover:bg-blue-600"
+            className="w-[25%] h-full py-2 hidden lg:block text-white bg-[#003366] rounded-r-lg hover:[#003366]"
           >
             Tìm kiếm
           </button>
@@ -147,7 +147,7 @@ const Header = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "hidden lg:flex  items-center space-x-2 text-blue-500 px-[10px] py-[5px] rounded-[5px]"
+              ? "hidden lg:flex  items-center space-x-2 text-[#003366] px-[10px] py-[5px] rounded-[5px]"
               : "hidden lg:flex  items-center text-[12px] space-x-2 text-gray-500 hover:bg-gray-200 px-[10px] py-[5px] rounded-[5px]"
           }
         >
@@ -210,11 +210,12 @@ const Header = () => {
 
         {/* Cart */}
         <div className="cursor-pointer relative" onClick={handleCart}>
-          <img
+          {/* <img
             src={cart}
             alt="cart"
             className="h-[24px] w-auto  object-contain"
-          />
+          /> */}
+          <FaShoppingCart size={24} color="#003366" />
           {listCart?.length > 0 && roleCode() && (
             <div className="absolute top-[-8px] right-[-8px] flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
               {listCart.length}

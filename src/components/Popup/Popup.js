@@ -113,7 +113,7 @@ const Popup = ({
                     />
                     {/* Nút button để tải lên ảnh */}
                     <button
-                      className="bg-blue-500 text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-blue-600"
+                      className="bg-[#003366] text-white px-2 py-2 flex items-center gap-1 rounded-lg hover:bg-[#003366]"
                       onClick={() => document.getElementById("avatar").click()}
                     >
                       <Upload className="w-5 h-5" />
@@ -208,7 +208,7 @@ const Popup = ({
               className={`w-full font-semibold py-2 rounded-lg transition-all ${
                 isLoading
                   ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-[#003366] hover:bg-[#003366] text-white"
               }`}
               disabled={isLoading}
               onClick={onAction}

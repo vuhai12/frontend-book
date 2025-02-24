@@ -58,7 +58,7 @@ const BestSellerBooks = () => {
   return (
     <div className="mt-8  bg-white shadow-md rounded-lg">
       <div className="border-b p-4">
-        <h3 className="text-[16px] font-bold text-[#0073e6]">
+        <h3 className="text-[16px] font-bold text-[#003366]">
           Sách Mới Bán Chạy
         </h3>
       </div>

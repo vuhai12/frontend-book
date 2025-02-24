@@ -25,20 +25,12 @@ const NewsletterSignup = () => {
   };
 
   return (
-    <div className="p-3 flex flex-col lg:flex-row justify-center lg:justify-between gap-5">
-      <div className="lg:w-[30%] w-full text-center lg:text-start">
-        <h3 className="text-xl flex justify-center items-center lg:justify-start font-semibold lg:flex lg:items-center  gap-3">
-          <Mail size={22} /> <span>Đăng ký nhận tin</span>
-        </h3>
-        <p className="text-sm text-white mt-1">
-          Nhận thông tin mới nhất về sách và khuyến mãi hấp dẫn!
-        </p>
-      </div>
-      <div className="flex-1">
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row gap-3"
-        >
+    <div className="p-2 flex flex-col justify-center items-center gap-3">
+      <h3 className="text-xl flex justify-center items-center  font-semibold gap-3 w-full">
+        <Mail size={22} /> <span>Đăng ký nhận tin</span>
+      </h3>
+      <div className="w-full">
+        <form onSubmit={handleSubmit} className="flex gap-3">
           <input
             type="email"
             placeholder="Nhập email của bạn"
@@ -55,6 +47,9 @@ const NewsletterSignup = () => {
         </form>
         {message && <p className="mt-3 text-sm text-yellow-200">{message}</p>}
       </div>
+      <p className="text-sm text-white mt-1 text-center">
+        Nhận thông tin mới nhất về sách và khuyến mãi hấp dẫn!
+      </p>
     </div>
   );
 };

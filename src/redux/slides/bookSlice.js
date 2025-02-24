@@ -78,6 +78,7 @@ export const bookSlice = createSlice({
   name: "book",
   initialState: {
     listBook: [],
+    listBookAdmin: [],
     auth: false,
     edittingBook: {},
     isShowModal: false,
@@ -132,7 +133,16 @@ export const bookSlice = createSlice({
     });
 
     builder.addCase(fetchListBooks.fulfilled, (state, action) => {
-      (state.listBook = action.payload?.response?.bookData?.rows),
+      if (action.payload?.data?.pageCurent === 1) {
+        state.listBook = action.payload?.response?.bookData?.rows; // 🔹 Trang đầu: Reset danh sách
+      } else {
+        state.listBook = [
+          ...state.listBook,
+          ...action.payload?.response?.bookData?.rows,
+        ]; // 🔹 Load thêm: Giữ sách cũ
+      }
+      // (state.listBook = action.payload?.response?.bookData?.rows),
+      (state.listBookAdmin = action.payload?.response?.bookData?.rows),
         (state.totalBooks = action.payload?.response.bookData?.count),
         (state.statusLoading = false),
         (state.searchString = action.payload?.data?.searchString),
@@ -173,7 +183,7 @@ export const bookSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { startEdittingPostBook, showModal, hideModal } =
+export const { startEdittingPostBook, showModal, hideModal, searchBooks } =
   bookSlice.actions;
 
 export default bookSlice.reducer;
