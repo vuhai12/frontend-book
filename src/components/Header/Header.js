@@ -14,6 +14,7 @@ import SidebarMobile from "../SidebarMobile/SidebarMobile";
 import account from "../../assets/header-account.png";
 import { AiOutlineHome, AiFillHome, AiOutlineSearch } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
+import { useSocket } from "../../context/SocketContext";
 
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
@@ -23,6 +24,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage?.getItem("access_token");
+  const socket = useSocket();
 
   useEffect(() => {
     dispatch(fetchGetListCategoryToolkit());
@@ -62,6 +64,7 @@ const Header = () => {
     dispatch(fetchLogoutToolkit()).then(() => {
       localStorage.clear();
       dispatch(fetchCart());
+      socket.disconnect();
       navigate("/login");
     });
   };

@@ -3,10 +3,11 @@ import {
   apiCreateOrder,
   apiGetOrders,
   apiGetOrderById,
+  apiCreatePaymentWithVnpay,
 } from "../../services/OrderService";
 
 export const fetchCreateOrderToolkit = createAsyncThunk(
-  "users/fetchCreateOrderToolkit",
+  "order/fetchCreateOrderToolkit",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiCreateOrder(data);
@@ -18,7 +19,7 @@ export const fetchCreateOrderToolkit = createAsyncThunk(
 );
 
 export const fetchGetOrdersToolkit = createAsyncThunk(
-  "users/fetchGetOrdersToolkit",
+  "order/fetchGetOrdersToolkit",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetOrders();
@@ -30,10 +31,26 @@ export const fetchGetOrdersToolkit = createAsyncThunk(
 );
 
 export const fetchGetOrderByIdToolkit = createAsyncThunk(
-  "users/fetchGetOrderByIdToolkit",
+  "order/fetchGetOrderByIdToolkit",
   async (data, { rejectWithValue }) => {
     try {
       const response = await apiGetOrderById();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createPaymentWithVnpay = createAsyncThunk(
+  "order/createPaymentWithVnpay",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await apiCreatePaymentWithVnpay({
+        amount: data.amount,
+        bankCode: "NCB",
+      });
+      console.log("response", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -53,11 +70,13 @@ export const orderSlice = createSlice({
     builder.addCase(fetchGetOrdersToolkit.fulfilled, (state, action) => {
       state.listOrders = action.payload;
     });
-  },
-
-  extraReducers: (builder) => {
     builder.addCase(fetchGetOrderByIdToolkit.fulfilled, (state, action) => {
       state.listOrderById = action.payload.orderData;
+    });
+    builder.addCase(createPaymentWithVnpay.fulfilled, (state, action) => {
+      if (action.payload.paymentUrl) {
+        window.location.href = action.payload.paymentUrl;
+      }
     });
   },
 });
