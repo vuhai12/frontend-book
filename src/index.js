@@ -10,6 +10,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>;
 
 import { PersistGate } from "redux-persist/integration/react";
+import { SocketProvider } from "./context/SocketContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +18,9 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>

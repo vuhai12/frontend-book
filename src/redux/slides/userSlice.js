@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiRegister, apiLogin } from "../../services/AuthService";
+import {
+  apiRegister,
+  apiLogin,
+  apirequestPasswordReset,
+  apiResetPassword,
+} from "../../services/AuthService";
 import { apiGetCategory } from "../../services/CategoryService";
 import {
   apiDeleteUser,
@@ -16,6 +21,30 @@ export const fetchLoginToolkit = createAsyncThunk(
   async (body, { rejectWithValue }) => {
     try {
       const response = await apiLogin(body.email, body.password);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const requestPasswordReset = createAsyncThunk(
+  "users/requestPasswordReset",
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await apirequestPasswordReset(body.email);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "users/resetPassword",
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await apiResetPassword(body.token, body.newPassword);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -188,6 +217,33 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(fetchGetUserByIdToolkit.pending, (state, action) => {
+      state.isLoading = true;
+      // Add user to the state array
+    });
+
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.isLoading = false;
+      // Add user to the state array
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.isLoading = false;
+      // Add user to the state array
+    });
+
+    builder.addCase(resetPassword.pending, (state, action) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(requestPasswordReset.fulfilled, (state, action) => {
+      state.isLoading = false;
+      // Add user to the state array
+    });
+    builder.addCase(requestPasswordReset.rejected, (state, action) => {
+      state.isLoading = false;
+      // Add user to the state array
+    });
+
+    builder.addCase(requestPasswordReset.pending, (state, action) => {
       state.isLoading = true;
       // Add user to the state array
     });

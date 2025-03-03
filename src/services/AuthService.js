@@ -8,3 +8,14 @@ export const apiLogin = (email, password) =>
     email,
     password,
   });
+
+export const apirequestPasswordReset = (email) =>
+  axiosConfig.post("/auth/forgot-password", {
+    email,
+  });
+
+export const apiResetPassword = (token, newPassword) =>
+  axiosConfig.post("/auth/reset-password", {
+    token,
+    newPassword,
+  });

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCreateOrderToolkit } from "../../redux/slides/orderSlice";
-import { useNavigate } from "react-router-dom";
+import {
+  createPaymentWithVnpay,
+  fetchCreateOrderToolkit,
+} from "../../redux/slides/orderSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   fetchCheckedBooksInCart,
   fetchCart,
@@ -16,6 +19,7 @@ const Payment = () => {
   const [isChecked, setIsChecked] = useState(1);
   const [methodPayment, setMethodPayment] = useState("Giao hàng trực tiếp");
   const navigate = useNavigate();
+  const location = useLocation();
   const isLoadingCart = useSelector((state) => state.cart.isLoadingCart);
 
   const listBookInCartChecked = useSelector(
@@ -43,46 +47,101 @@ const Payment = () => {
       id: 2,
       icon: Vnpay,
       name: "Thanh toán qua VNpay",
-      value: "PAYPAL",
+      value: "VNpay",
     },
-    {
-      id: 3,
-      icon: Momo,
-      name: "Thanh toán qua Momo",
-      value: "PAYPAL",
-    },
+    // {
+    //   id: 3,
+    //   icon: Momo,
+    //   name: "Thanh toán qua Momo",
+    //   value: "Momo",
+    // },
   ];
 
   useEffect(() => {
     dispatch(fetchCheckedBooksInCart());
   }, [dispatch]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const responseCode = params.get("vnp_ResponseCode");
+
+    if (responseCode) {
+      if (responseCode === "00") {
+        dispatch(
+          fetchCreateOrderToolkit({
+            listBookInCartChecked,
+            address,
+            methodPayment: "Thanh toán bằng Vnpay",
+            totalPriceCheckedInCart,
+          })
+        ).then(() => {
+          Swal.fire({
+            title: "Thông báo!",
+            text: "Đặt hàng thành công",
+            icon: "success",
+            confirmButtonText: "Đóng",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              dispatch(fetchCheckedBooksInCart())
+                .then(() => {
+                  dispatch(fetchCart());
+                })
+                .then(() => {
+                  navigate("/");
+                });
+            }
+          });
+        });
+        // alert("Thanh toán thành công!");
+      } else {
+        Swal.fire({
+          title: "Thông báo!",
+          text: "Đặt hàng thất bại",
+          icon: "error",
+          confirmButtonText: "Đóng",
+        });
+      }
+
+      // Sau 3s, điều hướng về trang chủ
+      setTimeout(() => navigate("/"), 3000);
+    }
+  }, [location.search, navigate]); // Chỉ chạy khi URL thay đổi
+
   const handleOrder = () => {
-    dispatch(
-      fetchCreateOrderToolkit({
-        listBookInCartChecked,
-        address,
-        methodPayment,
-        totalPriceCheckedInCart,
-      })
-    ).then(() => {
-      Swal.fire({
-        title: "Thông báo!",
-        text: "Đặt hàng thành công",
-        icon: "success",
-        confirmButtonText: "Đóng",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(fetchCheckedBooksInCart())
-            .then(() => {
-              dispatch(fetchCart());
-            })
-            .then(() => {
-              navigate("/");
-            });
-        }
+    if (isChecked == 1) {
+      dispatch(
+        fetchCreateOrderToolkit({
+          listBookInCartChecked,
+          address,
+          methodPayment,
+          totalPriceCheckedInCart,
+        })
+      ).then(() => {
+        Swal.fire({
+          title: "Thông báo!",
+          text: "Đặt hàng thành công",
+          icon: "success",
+          confirmButtonText: "Đóng",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(fetchCheckedBooksInCart())
+              .then(() => {
+                dispatch(fetchCart());
+              })
+              .then(() => {
+                navigate("/");
+              });
+          }
+        });
       });
-    });
+    }
+    if (isChecked == 2) {
+      dispatch(
+        createPaymentWithVnpay({ amount: totalPriceCheckedInCart * 1000 })
+      ).then((res) => {
+        console.log("res", res);
+      });
+    }
   };
 
   return (
@@ -182,30 +241,13 @@ const Payment = () => {
                     {(totalPriceCheckedInCart * 1000).toLocaleString()} VNĐ
                   </p>
                 </div>
-                {isChecked === 2 ? (
-                  <div className="mt-3">
-                    {/* <PayPalButton
-                  amount={(totalPriceCheckedInCart / 24000).toFixed(2)}
-                  onSuccess={(details, data) => {
-                    alert(
-                      "Thanh toán thành công bởi " +
-                        details.payer.name.given_name
-                    );
-                    return fetch("/paypal-transaction-complete", {
-                      method: "post",
-                      body: JSON.stringify({ orderID: data.orderID }),
-                    });
-                  }}
-                /> */}
-                  </div>
-                ) : (
-                  <button
-                    className="w-full bg-[#003366] text-white py-3 rounded-md mt-3 hover:bg-[#003366]"
-                    onClick={handleOrder}
-                  >
-                    Đặt hàng
-                  </button>
-                )}
+
+                <button
+                  className="w-full bg-[#003366] text-white py-3 rounded-md mt-3 hover:bg-[#003366]"
+                  onClick={handleOrder}
+                >
+                  Đặt hàng
+                </button>
               </div>
             </div>
           ) : (

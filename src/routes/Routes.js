@@ -86,4 +86,14 @@ export const routeAuth = [
     page: lazy(() => import("../pages/auth/Register")),
     isShowHeader: true,
   },
+  {
+    path: "/forgot-password",
+    page: lazy(() => import("../pages/auth/ForgotPassword")),
+    isShowHeader: true,
+  },
+  {
+    path: "/reset-password",
+    page: lazy(() => import("../pages/auth/ResetPassword")),
+    isShowHeader: true,
+  },
 ];

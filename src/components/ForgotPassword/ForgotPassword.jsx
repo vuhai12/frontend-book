@@ -8,7 +8,7 @@ import { fetchLoginToolkit } from "../../redux/slides/userSlice";
 import { AlertCircle } from "lucide-react";
 import { useSocket } from "../../context/SocketContext";
 
-const Login = () => {
+const ForgotPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector((state) => state.user.isLoading);
@@ -139,12 +139,6 @@ const Login = () => {
               {errors.password.message}
             </p>
           )}
-
-          {/* {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password.message}
-            </p>
-          )} */}
         </div>
 
         <button
@@ -158,17 +152,14 @@ const Login = () => {
         >
           {isLoading ? "Đang Đăng Nhập..." : "Đăng nhập"}
         </button>
-        <p
-          className="text-sm text-gray-600 underline mt-3 text-center cursor-pointer"
-          onClick={() => navigate("/forgot-password")}
-        >
+        <p className="text-sm text-gray-600 hover:underline mt-3 text-center cursor-pointer">
           Quên mật khẩu
         </p>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Bạn chưa có tài khoản?{" "}
-            <Link to="/register" className="text-[#003366] underline">
+            <Link to="/register" className="text-[#003366] hover:underline">
               Đăng ký
             </Link>
           </p>
@@ -178,4 +169,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
