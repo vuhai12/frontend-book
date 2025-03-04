@@ -66,8 +66,9 @@ const BestSellerBooks = () => {
         Sách Mới Bán Chạy
       </h3> */}
       <div className="mt-3 space-y-4 p-4">
-        {bestSellerBooks.map((book) => (
+        {bestSellerBooks.map((book, index) => (
           <div
+            key={index}
             onClick={() => handleViewDetail(book)}
             className="h-[150px] cursor-pointer p-2 flex gap-3 rounded-lg bg-white  lg:hover:scale-105 transition-transform duration-200 border border-transparent hover:border-gray-200"
           >
