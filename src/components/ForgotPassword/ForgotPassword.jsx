@@ -74,7 +74,6 @@ const ForgotPassword = () => {
         });
       }
     } catch (error) {
-      console.log("err", error);
       Swal.fire({
         title: "Thông báo!",
         text: "An unexpected error occurred",

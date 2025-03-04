@@ -37,11 +37,8 @@ const ResetPassword = () => {
   });
 
   const onSubmit = async ({ newPassword }) => {
-    console.log("token", token);
-    console.log("newPassword", newPassword);
     try {
       dispatch(resetPassword({ token, newPassword })).then((res) => {
-        console.log("res", res);
         if (res.payload.error == 0) {
           Swal.fire({
             title: "Thông báo!",

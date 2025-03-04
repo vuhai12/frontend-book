@@ -50,7 +50,6 @@ export const createPaymentWithVnpay = createAsyncThunk(
         amount: data.amount,
         bankCode: "NCB",
       });
-      console.log("response", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

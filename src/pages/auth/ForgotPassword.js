@@ -42,7 +42,6 @@ const ForgotPassword = () => {
           }
         });
       });
-      console.log("email", email);
     } catch (error) {
       console.log("err", error);
     }
