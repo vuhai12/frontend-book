@@ -16,7 +16,6 @@ export const SocketProvider = ({ children }) => {
     const token = localStorage.getItem("access_token"); // ✅ Lấy token đã lưu
 
     if (token) {
-      console.log("🔄 Kết nối lại socket với token:", token);
       socket.auth = { token }; // ✅ Gửi lại token khi kết nối lại
       socket.connect();
     }

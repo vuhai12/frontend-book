@@ -9,9 +9,7 @@ export const fetchlistConversations = createAsyncThunk(
   "message/fetchlistConversations",
   async (data, { rejectWithValue, signal }) => {
     try {
-      console.log("data", data);
       const response = await apigetConversations(data?.userId);
-      console.log("response", response);
       return {
         data: response.listConversations,
       };
@@ -26,7 +24,6 @@ export const fetchlistUsersChatWithAdmin = createAsyncThunk(
   async (data, { rejectWithValue, signal }) => {
     try {
       const response = await apigetListUserChatWithAdmin();
-      console.log("response", response);
       return {
         data: response.userListWithLastMessage,
       };
@@ -40,9 +37,7 @@ export const sendMessage = createAsyncThunk(
   "message/sendMessage",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("data", data);
       const response = await apisendMessage(data);
-      console.log("response", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
