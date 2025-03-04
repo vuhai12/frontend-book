@@ -73,6 +73,7 @@ const Payment = () => {
             address,
             methodPayment: "Thanh toán bằng Vnpay",
             totalPriceCheckedInCart,
+            isPaid: true,
           })
         ).then(() => {
           Swal.fire({
@@ -99,11 +100,15 @@ const Payment = () => {
           text: "Đặt hàng thất bại",
           icon: "error",
           confirmButtonText: "Đóng",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
         });
       }
 
       // Sau 3s, điều hướng về trang chủ
-      setTimeout(() => navigate("/"), 3000);
+      // setTimeout(() => navigate("/"), 3000);
     }
   }, [location.search, navigate]); // Chỉ chạy khi URL thay đổi
 
@@ -115,6 +120,7 @@ const Payment = () => {
           address,
           methodPayment,
           totalPriceCheckedInCart,
+          isPaid: false,
         })
       ).then(() => {
         Swal.fire({
