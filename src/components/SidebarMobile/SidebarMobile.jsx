@@ -57,12 +57,12 @@ const SidebarMobile = ({ isShowSidebarMobile, handleCloseSidebar }) => {
     <div className="w-[60%] h-full bg-white shadow-lg overflow-y-auto absolute left-0 top-0 z-50">
       {/* Logo */}
       <div className="flex justify-between items-center  p-4 bg-[#003366">
-        <Link to="/" className="text-2xl font-bold text-white">
-          Book
+        <Link to="/" className="text-2xl font-bold text-[#003366]">
+          BookEng
         </Link>
         {isShowSidebarMobile && (
           <FontAwesomeIcon
-            className="text-2xl text-white cursor-pointer"
+            className="text-2xl text-[#003366] cursor-pointer"
             onClick={handleCloseSidebar}
             icon={faTimes}
           />
