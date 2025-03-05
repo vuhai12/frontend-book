@@ -8,7 +8,7 @@ import {
 } from "../../services/BookService";
 
 export const fetchListBooks = createAsyncThunk(
-  "users/fetchListBooks",
+  "books/fetchListBooks",
   async (data, { rejectWithValue, signal }) => {
     try {
       const response = await apiGetBook({ ...data, signal });
