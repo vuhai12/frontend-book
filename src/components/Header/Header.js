@@ -79,6 +79,7 @@ const Header = () => {
         searchString,
       })
     ).then(() => {
+      console.log("chạy");
       navigate("/");
     });
   };

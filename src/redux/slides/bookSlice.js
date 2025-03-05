@@ -9,16 +9,31 @@ import {
 
 export const fetchListBooks = createAsyncThunk(
   "books/fetchListBooks",
-  async (data, { rejectWithValue, signal }) => {
+  async (data, { rejectWithValue, signal, getState }) => {
     try {
+      const { book } = getState();
+      const cacheKey = `${data.pageCurent}-${data.limitListBook}`;
+      if (book.cacheListBooks[cacheKey]?.length > 0 && !data.searchString) {
+        console.log("vào đây");
+        return {
+          pageCurent: data.pageCurent,
+          data: book.cacheListBooks[cacheKey],
+          count: book.totalBooks,
+          searchString: book.searchString,
+          limitListBook: data.limitListBook,
+        };
+      }
       const response = await apiGetBook({ ...data, signal });
+      console.log("response", response);
       return {
-        response,
-        data,
+        pageCurent: data.pageCurent,
+        data: response?.bookData.rows,
+        count: response?.bookData.count,
+        searchString: data?.searchString,
+        limitListBook: data.limitListBook,
       };
     } catch (error) {
       if (signal.aborted) {
-        // Trường hợp request bị hủy bỏ
         return rejectWithValue({ message: "Request was aborted" });
       }
       return rejectWithValue(error.response.data);
@@ -79,11 +94,10 @@ export const bookSlice = createSlice({
   initialState: {
     listBook: [],
     listBookAdmin: [],
-    auth: false,
+    cacheListBooks: {},
     edittingBook: {},
     isShowModal: false,
     totalBooks: 0,
-    statusLoading: false,
     searchString: "",
     listUsers: [],
     error: null,
@@ -108,10 +122,6 @@ export const bookSlice = createSlice({
       };
     },
 
-    globalLoading: (action, state) => {
-      state.statusLoading = action.payload;
-    },
-
     showModal: (state, action) => {
       state.isShowModal = true;
     },
@@ -127,36 +137,32 @@ export const bookSlice = createSlice({
     });
 
     builder.addCase(fetchListBooks.pending, (state, action) => {
-      (state.statusLoading = true),
-        (state.searchString = ""),
-        (state.isLoading = true);
+      (state.searchString = ""), (state.isLoading = true);
+    });
+
+    builder.addCase(fetchListBooks.rejected, (state, action) => {
+      state.isLoading = false;
     });
 
     builder.addCase(fetchListBooks.fulfilled, (state, action) => {
-      if (action.payload?.data?.pageCurent === 1) {
-        state.listBook = action.payload?.response?.bookData?.rows; // 🔹 Trang đầu: Reset danh sách
+      const cacheKey = `${action.payload.pageCurent}-${action.payload.limitListBook}`;
+      if (action.payload.pageCurent === 1) {
+        state.listBook = action.payload?.data; // 🔹 Trang đầu: Reset danh sách
       } else {
-        state.listBook = [
-          ...state.listBook,
-          ...action.payload?.response?.bookData?.rows,
-        ]; // 🔹 Load thêm: Giữ sách cũ
+        state.listBook = [...state.listBook, ...action.payload?.data]; // 🔹 Load thêm: Giữ sách cũ
       }
-      // (state.listBook = action.payload?.response?.bookData?.rows),
-      (state.listBookAdmin = action.payload?.response?.bookData?.rows),
-        (state.totalBooks = action.payload?.response.bookData?.count),
-        (state.statusLoading = false),
-        (state.searchString = action.payload?.data?.searchString),
-        (state.pageCurent = action.payload?.data?.pageCurent),
+      (state.cacheListBooks[cacheKey] = action.payload?.data),
+        (state.totalBooks = action.payload?.count),
+        (state.searchString = action.payload?.searchString),
+        (state.pageCurent = action.payload.pageCurent),
         (state.isLoading = false);
     });
 
     builder.addCase(createBook.pending, (state, action) => {
-      state.statusLoading = true;
       state.isLoadingAddBook = true;
     });
 
     builder.addCase(createBook.fulfilled, (state, action) => {
-      state.statusLoading = false;
       state.isLoadingAddBook = false;
     });
 
@@ -168,12 +174,10 @@ export const bookSlice = createSlice({
     builder.addCase(deleteBook.fulfilled, (state, action) => {});
 
     builder.addCase(updateBook.pending, (state, action) => {
-      state.statusLoading = true;
       state.isLoadingEditBook = true;
     });
 
     builder.addCase(updateBook.fulfilled, (state, action) => {
-      state.statusLoading = false;
       state.isLoadingEditBook = false;
     });
     builder.addCase(updateBook.rejected, (state, action) => {

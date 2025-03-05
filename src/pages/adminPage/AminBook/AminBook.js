@@ -12,6 +12,7 @@ import {
 import Pagination from "../../../components/Pagination/Pagination";
 import Search from "../../../components/Search/Search";
 import { containsWord, truncateText } from "../../../ultils/commonUltils";
+import Loading from "../../../components/Loading/Loading";
 
 const defaultBookFields = [
   {
@@ -105,6 +106,7 @@ const AminBook = () => {
   const [isShowAddModel, setIsShowAddModel] = useState(false);
   const listCategory = useSelector((state) => state.user.listCategory);
   const listBookAdmin = useSelector((state) => state.book.listBookAdmin);
+  const cacheListBooks = useSelector((state) => state.book.cacheListBooks);
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
@@ -120,6 +122,7 @@ const AminBook = () => {
   );
   const offset = (pageCurent - 1) * limitListBook;
   const isLoadingAddBook = useSelector((state) => state.book.isLoadingAddBook);
+  const isLoading = useSelector((state) => state.book.isLoading);
 
   const dispatch = useDispatch();
   const openAdd = () => {
@@ -386,141 +389,149 @@ const AminBook = () => {
           </button>
           <Search onKeySearch={handleSearch} />
         </div>
-        <div className="overflow-x-auto mt-4">
-          <table className="min-w-full bg-white shadow-lg rounded-lg">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
-                  <span>No</span>
-                </th>
-                <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
-                  Book
-                </th>
-                <th
-                  onClick={() => handleSort("title")}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                >
-                  <div className="flex justify-between">
-                    <span>Title</span>
-                    {optionsFieldSort[0].sort_by == "DESC" ? (
-                      <FaSortDown />
-                    ) : (
-                      <FaSortUp />
-                    )}
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  onClick={() => handleSort("available")}
-                >
-                  <div className="flex justify-between">
-                    <span>Available</span>
-                    {optionsFieldSort[1].sort_by == "DESC" ? (
-                      <FaSortDown />
-                    ) : (
-                      <FaSortUp />
-                    )}
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  onClick={() => handleSort("category_code")}
-                >
-                  <div className="flex justify-between">
-                    <span>Category</span>
-                    {optionsFieldSort[2].sort_by == "DESC" ? (
-                      <FaSortDown />
-                    ) : (
-                      <FaSortUp />
-                    )}
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  onClick={() => handleSort("price")}
-                >
-                  <div className="flex justify-between">
-                    <span>Price</span>
-                    {optionsFieldSort[3].sort_by == "DESC" ? (
-                      <FaSortDown />
-                    ) : (
-                      <FaSortUp />
-                    )}
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  onClick={() => handleSort("description")}
-                >
-                  <div className="flex justify-between">
-                    <span>Description</span>
-                    {optionsFieldSort[4].sort_by == "DESC" ? (
-                      <FaSortDown />
-                    ) : (
-                      <FaSortUp />
-                    )}
-                  </div>
-                </th>
-                <th
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
-                  colSpan={2}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {listBookAdmin &&
-                listBookAdmin?.length > 0 &&
-                listBookAdmin?.map((item, idx) => {
-                  return (
-                    <tr key={item.id} className="border-b border-gray-200">
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {offset + idx + 1}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        <img
-                          style={{ width: "50px", height: "50px" }}
-                          src={item.image}
-                        ></img>
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {item.title}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {item.available}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {item.categoryData?.value}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {item.price.toLocaleString()} VND
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        {truncateText(item.description, 50)}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        <button
-                          onClick={() => handleStartEdittingPostBook(item)}
-                          className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
-                        >
-                          EDIT
-                        </button>
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        <button
-                          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
-                          onClick={() => handleDeleteBook(item.id)}
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="overflow-x-auto mt-4">
+            <table className="min-w-full bg-white shadow-lg rounded-lg">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
+                    <span>No</span>
+                  </th>
+                  <th className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200">
+                    Book
+                  </th>
+                  <th
+                    onClick={() => handleSort("title")}
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                  >
+                    <div className="flex justify-between">
+                      <span>Title</span>
+                      {optionsFieldSort[0].sort_by == "DESC" ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                    onClick={() => handleSort("available")}
+                  >
+                    <div className="flex justify-between">
+                      <span>Available</span>
+                      {optionsFieldSort[1].sort_by == "DESC" ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                    onClick={() => handleSort("category_code")}
+                  >
+                    <div className="flex justify-between">
+                      <span>Category</span>
+                      {optionsFieldSort[2].sort_by == "DESC" ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                    onClick={() => handleSort("price")}
+                  >
+                    <div className="flex justify-between">
+                      <span>Price</span>
+                      {optionsFieldSort[3].sort_by == "DESC" ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                    onClick={() => handleSort("description")}
+                  >
+                    <div className="flex justify-between">
+                      <span>Description</span>
+                      {optionsFieldSort[4].sort_by == "DESC" ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 border-b border-gray-200"
+                    colSpan={2}
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cacheListBooks[`${pageCurent}-${limitListBook}`] &&
+                  cacheListBooks[`${pageCurent}-${limitListBook}`]?.length >
+                    0 &&
+                  cacheListBooks[`${pageCurent}-${limitListBook}`]?.map(
+                    (item, idx) => {
+                      return (
+                        <tr key={item.id} className="border-b border-gray-200">
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {offset + idx + 1}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            <img
+                              style={{ width: "50px", height: "50px" }}
+                              src={item.image}
+                            ></img>
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {item.title}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {item.available}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {item.categoryData?.value}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {item.price.toLocaleString()} VND
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            {truncateText(item.description, 50)}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            <button
+                              onClick={() => handleStartEdittingPostBook(item)}
+                              className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
+                            >
+                              EDIT
+                            </button>
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-600">
+                            <button
+                              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
+                              onClick={() => handleDeleteBook(item.id)}
+                            >
+                              DELETE
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
+              </tbody>
+            </table>
+          </div>
+        )}
+
         {isShowAddModel && (
           <Popup
             isShow={isShowAddModel}
