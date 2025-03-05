@@ -15,6 +15,7 @@ const FeaturedBook = () => {
   const [pageCurent, setCurrentPage] = useState(1);
   const params = useParams();
   const category = params.code;
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -22,16 +23,36 @@ const FeaturedBook = () => {
 
   useEffect(() => {
     const controller = new AbortController();
+    if (pageCurent === 1) {
+      dispatch(
+        fetchListBooks({
+          limitListBook,
+          pageCurent,
+          searchString: "",
+          category,
+        })
+      );
+    } else {
+      setIsLoadingMore(true); // Chỉ bật loading khi load thêm sách
+      dispatch(
+        fetchListBooks({
+          limitListBook,
+          pageCurent,
+          searchString: "",
+          category,
+        })
+      ).finally(() => setIsLoadingMore(false)); // Tắt loading khi API hoàn thành
+    }
 
-    dispatch(
-      fetchListBooks({
-        limitListBook,
-        pageCurent,
-        searchString: "",
-        category,
-        // signal,
-      })
-    );
+    // dispatch(
+    //   fetchListBooks({
+    //     limitListBook,
+    //     pageCurent,
+    //     searchString: "",
+    //     category,
+    //     // signal,
+    //   })
+    // );
 
     return () => {
       controller.abort();
@@ -48,7 +69,7 @@ const FeaturedBook = () => {
         <div className="w-full  rounded-[8px] relative pb-[350px] lg:mt-0 mt-[100px]">
           <BannerSlider />
         </div>
-        {isLoading ? (
+        {isLoading && pageCurent == 1 ? (
           <div className="">
             <Loading />
           </div>
@@ -73,7 +94,7 @@ const FeaturedBook = () => {
         )}
 
         {/* Hiển thị nút Xem thêm khi có sách để load */}
-        {listBook &&
+        {/* {listBook &&
           listBook?.length > 0 &&
           totalBooks > +listBook.length &&
           !isLoading && (
@@ -85,7 +106,22 @@ const FeaturedBook = () => {
                 Xem thêm
               </button>
             </div>
-          )}
+          )} */}
+
+        {listBook && listBook?.length > 0 && totalBooks > +listBook.length && (
+          <div className="text-center">
+            {isLoadingMore ? (
+              <Loading />
+            ) : (
+              <button
+                onClick={handleLoadMore}
+                className="rounded-[5px] border border-[#003366] text-[#003366] px-[30px] py-[5px]"
+              >
+                Xem thêm
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
