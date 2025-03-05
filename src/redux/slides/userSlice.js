@@ -174,7 +174,6 @@ export const userSlice = createSlice({
     refresh_token: "",
     auth: false,
     isShowModal: false,
-    statusLoading: false,
     limit: 3,
     searchString: "",
     totalUsers: 0,
@@ -190,9 +189,6 @@ export const userSlice = createSlice({
   reducers: {
     openSideBarMenu: (state, action) => {
       state.isOpenSideBarMenu = action.payload;
-    },
-    globalLoading: (state, action) => {
-      state.statusLoading = action.payload;
     },
 
     showModal: (state, action) => {
@@ -251,7 +247,6 @@ export const userSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchLoginToolkit.pending, (state, action) => {
       // Add user to the state array
-      state.statusLoading = true;
       state.auth = false;
       state.isLoading = true;
     });
@@ -266,8 +261,7 @@ export const userSlice = createSlice({
 
       (state.access_token = action.payload.access_token),
         (state.refresh_token = action.payload.refresh_token),
-        (state.auth = true),
-        (state.statusLoading = false);
+        (state.auth = true);
     });
 
     builder.addCase(fetchLoginToolkit.rejected, (state, action) => {
@@ -303,14 +297,14 @@ export const userSlice = createSlice({
 
     builder.addCase(fetchCreatNewUserToolkit.pending, (state, action) => {
       // Add user to the state array
-      state.statusLoading = true;
+
       state.isLoading = true;
     });
 
     //add create new book
     builder.addCase(fetchCreatNewUserToolkit.fulfilled, (state, action) => {
       // Add user to the state array
-      state.statusLoading = false;
+
       state.isLoading = false;
     });
     builder.addCase(fetchCreatNewUserToolkit.rejected, (state, action) => {
@@ -319,12 +313,10 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.pending, (state, action) => {
-      state.statusLoading = true;
       state.isLoading = true;
     });
 
     builder.addCase(fetchUpdateNewUserToolkit.fulfilled, (state, action) => {
-      state.statusLoading = false;
       state.isLoading = false;
     });
     builder.addCase(fetchUpdateNewUserToolkit.rejected, (state, action) => {

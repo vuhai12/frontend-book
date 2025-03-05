@@ -197,7 +197,6 @@ export const cartSlice = createSlice({
       // Add user to the state array
       return {
         ...state,
-        statusLoading: true,
       };
     });
 
@@ -206,7 +205,6 @@ export const cartSlice = createSlice({
       // Add user to the state array
       return {
         ...state,
-        statusLoading: false,
       };
     });
 
