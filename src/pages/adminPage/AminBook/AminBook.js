@@ -108,7 +108,6 @@ const AminBook = () => {
   const listBooksAdmin = useSelector((state) => state.book.listBooksAdmin);
 
   const totalBooks = useSelector((state) => state.book.totalBooks);
-  console.log("totalBooks", totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
   const [popupBookFields, setPopupBookFields] = useState(

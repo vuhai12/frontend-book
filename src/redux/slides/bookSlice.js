@@ -63,7 +63,6 @@ export const fetchListBooksHome = createAsyncThunk(
       }
 
       const response = await apiGetBook({ ...data, signal });
-      console.log("response", response);
 
       return {
         pageCurent: data.pageCurent,
