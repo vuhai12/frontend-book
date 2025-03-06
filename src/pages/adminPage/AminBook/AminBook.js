@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createBook,
   deleteBook,
-  fetchListBooks,
+  fetchListBooksAdmin,
   updateBook,
 } from "../../../redux/slides/bookSlice";
 import Pagination from "../../../components/Pagination/Pagination";
@@ -105,9 +105,10 @@ const fileds = [
 const AminBook = () => {
   const [isShowAddModel, setIsShowAddModel] = useState(false);
   const listCategory = useSelector((state) => state.user.listCategory);
-  const listBookAdmin = useSelector((state) => state.book.listBookAdmin);
-  const cacheListBooks = useSelector((state) => state.book.cacheListBooks);
+  const listBooksAdmin = useSelector((state) => state.book.listBooksAdmin);
+
   const totalBooks = useSelector((state) => state.book.totalBooks);
+  console.log("totalBooks", totalBooks);
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
   const [popupBookFields, setPopupBookFields] = useState(
@@ -130,7 +131,7 @@ const AminBook = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchListBooks({ limitListBook, pageCurent, searchString }));
+    dispatch(fetchListBooksAdmin({ limitListBook, pageCurent, searchString }));
   }, [pageCurent]);
 
   const handleCancel = () => {
@@ -229,7 +230,7 @@ const AminBook = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             dispatch(
-              fetchListBooks({
+              fetchListBooksAdmin({
                 limitListBook,
                 pageCurent,
                 searchString,
@@ -274,7 +275,7 @@ const AminBook = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               dispatch(
-                fetchListBooks({
+                fetchListBooksAdmin({
                   limitListBook,
                   pageCurent,
                   searchString,
@@ -308,7 +309,7 @@ const AminBook = () => {
     }
     setOptionsFieldSort([...optionsFieldSort]);
     dispatch(
-      fetchListBooks({
+      fetchListBooksAdmin({
         limitListBook,
         pageCurent,
         field: selected.sort,
@@ -340,10 +341,10 @@ const AminBook = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               dispatch(
-                fetchListBooks({
+                fetchListBooksAdmin({
                   limitListBook,
                   pageCurent,
-                  searchString,
+                  searchString: "",
                 })
               ).then(() => {
                 setPopupBookFields(
@@ -375,7 +376,7 @@ const AminBook = () => {
   };
 
   const handleSearch = (searchString) => {
-    dispatch(fetchListBooks({ limitListBook, pageCurent, searchString }));
+    dispatch(fetchListBooksAdmin({ limitListBook, pageCurent, searchString }));
   };
   return (
     <>
@@ -476,57 +477,54 @@ const AminBook = () => {
                 </tr>
               </thead>
               <tbody>
-                {cacheListBooks[`${pageCurent}-${limitListBook}`] &&
-                  cacheListBooks[`${pageCurent}-${limitListBook}`]?.length >
-                    0 &&
-                  cacheListBooks[`${pageCurent}-${limitListBook}`]?.map(
-                    (item, idx) => {
-                      return (
-                        <tr key={item.id} className="border-b border-gray-200">
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {offset + idx + 1}
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            <img
-                              style={{ width: "50px", height: "50px" }}
-                              src={item.image}
-                            ></img>
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {item.title}
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {item.available}
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {item.categoryData?.value}
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {item.price.toLocaleString()} VND
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            {truncateText(item.description, 50)}
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            <button
-                              onClick={() => handleStartEdittingPostBook(item)}
-                              className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
-                            >
-                              EDIT
-                            </button>
-                          </td>
-                          <td className="px-4 py-2 text-sm text-gray-600">
-                            <button
-                              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
-                              onClick={() => handleDeleteBook(item.id)}
-                            >
-                              DELETE
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  )}
+                {listBooksAdmin &&
+                  listBooksAdmin?.length > 0 &&
+                  listBooksAdmin?.map((item, idx) => {
+                    return (
+                      <tr key={item.id} className="border-b border-gray-200">
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {offset + idx + 1}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src={item.image}
+                          ></img>
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {item.title}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {item.available}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {item.categoryData?.value}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {item.price.toLocaleString()} VND
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          {truncateText(item.description, 50)}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          <button
+                            onClick={() => handleStartEdittingPostBook(item)}
+                            className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-500"
+                          >
+                            EDIT
+                          </button>
+                        </td>
+                        <td className="px-4 py-2 text-sm text-gray-600">
+                          <button
+                            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 ml-2"
+                            onClick={() => handleDeleteBook(item.id)}
+                          >
+                            DELETE
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
