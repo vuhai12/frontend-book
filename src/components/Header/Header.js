@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../redux/slides/cartSlice";
-import { fetchListBooks, searchBooks } from "../../redux/slides/bookSlice";
+import { fetchListBooksHome, searchBooks } from "../../redux/slides/bookSlice";
 import {
   fetchGetListCategoryToolkit,
   fetchLogoutToolkit,
@@ -73,7 +73,7 @@ const Header = () => {
 
   const handleSubmit = () => {
     dispatch(
-      fetchListBooks({
+      fetchListBooksHome({
         limitListBook: process.env.REACT_APP_LIMIT_LIST_BOOK,
         pageCurent: 1,
         searchString,

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchListBooks } from "../../redux/slides/bookSlice";
+import { fetchListBooksHome } from "../../redux/slides/bookSlice";
 import BookCard from "../../components/BookCard/BookCard";
 import BannerSlider from "../../components/BannerSlider/BannerSlider";
 import Loading from "../../components/Loading/Loading";
@@ -11,8 +11,10 @@ const FeaturedBook = () => {
   const limitListBook = process.env.REACT_APP_LIMIT_LIST_BOOK || 12;
   const totalBooks = useSelector((state) => state.book.totalBooks);
   const isLoading = useSelector((state) => state.book.isLoading);
-  const listBook = useSelector((state) => state.book.listBook);
+  const listBooksHome = useSelector((state) => state.book.listBooksHome);
+
   const [pageCurent, setCurrentPage] = useState(1);
+
   const params = useParams();
   const category = params.code;
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -25,7 +27,7 @@ const FeaturedBook = () => {
     const controller = new AbortController();
     if (pageCurent === 1) {
       dispatch(
-        fetchListBooks({
+        fetchListBooksHome({
           limitListBook,
           pageCurent,
           searchString: "",
@@ -35,7 +37,7 @@ const FeaturedBook = () => {
     } else {
       setIsLoadingMore(true); // Chỉ bật loading khi load thêm sách
       dispatch(
-        fetchListBooks({
+        fetchListBooksHome({
           limitListBook,
           pageCurent,
           searchString: "",
@@ -75,9 +77,9 @@ const FeaturedBook = () => {
           </div>
         ) : (
           <div className="flex flex-wrap ">
-            {listBook &&
-              listBook?.length > 0 &&
-              listBook?.map((item, index) => {
+            {listBooksHome &&
+              listBooksHome?.length > 0 &&
+              listBooksHome?.map((item, index) => {
                 return (
                   <div
                     className="basis-[100%] mb-[20px] rounded-[8px] p-[5px] md:basis-[33.33%] sm:basis-[50%] lg:basis-[25%]"
@@ -108,20 +110,22 @@ const FeaturedBook = () => {
             </div>
           )} */}
 
-        {listBook && listBook?.length > 0 && totalBooks > +listBook.length && (
-          <div className="text-center">
-            {isLoadingMore ? (
-              <Loading />
-            ) : (
-              <button
-                onClick={handleLoadMore}
-                className="rounded-[5px] border border-[#003366] text-[#003366] px-[30px] py-[5px]"
-              >
-                Xem thêm
-              </button>
-            )}
-          </div>
-        )}
+        {listBooksHome &&
+          listBooksHome?.length > 0 &&
+          totalBooks > +listBooksHome.length && (
+            <div className="text-center">
+              {isLoadingMore ? (
+                <Loading />
+              ) : (
+                <button
+                  onClick={handleLoadMore}
+                  className="rounded-[5px] border border-[#003366] text-[#003366] px-[30px] py-[5px]"
+                >
+                  Xem thêm
+                </button>
+              )}
+            </div>
+          )}
       </div>
     </>
   );

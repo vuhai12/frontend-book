@@ -7,30 +7,71 @@ import {
   apiUpdateBook,
 } from "../../services/BookService";
 
-export const fetchListBooks = createAsyncThunk(
-  "books/fetchListBooks",
+export const fetchListBooksAdmin = createAsyncThunk(
+  "books/fetchListBooksAdmin",
   async (data, { rejectWithValue, signal, getState }) => {
     try {
       const { book } = getState();
-      const cacheKey = `${data.pageCurent}-${data.limitListBook}`;
-      if (book.cacheListBooks[cacheKey]?.length > 0 && !data.searchString) {
-        console.log("vào đây");
+
+      if (
+        book.cacheListBooksAdmin[`${data.pageCurent}`]?.length > 0 &&
+        !data.searchString
+      ) {
         return {
+          data: book.cacheListBooksAdmin[`${data.pageCurent}`],
           pageCurent: data.pageCurent,
-          data: book.cacheListBooks[cacheKey],
+          category: data.category,
           count: book.totalBooks,
-          searchString: book.searchString,
-          limitListBook: data.limitListBook,
+          searchString: data?.searchString,
         };
       }
       const response = await apiGetBook({ ...data, signal });
-      console.log("response", response);
       return {
         pageCurent: data.pageCurent,
         data: response?.bookData.rows,
         count: response?.bookData.count,
         searchString: data?.searchString,
         limitListBook: data.limitListBook,
+      };
+    } catch (error) {
+      if (signal.aborted) {
+        return rejectWithValue({ message: "Request was aborted" });
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchListBooksHome = createAsyncThunk(
+  "books/fetchListBooksHome",
+  async (data, { rejectWithValue, signal, getState }) => {
+    try {
+      const { book } = getState();
+      if (
+        book.cacheListBooksHome[`${data.pageCurent}-${data.category}`]?.length >
+          0 &&
+        !data.searchString
+      ) {
+        return {
+          data: book.cacheListBooksHome[`${data.pageCurent}-${data.category}`],
+          pageCurent: data.pageCurent,
+          category: data.category,
+          count: book.totalBooks,
+          searchString: data?.searchString,
+          limitListBook: data.limitListBook,
+        };
+      }
+
+      const response = await apiGetBook({ ...data, signal });
+      console.log("response", response);
+
+      return {
+        pageCurent: data.pageCurent,
+        data: response?.bookData.rows,
+        count: response?.bookData.count,
+        searchString: data?.searchString,
+        limitListBook: data.limitListBook,
+        category: data.category,
       };
     } catch (error) {
       if (signal.aborted) {
@@ -92,9 +133,10 @@ export const deleteBook = createAsyncThunk(
 export const bookSlice = createSlice({
   name: "book",
   initialState: {
-    listBook: [],
-    listBookAdmin: [],
-    cacheListBooks: {},
+    listBooksHome: [],
+    listBooksAdmin: [],
+    cacheListBooksHome: {},
+    cacheListBooksAdmin: {},
     edittingBook: {},
     isShowModal: false,
     totalBooks: 0,
@@ -136,23 +178,45 @@ export const bookSlice = createSlice({
       state.bookDataById = action.payload;
     });
 
-    builder.addCase(fetchListBooks.pending, (state, action) => {
+    builder.addCase(fetchListBooksAdmin.pending, (state, action) => {
       (state.searchString = ""), (state.isLoading = true);
     });
 
-    builder.addCase(fetchListBooks.rejected, (state, action) => {
+    builder.addCase(fetchListBooksAdmin.fulfilled, (state, action) => {
+      state.cacheListBooksAdmin[`${action.payload.pageCurent}`] =
+        action.payload.data;
+
+      (state.listBooksAdmin = action.payload.data),
+        (state.totalBooks = action.payload?.count),
+        (state.searchString = action.payload?.searchString),
+        (state.pageCurent = action.payload.pageCurent),
+        (state.isLoading = false);
+    });
+
+    builder.addCase(fetchListBooksAdmin.rejected, (state, action) => {
+      (state.searchString = ""), (state.isLoading = false);
+    });
+
+    builder.addCase(fetchListBooksHome.pending, (state, action) => {
+      (state.searchString = ""), (state.isLoading = true);
+    });
+
+    builder.addCase(fetchListBooksHome.rejected, (state, action) => {
       state.isLoading = false;
     });
 
-    builder.addCase(fetchListBooks.fulfilled, (state, action) => {
-      const cacheKey = `${action.payload.pageCurent}-${action.payload.limitListBook}`;
+    builder.addCase(fetchListBooksHome.fulfilled, (state, action) => {
+      state.cacheListBooksHome[
+        `${action.payload.pageCurent}-${action.payload.category}`
+      ] = action.payload.data;
+
       if (action.payload.pageCurent === 1) {
-        state.listBook = action.payload?.data; // 🔹 Trang đầu: Reset danh sách
+        state.listBooksHome = action.payload?.data; // 🔹 Trang đầu: Reset danh sách
       } else {
-        state.listBook = [...state.listBook, ...action.payload?.data]; // 🔹 Load thêm: Giữ sách cũ
+        state.listBooksHome = [...state.listBooksHome, ...action.payload?.data]; // 🔹 Load thêm: Giữ sách cũ
       }
-      (state.cacheListBooks[cacheKey] = action.payload?.data),
-        (state.totalBooks = action.payload?.count),
+
+      (state.totalBooks = action.payload?.count),
         (state.searchString = action.payload?.searchString),
         (state.pageCurent = action.payload.pageCurent),
         (state.isLoading = false);
