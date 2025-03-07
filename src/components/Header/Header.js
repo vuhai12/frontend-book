@@ -72,6 +72,8 @@ const Header = () => {
   const handleSearch = (e) => setSearchString(e.target.value);
 
   const handleSubmit = () => {
+    // console.log("pageCurent", pageCurent);
+    console.log("searchString", searchString);
     dispatch(
       fetchListBooksHome({
         limitListBook: process.env.REACT_APP_LIMIT_LIST_BOOK,

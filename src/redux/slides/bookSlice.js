@@ -11,21 +11,25 @@ export const fetchListBooksAdmin = createAsyncThunk(
   "books/fetchListBooksAdmin",
   async (data, { rejectWithValue, signal, getState }) => {
     try {
+      console.log("data", data);
       const { book } = getState();
 
       if (
-        book.cacheListBooksAdmin[`${data.pageCurent}`]?.length > 0 &&
-        !data.searchString
+        book.cacheListBooksAdmin[`${data.pageCurent}-${data.searchString}`]
+          ?.length > 0
       ) {
         return {
-          data: book.cacheListBooksAdmin[`${data.pageCurent}`],
+          data: book.cacheListBooksAdmin[
+            `${data.pageCurent}-${data.searchString}`
+          ],
           pageCurent: data.pageCurent,
           category: data.category,
           count: book.totalBooks,
-          searchString: data?.searchString,
+          searchString: data.searchString,
         };
       }
       const response = await apiGetBook({ ...data, signal });
+
       return {
         pageCurent: data.pageCurent,
         data: response?.bookData.rows,
@@ -61,9 +65,9 @@ export const fetchListBooksHome = createAsyncThunk(
           limitListBook: data.limitListBook,
         };
       }
-
+      console.log("data", data);
       const response = await apiGetBook({ ...data, signal });
-
+      console.log("response", response);
       return {
         pageCurent: data.pageCurent,
         data: response?.bookData.rows,
@@ -182,8 +186,9 @@ export const bookSlice = createSlice({
     });
 
     builder.addCase(fetchListBooksAdmin.fulfilled, (state, action) => {
-      state.cacheListBooksAdmin[`${action.payload.pageCurent}`] =
-        action.payload.data;
+      state.cacheListBooksAdmin[
+        `${action.payload.pageCurent}-${action.payload.searchString}`
+      ] = action.payload.data;
 
       (state.listBooksAdmin = action.payload.data),
         (state.totalBooks = action.payload?.count),
