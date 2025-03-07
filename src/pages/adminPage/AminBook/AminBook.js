@@ -131,6 +131,9 @@ const AminBook = () => {
 
   useEffect(() => {
     dispatch(fetchListBooksAdmin({ limitListBook, pageCurent, searchString }));
+    // return () => {
+    //   dispatch(clearSearchState());
+    // };
   }, [pageCurent]);
 
   const handleCancel = () => {
