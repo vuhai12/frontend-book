@@ -75,9 +75,12 @@ const BookItem = () => {
                 <button className="py-[10px] px-[30px] border-gray-400 rounded-[10px] border-[1px] hover:bg-gray-100 transition">
                   Add to cart
                 </button>
-                <button className="bg-[#ED553B] rounded-[10px] text-white py-[10px] px-[30px] hover:opacity-90 transition">
+                <Link
+                  to={"/checkout"}
+                  className="bg-[#ED553B] rounded-[10px] text-white py-[10px] px-[30px] hover:opacity-90 transition"
+                >
                   Buy now
-                </button>
+                </Link>
               </div>
             </div>
           </div>

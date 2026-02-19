@@ -3,6 +3,7 @@ import banner1 from "../../../../assets/Banner1.svg";
 import banner5 from "../../../../assets/banner5.webp";
 import { ArrowRight } from "lucide-react";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 const listBanner = [
   {
@@ -55,10 +56,13 @@ const Hero = () => {
                     {item.des}
                   </p>
 
-                  <button className="text-[#393280] mx-auto md:mx-0 flex gap-[10px] items-center w-fit px-[24px] py-[8px] sm:px-[30px] sm:py-[10px] rounded border border-gray-500 hover:bg-[#ED553B] hover:text-white transition-all duration-300">
+                  <Link
+                    to={"/list-books"}
+                    className="text-[#393280] mx-auto md:mx-0 flex gap-[10px] items-center w-fit px-[24px] py-[8px] sm:px-[30px] sm:py-[10px] rounded border border-gray-500 hover:bg-[#ED553B] hover:text-white transition-all duration-300"
+                  >
                     Read more
                     <ArrowRight size={18} />
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Image */}
