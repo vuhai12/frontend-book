@@ -56,9 +56,6 @@ const Header = () => {
 
           {/* Mobile Icon Bar */}
           <div className="md:hidden flex items-center gap-4">
-            <Link to="/cart">
-              <ShoppingCart size={20} />
-            </Link>
             <button onClick={() => setIsOpen(true)}>
               <Menu size={24} />
             </button>
@@ -67,10 +64,10 @@ const Header = () => {
 
         {/* Search bar if list-books */}
         {isListBook && (
-          <div className="container pb-4">
+          <div className="container pb-4 text-center px-[10px] md:px-0">
             <input
               placeholder="Search books..."
-              className="w-full border border-gray-300 rounded-lg py-2 px-4 outline-none"
+              className="md:w-[65%] w-full border border-gray-300 rounded-lg py-2 px-4 outline-none"
             />
           </div>
         )}
