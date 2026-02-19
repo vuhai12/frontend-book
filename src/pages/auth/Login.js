@@ -1,178 +1,142 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate, Link } from "react-router-dom";
-import * as yup from "yup";
-import { fetchLoginToolkit } from "../../redux/slides/userSlice";
-import { AlertCircle } from "lucide-react";
-import { useSocket } from "../../context/SocketContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+/**
+ * ZOD v4 SAFE SCHEMA
+ * Dùng nonempty thay vì min(1)
+ */
+const loginSchema = z.object({
+  email: z.string().nonempty("Please enter email").email("Email is invalid"),
+  password: z
+    .string()
+    .nonempty("Please enter password")
+    .min(6, "Password must be at least 6 characters"),
+});
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isLoading = useSelector((state) => state.user.isLoading);
-  const socket = useSocket();
-
-  const schema = yup.object({
-    email: yup
-      .string()
-      .email("Không đúng định dạng email")
-      .required("Yêu cầu nhập email"),
-    password: yup
-      .string()
-      .min(6, "password cần ít nhất 6 ký tự")
-      .required("Yêu cầu nhập mật khẩu"),
-  });
+  const [isVisible, setIsVisible] = useState(false);
 
   const {
     register,
     handleSubmit,
-    setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(loginSchema),
+    mode: "onSubmit", // QUAN TRỌNG
   });
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async (data) => {
     try {
-      const response = await dispatch(fetchLoginToolkit({ email, password }));
-      if (response.payload.error === 1) {
-        if (/email/i.test(response.payload.message)) {
-          setError("email", {
-            type: "server",
-            message: response.payload.message,
-          });
-        }
-        if (/password/i.test(response.payload.message)) {
-          setError("password", {
-            type: "server",
-            message: response.payload.message,
-          });
-        }
-        // setError("password", {
-        //   type: "server",
-        //   message: response.payload.message,
-        // });
-      } else {
-        const token = localStorage.getItem("access_token");
-        socket.auth = { token };
-        socket.connect();
-        Swal.fire({
-          title: "Thông báo!",
-          text: "Đăng nhập thành công",
-          icon: "success",
-          confirmButtonText: "Đóng",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            if (response.payload.role_code === "R1") {
-              navigate("/system-admin-user");
-            } else if (response.payload.role_code === "R2") {
-              navigate("/user-info");
-            }
-          }
-        });
-      }
+      console.log("Login data:", data);
+
+      // Demo delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      alert("Login success (demo)");
     } catch (error) {
-      Swal.fire({
-        title: "Thông báo!",
-        text: "An unexpected error occurred",
-        icon: "error",
-        confirmButtonText: "Đóng",
-      });
+      console.log(error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center mt-[100px] lg:mt-0">
-      <form
-        className="bg-white shadow-lg rounded px-8 pt-6 pb-8 w-96"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h2 className="text-2xl font-bold text-center mb-6">Đăng nhập</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-[480px] bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6">
+          Login
+        </h2>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Địa chỉ Email
-          </label>
-          <input
-            type="email"
-            autoComplete="new-password"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[red-200] ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Nhập email"
-            {...register("email")}
-          />
-          {/* {option.error && (
-                      <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
-                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
-                        {errors.email.message}
-                      </p>
-                    )} */}
-          {errors.email && (
-            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
-              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Mật khẩu
-          </label>
-          <input
-            type="password"
-            autoComplete="new-password"
-            name="password"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-[red-200] ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Nhập mật khẩu"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-600 text-sm mt-1 font-medium flex items-center gap-1">
-              <AlertCircle className="w-4 h-4 text-red-600" />{" "}
-              {errors.password.message}
-            </p>
-          )}
-
-          {/* {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password.message}
-            </p>
-          )} */}
-        </div>
-
-        <button
-          disabled={isLoading}
-          type="submit"
-          className={`w-full ${
-            isLoading
-              ? "bg-gray-600 text-white"
-              : "bg-[#003366] text-white hover:bg-[#193b5c] focus:outline-none focus:ring-[red-200]"
-          }   font-bold py-2 px-4 rounded `}
+        <form
+          // onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-5"
+          noValidate
         >
-          {isLoading ? "Đang Đăng Nhập..." : "Đăng nhập"}
-        </button>
-        <p
-          className="text-sm text-gray-600 underline mt-3 text-center cursor-pointer"
-          onClick={() => navigate("/forgot-password")}
-        >
-          Quên mật khẩu
-        </p>
+          {/* EMAIL */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Email</label>
+            <input
+              {...register("email")}
+              placeholder="Enter your email"
+              className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ED553B]"
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
 
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
-            Bạn chưa có tài khoản?{" "}
-            <Link to="/register" className="text-[#003366] underline">
-              Đăng ký
+          {/* PASSWORD */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Password</label>
+
+            <div className="relative">
+              <input
+                {...register("password")}
+                type={isVisible ? "text" : "password"}
+                placeholder="Enter your password"
+                className="w-full py-3 px-4 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ED553B]"
+              />
+
+              <button
+                type="button"
+                onClick={() => setIsVisible(!isVisible)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#ED553B]"
+              >
+                {isVisible ? <Eye size={20} /> : <EyeOff size={20} />}
+              </button>
+            </div>
+
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password.message}</p>
+            )}
+          </div>
+
+          {/* FORGOT PASSWORD */}
+          <p className="text-right text-xs sm:text-sm">
+            Forgot your{" "}
+            <span className="text-[#ED553B] font-semibold cursor-pointer">
+              Password?
+            </span>
+          </p>
+
+          {/* SUBMIT */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="py-3 bg-[#ED553B] text-white rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
+          </button>
+
+          {/* OR */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-[1px] bg-gray-300"></div>
+            <span className="text-xs text-gray-500">OR</span>
+            <div className="flex-1 h-[1px] bg-gray-300"></div>
+          </div>
+
+          {/* GOOGLE */}
+          <button
+            type="button"
+            className="py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+          >
+            Login with Google
+          </button>
+
+          {/* REGISTER */}
+          <p className="text-center text-sm">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-[#ED553B] font-semibold hover:underline"
+            >
+              Register Now
             </Link>
           </p>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

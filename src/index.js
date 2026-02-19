@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 
 import { PersistGate } from "redux-persist/integration/react";
 import { SocketProvider } from "./context/SocketContext";
+import { CartProvider } from "./context/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,12 +20,14 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <SocketProvider>
-            <App />
+            <CartProvider>
+              <App />
+            </CartProvider>
           </SocketProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

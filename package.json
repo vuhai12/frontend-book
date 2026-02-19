@@ -28,10 +28,12 @@
     "axios": "0.26.1",
     "bootstrap": "^5.1.3",
     "buffer": "^6.0.3",
+    "classnames": "^2.5.1",
     "cloudinary": "^1.41.2",
     "dotenv": "^16.4.7",
     "font-awesome": "^4.7.0",
     "font-awesome-icons": "^1.6.0",
+    "framer-motion": "^12.34.2",
     "i18next": "^23.7.19",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
@@ -61,12 +63,13 @@
     "sass": "1.49.10",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.8.1",
-    "styled-components": "^6.1.11",
+    "styled-components": "^6.3.9",
     "sweetalert2": "^11.15.10",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5",
     "yarn": "^1.22.22",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zod": "^4.3.6"
   },
   "scripts": {
     "start": "react-scripts start",

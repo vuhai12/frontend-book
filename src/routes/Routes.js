@@ -1,16 +1,4 @@
 import { lazy } from "react";
-// import Home from "../pages/homePage/Home";
-// import Login from "../pages/auth/Login";
-// import Register from "../pages/auth/Register";
-// import BookDetail from "../pages/book/BookDetail";
-// import CartDetail from "../pages/cart/CartDetail";
-// import Payment from "../pages/payment/Payment";
-// import UserInfo from "../pages/userPage/UserInfo/UserInfo";
-// import UserOrder from "../pages/userPage/UserOrder/UserOrder";
-// import AminOrder from "../pages/adminPage/AminOrder/AminOrder";
-// import AminUser from "../pages/adminPage/AminUser/AminUser";
-// import AminBook from "../pages/adminPage/AminBook/AminBook";
-// import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 
 export const routeAdmin = [
   {
@@ -40,10 +28,10 @@ export const routeUser = [
     path: "/checkout-payment",
     page: lazy(() => import("../pages/payment/Payment")),
   },
-  {
-    path: "/cart",
-    page: lazy(() => import("../pages/cart/CartDetail")),
-  },
+  // {
+  //   path: "/cart",
+  //   page: lazy(() => import("../pages/cart/CartDetail")),
+  // },
   {
     path: "/user-order",
     page: lazy(() => import("../pages/userPage/UserOrder/UserOrder")),
@@ -57,13 +45,49 @@ export const routeUser = [
 ];
 
 export const routePublic = [
-  {
-    path: "/category-:code",
-    page: lazy(() => import("../pages/homePage/Home")),
-  },
+  // {
+  //   path: "/category-:code",
+  //   page: lazy(() => import("../pages/homePage")),
+  // },
   {
     path: "/",
-    page: lazy(() => import("../pages/homePage/Home")),
+    page: lazy(() => import("../pages/homePage/index")),
+  },
+  {
+    path: "/cart",
+    page: lazy(() => import("../pages/CartDetail/index")),
+  },
+  {
+    path: "/checkout",
+    page: lazy(() => import("../pages/Checkout/index")),
+  },
+  {
+    path: "/checkout/success",
+    page: lazy(() => import("../pages/CheckoutSuccess/index")),
+  },
+  {
+    path: "/about-us",
+    page: lazy(() => import("../pages/AboutUs/index")),
+  },
+  {
+    path: "/list-blogs/:id",
+    page: lazy(() => import("../pages/BlogItem/index")),
+  },
+  {
+    path: "/list-blogs",
+    page: lazy(() => import("../pages/BlogList/index")),
+  },
+  {
+    path: "/categories/:category",
+    page: lazy(() => import("../pages/ListBooks/index")),
+  },
+  {
+    path: "/list-books",
+    page: lazy(() => import("../pages/ListBooks/index")),
+  },
+  {
+    path: "/list-books/:id",
+    page: lazy(() => import("../pages/BookItem/index")),
   },
   {
     path: "/book-:id",

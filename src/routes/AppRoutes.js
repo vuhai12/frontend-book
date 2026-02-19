@@ -7,7 +7,6 @@ import { routePublic, routeAdmin, routeUser, routeAuth } from "./Routes";
 import { Routes, Route } from "react-router-dom";
 import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 import RoleBasedLayout from "../layouts/RoleBasedLayout/RoleBasedLayout";
-// import Loading from "../components/Loading/Loading";
 
 const AppRoutes = () => {
   return (
