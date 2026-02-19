@@ -45,7 +45,7 @@ const Hero = () => {
               style={{ left: `${(index - current) * 100}%` }}
               className="absolute top-0 w-full transition-all duration-700 ease-in-out"
             >
-              <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-[40px] gap-[40px]">
+              <div className="container  px-4 flex flex-col md:flex-row items-center justify-between py-[40px] gap-[40px]">
                 {/* Text */}
                 <div className="w-full md:w-[60%] lg:w-[70%] flex flex-col gap-[20px] text-center md:text-left">
                   <h3 className="text-[#393280] font-semibold text-[24px] sm:text-[30px] md:text-[40px] lg:text-[50px] leading-tight">

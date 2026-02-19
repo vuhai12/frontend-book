@@ -40,7 +40,7 @@ const books = [
 const ReleaseBooks = () => {
   return (
     <div className="bg-[#FCECEC] py-[50px] px-[16px] md:px-0">
-      <div className="container mx-auto text-center">
+      <div className="container text-center">
         <h1 className="text-[22px] sm:text-[26px] md:text-[30px] font-semibold text-[#393280]">
           New Release Books
         </h1>

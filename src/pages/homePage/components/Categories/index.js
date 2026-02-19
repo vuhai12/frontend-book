@@ -23,7 +23,7 @@ const item = {
 const Categories = () => {
   return (
     <div className="bg-white py-[40px] px-[16px] md:px-0">
-      <div className="container mx-auto">
+      <div className="container">
         {/* Title */}
         <div className="flex justify-between items-center flex-wrap gap-4">
           <h1 className="text-[#393280] text-[22px] sm:text-[26px] md:text-[30px] font-semibold">

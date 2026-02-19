@@ -25,7 +25,7 @@ const rightItem = {
 
 const Featured = () => {
   return (
-    <div className="bg-[linear-gradient(118deg,#FBEEEE_0%,#F7FFFE_100%)] px-4 md:px-0">
+    <div className="bg-[linear-gradient(118deg,#FBEEEE_0%,#F7FFFE_100%)] px-4 md:px-0 overflow-hidden">
       <motion.div
         variants={container}
         initial="hidden"
