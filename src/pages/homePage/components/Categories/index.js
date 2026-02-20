@@ -45,7 +45,7 @@ const Categories = () => {
                 key={itemData.path}
                 variants={item}
                 whileHover={{ y: -6 }}
-                className="group"
+                className="group w-full"
               >
                 <Link to={itemData.path} className="block text-center">
                   <div className="overflow-hidden rounded-[12px]">

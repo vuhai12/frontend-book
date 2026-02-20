@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import banner1 from "../../../../assets/Banner1.svg";
 import banner5 from "../../../../assets/banner5.webp";
 import { ArrowRight } from "lucide-react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const listBanner = [
   {
@@ -36,18 +37,27 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative overflow-hidden bg-[linear-gradient(104deg,#FFE5E5_14%,#F5FFFE_30%,#FFFFFF_67%,#FFFFFF_100%)]">
-      {/* Slides */}
-      <div className="relative min-h-[420px] sm:min-h-[500px]">
-        {listBanner.map((item, index) => (
-          <Fragment key={item.id}>
-            <div
-              style={{ left: `${(index - current) * 100}%` }}
-              className="absolute top-0 w-full transition-all duration-700 ease-in-out"
-            >
-              <div className="container  px-4 flex flex-col md:flex-row items-center justify-between py-[40px] gap-[40px]">
+    <div className="relative overflow-hidden py-[30px] bg-[linear-gradient(104deg,#FFE5E5_14%,#F5FFFE_30%,#FFFFFF_67%,#FFFFFF_100%)]">
+      {/* Slider Wrapper */}
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${current * 100}%)` }}
+        >
+          {listBanner.map((item, index) => (
+            <div key={item.id} className="w-full flex-shrink-0">
+              <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-[40px] gap-[40px]">
                 {/* Text */}
-                <div className="w-full md:w-[60%] lg:w-[70%] flex flex-col gap-[20px] text-center md:text-left">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={
+                    current === index
+                      ? { opacity: 1, y: 0 }
+                      : { opacity: 0, y: 40 }
+                  }
+                  transition={{ duration: 0.6 }}
+                  className="w-full flex flex-col gap-[20px]"
+                >
                   <h3 className="text-[#393280] font-semibold text-[24px] sm:text-[30px] md:text-[40px] lg:text-[50px] leading-tight">
                     {item.title}
                   </h3>
@@ -56,30 +66,55 @@ const Hero = () => {
                     {item.des}
                   </p>
 
-                  <Link
-                    to={"/list-books"}
-                    className="text-[#393280] mx-auto md:mx-0 flex gap-[10px] items-center w-fit px-[24px] py-[8px] sm:px-[30px] sm:py-[10px] rounded border border-gray-500 hover:bg-[#ED553B] hover:text-white transition-all duration-300"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    Read more
-                    <ArrowRight size={18} />
-                  </Link>
-                </div>
+                    <Link
+                      to="/list-books"
+                      className="text-[#393280] flex gap-[10px] items-center w-fit px-[24px] py-[8px] sm:px-[30px] sm:py-[10px] rounded border border-gray-500 hover:bg-[#ED553B] hover:text-white transition-all duration-300"
+                    >
+                      Read more
+                      <motion.span
+                        animate={
+                          current === index ? { x: [0, 5, 0] } : { x: 0 }
+                        }
+                        transition={{
+                          repeat: Infinity,
+                          duration: 1.5,
+                        }}
+                      >
+                        <ArrowRight size={18} />
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                </motion.div>
 
                 {/* Image */}
-                <div className="w-full md:w-[40%] lg:w-[30%]">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={
+                    current === index
+                      ? { opacity: 1, scale: 1 }
+                      : { opacity: 0, scale: 0.9 }
+                  }
+                  transition={{ duration: 0.6 }}
+                  className="w-full md:w-[40%] lg:w-[30%]"
+                >
                   <img
                     src={item.imgBanner}
-                    className="object-contain w-full max-h-[300px] md:max-h-[400px]"
+                    alt={item.title}
+                    className="w-full object-contain"
                   />
-                </div>
+                </motion.div>
               </div>
             </div>
-          </Fragment>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Dots */}
-      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-[15px] sm:gap-[25px] z-10">
+      <div className="absolute pt-[30px] bottom-[30px] left-1/2 -translate-x-1/2 flex gap-[15px] sm:gap-[25px] z-10">
         {listBanner.map((_, index) => (
           <div
             key={index}
