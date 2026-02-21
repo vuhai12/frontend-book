@@ -1,4 +1,3 @@
-import React from "react";
 import book1 from "../../assets/AboutUs/book1.jpg";
 import book2 from "../../assets/AboutUs/book2.jpg";
 import { Div } from "./AboutUs.styles";

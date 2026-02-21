@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAddCartToolkit, fetchCart } from "../../redux/slides/cartSlice";
@@ -32,8 +32,8 @@ const BookDetail = () => {
       flag === "minus" && prev > 1
         ? prev - 1
         : flag === "plus"
-        ? prev + 1
-        : prev
+          ? prev + 1
+          : prev,
     );
   }, []);
 

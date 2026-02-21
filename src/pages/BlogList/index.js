@@ -1,4 +1,3 @@
-import React from "react";
 import { listBlogs } from "../../constants/listBlogs";
 import RecentBlog from "../../components/RecentBlog";
 import { Link } from "react-router-dom";

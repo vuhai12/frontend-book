@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { listBooks } from "../../constants/listBooks";
 import { useParams, Link } from "react-router-dom";
 import classNames from "classnames";

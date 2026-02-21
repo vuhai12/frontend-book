@@ -1,4 +1,3 @@
-import React from "react";
 import RoleBasedSidebar from "../../components/RoleBasedSidebar/RoleBasedSidebar";
 
 const RoleBasedLayout = ({ children }) => {

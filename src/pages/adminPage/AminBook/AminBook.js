@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "../../../components/Popup/Popup";
 import { FaSortDown } from "react-icons/fa";
 import { FaSortUp } from "react-icons/fa";
@@ -111,14 +111,14 @@ const AminBook = () => {
   const [seclectedId, setSelectedId] = useState("");
   const [isShowEditModel, setIsShowEditModel] = useState(false);
   const [popupBookFields, setPopupBookFields] = useState(
-    defaultBookFields.map((field) => ({ ...field }))
+    defaultBookFields.map((field) => ({ ...field })),
   );
   const [optionsFieldSort, setOptionsFieldSort] = useState(fileds);
   const [pageCurent, setCurrentPage] = useState(1);
   const [searchString, setSearchString] = useState("");
   const limitListBook = 5;
   const isLoadingEditBook = useSelector(
-    (state) => state.book.isLoadingEditBook
+    (state) => state.book.isLoadingEditBook,
   );
   const offset = (pageCurent - 1) * limitListBook;
   const isLoadingAddBook = useSelector((state) => state.book.isLoadingAddBook);
@@ -236,10 +236,10 @@ const AminBook = () => {
                 limitListBook,
                 pageCurent,
                 searchString,
-              })
+              }),
             ).then(() => {
               setPopupBookFields(
-                defaultBookFields.map((item) => ({ ...item }))
+                defaultBookFields.map((item) => ({ ...item })),
               );
               setIsShowEditModel(false);
             });
@@ -281,10 +281,10 @@ const AminBook = () => {
                   limitListBook,
                   pageCurent,
                   searchString,
-                })
+                }),
               ).then(() => {
                 setPopupBookFields(
-                  defaultBookFields.map((item) => ({ ...item }))
+                  defaultBookFields.map((item) => ({ ...item })),
                 );
                 setIsShowAddModel(false);
               });
@@ -316,7 +316,7 @@ const AminBook = () => {
         pageCurent,
         field: selected.sort,
         sort: selected.sort_by,
-      })
+      }),
     );
   };
 
@@ -347,10 +347,10 @@ const AminBook = () => {
                   limitListBook,
                   pageCurent,
                   searchString: "",
-                })
+                }),
               ).then(() => {
                 setPopupBookFields(
-                  defaultBookFields.map((item) => ({ ...item }))
+                  defaultBookFields.map((item) => ({ ...item })),
                 );
                 setIsShowEditModel(false);
               });

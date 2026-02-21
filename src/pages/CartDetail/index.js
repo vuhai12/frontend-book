@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { listBooks } from "../../constants/listBooks";
 import { ArrowLeft } from "lucide-react";
 import QuantitySelector from "../../components/QuantitySelector";

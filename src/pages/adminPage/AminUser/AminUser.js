@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Popup from "../../../components/Popup/Popup";
 import ImageDefault from "../../../assets/image_default.png";
@@ -97,7 +97,7 @@ const AdminUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limitListUser = process.env.REACT_APP_LIMIT_LIST_USER || 5;
   const [optionsPopup, setOptionsPopup] = useState(
-    defaultUserFields.map((field) => ({ ...field }))
+    defaultUserFields.map((field) => ({ ...field })),
   );
   const [seclectedUserId, setSeclectedUserId] = useState(null);
   const isLoading = useSelector((state) => state.user.isLoading);
@@ -164,7 +164,7 @@ const AdminUser = () => {
           }).then((result) => {
             if (result.isConfirmed) {
               dispatch(
-                fetchGetListUserToolkit({ limitListUser, currentPage })
+                fetchGetListUserToolkit({ limitListUser, currentPage }),
               ).then(() => {
                 setIsShowPopupAddUser(false);
                 setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
@@ -220,7 +220,7 @@ const AdminUser = () => {
     const updatedFieldSort = fieldSort.map((item) =>
       item.sort === field
         ? { ...item, sort_by: item.sort_by === "DESC" ? "ASC" : "DESC" }
-        : item
+        : item,
     );
     setFieldSort(updatedFieldSort);
     const selected = updatedFieldSort.find((item) => item.sort === field);
@@ -230,13 +230,13 @@ const AdminUser = () => {
         currentPage,
         field: selected.sort,
         sort: selected.sort_by,
-      })
+      }),
     );
   };
 
   const handleSearch = (searchString) => {
     dispatch(
-      fetchGetListUserToolkit({ limitListUser, currentPage, searchString })
+      fetchGetListUserToolkit({ limitListUser, currentPage, searchString }),
     );
   };
 
@@ -278,7 +278,7 @@ const AdminUser = () => {
                 fetchGetListUserToolkit({
                   limitListUser,
                   currentPage,
-                })
+                }),
               ).then(() => {
                 setIsShowPopupEditUser(false);
                 setOptionsPopup(defaultUserFields.map((item) => ({ ...item })));
@@ -463,8 +463,8 @@ const AdminUser = () => {
                   {user.role_code == "R1"
                     ? "Admin"
                     : user.role_code == "R2"
-                    ? "User"
-                    : user.role_code}
+                      ? "User"
+                      : user.role_code}
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-600">
                   {user.address}

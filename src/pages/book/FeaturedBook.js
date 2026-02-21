@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchListBooksHome } from "../../redux/slides/bookSlice";
@@ -32,7 +32,7 @@ const FeaturedBook = () => {
           pageCurent,
           searchString: "",
           category,
-        })
+        }),
       );
     } else {
       setIsLoadingMore(true); // Chỉ bật loading khi load thêm sách
@@ -42,7 +42,7 @@ const FeaturedBook = () => {
           pageCurent,
           searchString: "",
           category,
-        })
+        }),
       ).finally(() => setIsLoadingMore(false)); // Tắt loading khi API hoàn thành
     }
 

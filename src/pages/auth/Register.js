@@ -23,18 +23,18 @@ const Register = () => {
 
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
     mode: "onSubmit",
   });
 
-  const onSubmit = async (data) => {
-    console.log("Register data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    alert("Register success (demo)");
-  };
+  // const onSubmit = async (data) => {
+  //   console.log("Register data:", data);
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   alert("Register success (demo)");
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

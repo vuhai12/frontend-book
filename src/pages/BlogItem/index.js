@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { listBlogs } from "../../constants/listBlogs";
 import RecentBlog from "../../components/RecentBlog";

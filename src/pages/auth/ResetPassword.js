@@ -30,7 +30,7 @@ const ResetPassword = () => {
   const {
     register,
     handleSubmit,
-    setError,
+    // setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
