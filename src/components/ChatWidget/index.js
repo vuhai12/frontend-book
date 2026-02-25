@@ -46,8 +46,8 @@ function ChatWidget({ onClose }) {
     <div
       ref={widgetRef}
       className="
-        fixed bottom-8 right-8 z-[9999]
-        w-[380px]
+        fixed md:bottom-8 bottom-[100px] md:inset-auto md:right-8 right-[10px] left-[10px]  z-[9999]
+        md:w-[380px]
         h-[min(650px,80vh)]
         bg-white
         rounded-2xl
