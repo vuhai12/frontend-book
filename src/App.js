@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AppRoutes from "./routes/AppRoutes";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { connectSocket } from "./ultils/socket";
+import ChatButton from "./components/ChatButton";
+import ChatWidget from "./components/ChatWidget";
 
 function App() {
   // useEffect(() => {
@@ -13,8 +15,11 @@ function App() {
   //     connectSocket(token); // ✅ Kết nối lại WebSocket khi load trang
   //   }
   // }, []);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
+      <ChatButton onClick={() => setIsOpen(true)} />
+      {isOpen && <ChatWidget onClose={() => setIsOpen(false)} />}
       <AppRoutes />
       <ToastContainer
         position="top-right"

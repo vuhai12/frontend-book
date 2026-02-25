@@ -51,7 +51,7 @@ const DefaultLayout = ({ children }) => {
       <Footer />
 
       {/* Scroll To Top Button */}
-      <ScrollToTopButton />
+      {/* <ScrollToTopButton /> */}
     </div>
   );
 };
