@@ -6,6 +6,9 @@ module.exports = {
         sans: ["Open Sans"],
         lato: ["Lato"],
       },
+      animation: {
+        "spin-slow": "spin 2s linear infinite",
+      },
     },
   },
   plugins: [],

@@ -62,6 +62,7 @@ const Blog = () => {
                     className="w-full h-[220px] object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
+                    loading="lazy"
                   />
                 </div>
 

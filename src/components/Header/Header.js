@@ -34,7 +34,7 @@ const Header = () => {
                 to={item.path}
                 className={({ isActive }) =>
                   classNames(
-                    "px-5 py-2 border-r border-gray-300 last:border-none",
+                    "px-5  border-r border-gray-300 last:border-none",
                     isActive && "text-[#ED553B] font-semibold",
                   )
                 }
@@ -64,10 +64,10 @@ const Header = () => {
 
         {/* Search bar if list-books */}
         {isListBook && (
-          <div className="container pb-4 text-center px-[10px] md:px-0">
+          <div className="container pb-8 text-center px-[10px] md:px-0">
             <input
               placeholder="Search books..."
-              className="md:w-[65%] w-full border border-gray-300 rounded-lg py-2 px-4 outline-none"
+              className="md:w-[65%] w-full border border-gray-300 rounded-lg py-3 px-4 outline-none"
             />
           </div>
         )}

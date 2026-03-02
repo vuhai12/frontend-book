@@ -50,6 +50,7 @@ const Categories = () => {
                 <Link to={itemData.path} className="block text-center">
                   <div className="overflow-hidden rounded-[12px]">
                     <img
+                      loading="lazy"
                       src={itemData.img}
                       alt={itemData.label}
                       className="object-cover h-[180px] sm:h-[200px] w-full transition-transform duration-500 group-hover:scale-105"

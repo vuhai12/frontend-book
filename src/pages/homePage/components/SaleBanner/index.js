@@ -57,7 +57,12 @@ const SaleBanner = () => {
           </div>
         </div>
         <div className="flex-1 flex justify-center  text-center">
-          <img src={banner1} alt="banner1" className="object-center" />
+          <img
+            src={banner1}
+            alt="banner1"
+            className="object-center"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>

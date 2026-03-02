@@ -102,6 +102,7 @@ const Hero = () => {
                   className="w-full md:w-[40%] lg:w-[30%]"
                 >
                   <img
+                    loading="lazy"
                     src={item.imgBanner}
                     alt={item.title}
                     className="w-full object-contain"

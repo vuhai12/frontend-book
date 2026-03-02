@@ -7,7 +7,7 @@ const AboutUs = () => {
     <div>
       {/* Hero Section */}
       <Div className="w-full">
-        <div className="container py-16 text-white relative z-10 flex flex-col gap-6">
+        <div className="container px-[10px] py-16 text-white relative z-10 flex flex-col gap-6">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
             Read Smarter. Live Better
           </h1>
@@ -20,7 +20,7 @@ const AboutUs = () => {
       </Div>
 
       {/* Content Section */}
-      <div className="container py-16 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="container py-16 grid grid-cols-1 md:grid-cols-2 gap-10 px-[10px]">
         {/* Story Text */}
         <div className="bg-white p-6 sm:p-10 flex flex-col gap-6 rounded-xl shadow-sm">
           <h3 className="text-2xl sm:text-3xl font-semibold text-[#393280]">

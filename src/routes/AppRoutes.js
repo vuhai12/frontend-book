@@ -1,4 +1,4 @@
-import React, { Suspense, Fragment } from "react";
+import { Suspense, Fragment } from "react";
 import PublicRoutes from "./PublicRoutes";
 import ProtectedRouteAdmin from "./AdminRoutes";
 import ProtectedRouteUser from "./UserRoutes";
@@ -7,13 +7,14 @@ import { routePublic, routeAdmin, routeUser, routeAuth } from "./Routes";
 import { Routes, Route } from "react-router-dom";
 import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 import RoleBasedLayout from "../layouts/RoleBasedLayout/RoleBasedLayout";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const AppRoutes = () => {
   return (
     <>
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          {routeAuth.map((route, idx) => {
+          {routeAuth.map((route) => {
             const Page = route.page;
             const Layout = route.isShowHeader ? DefaultLayout : Fragment;
             return (
@@ -21,10 +22,7 @@ const AppRoutes = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <ProtectedRouteAuth
-                    // pathCurrent={pathCurrent}
-                    path={route.path}
-                  >
+                  <ProtectedRouteAuth path={route.path}>
                     <Layout>
                       <Page />
                     </Layout>
@@ -41,10 +39,7 @@ const AppRoutes = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <PublicRoutes
-                    // pathCurrent={pathCurrent}
-                    path={route.path}
-                  >
+                  <PublicRoutes path={route.path}>
                     <DefaultLayout>
                       <Page />
                     </DefaultLayout>
@@ -62,10 +57,7 @@ const AppRoutes = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <ProtectedRouteUser
-                    // pathCurrent={pathCurrent}
-                    path={route.path}
-                  >
+                  <ProtectedRouteUser path={route.path}>
                     <DefaultLayout>
                       <LayoutUser>
                         <Page />
@@ -85,10 +77,7 @@ const AppRoutes = () => {
                 key={route.path}
                 path={route.path}
                 element={
-                  <ProtectedRouteAdmin
-                    // pathCurrent={pathCurrent}
-                    path={route.path}
-                  >
+                  <ProtectedRouteAdmin path={route.path}>
                     <DefaultLayout>
                       <LayoutAdmin>
                         <Page />

@@ -39,6 +39,7 @@ const Featured = () => {
           className="w-full md:w-1/2 flex justify-center"
         >
           <motion.img
+            loading="lazy"
             src={book1}
             alt="book1"
             className="w-[250px] sm:w-[320px] md:w-[380px] lg:w-[420px] object-contain"
