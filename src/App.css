@@ -9,10 +9,10 @@
     @apply p-0 m-0 box-border;
   }
   html {
-    @apply w-[100%] h-[100%];
+    @apply w-[100%] h-[100%] overflow-x-hidden;
   }
   body {
-    @apply w-[100%] h-[100%] text-[15px] bg-[#efefef];
+    @apply w-[100%] h-[100%] text-[15px] bg-[#efefef] overflow-x-hidden;
   }
 
   header {
