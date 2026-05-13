@@ -85,14 +85,6 @@ export default async function handler(req, res) {
       const { productHandle, customerName, customerEmail, rating, content } =
         req.body || {};
 
-      console.log("POST /api/reviews body:", {
-        productHandle,
-        customerName,
-        customerEmail,
-        rating,
-        content,
-      });
-
       if (!productHandle || !rating || !content?.trim()) {
         return res.status(400).json({
           success: false,
