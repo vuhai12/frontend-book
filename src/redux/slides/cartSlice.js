@@ -15,15 +15,10 @@ export const addCartThunk = createAsyncThunk(
   "cart/addCart",
   async (payload, { rejectWithValue }) => {
     try {
-      console.log("payload", payload);
       const result = await apiAddCart(payload.cartId, payload.lines);
-
-      console.log("result redux", result);
-
       if (!result.success) {
         return rejectWithValue(result.message || "Add cart failed");
       }
-
       return result;
     } catch (error) {
       return rejectWithValue(error.message || "Add cart failed");
@@ -36,11 +31,9 @@ export const getCartThunk = createAsyncThunk(
   async (cartId, { rejectWithValue }) => {
     try {
       const result = await apiGetCart(cartId);
-
       if (!result.success) {
         return rejectWithValue(result.message || "Get cart failed");
       }
-
       return result.cart;
     } catch (error) {
       return rejectWithValue(error.message || "Get cart failed");
