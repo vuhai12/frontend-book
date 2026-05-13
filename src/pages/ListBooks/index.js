@@ -44,8 +44,6 @@ const ListBooks = () => {
     setSearchParams(param);
   };
 
-  console.log("listBooks", listBooks);
-  console.log("listBooksLoading", listBooksLoading);
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="grid md:grid-cols-[250px,1fr] gap-10">
