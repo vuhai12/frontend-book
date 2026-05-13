@@ -15,7 +15,7 @@ import blog5 from "../../assets/Blog/Blog5.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#ED553B] text-white px-4 md:px-0 py-16">
+    <footer className="bg-[#ED553B] text-white px-4 md:px-0 py-[30px]">
       <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Logo + About */}
         <div className="flex flex-col gap-6">

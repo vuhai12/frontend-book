@@ -1,30 +1,25 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import userReducer from "./slides/userSlice";
 import bookReducer from "./slides/bookSlice";
+import reviewsReducer from "./slides/reviewsSlice";
 import cartReducer from "./slides/cartSlice";
-import orderReducer from "./slides/orderSlice";
-import commentReducer from "./slides/commentSlice";
-import likeReducer from "./slides/likeSlice";
-import messageReducer from "./slides/messageSlice";
+
+import collectionsReducer from "./slides/collectionSlice";
 
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "user", "order"], // Specify reducers to persist
+  whitelist: ["collections"], // Specify reducers to persist
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
-  cart: cartReducer,
-  user: userReducer,
-  order: orderReducer,
+  collections: collectionsReducer,
   book: bookReducer,
-  comment: commentReducer,
-  like: likeReducer,
-  message: messageReducer,
+  reviews: reviewsReducer,
+  cart: cartReducer,
 });
 
 // Create a persisted reducer
@@ -36,7 +31,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore persist actions in serializable checks
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }),

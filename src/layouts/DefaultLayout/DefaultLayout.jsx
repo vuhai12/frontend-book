@@ -43,15 +43,12 @@ const DefaultLayout = ({ children }) => {
           <Header />
         </div>
       </header>
-
       {/* Page Content */}
       <main className="flex-1">{children}</main>
-
       {/* Footer */}
       <Footer />
-
       {/* Scroll To Top Button */}
-      {/* <ScrollToTopButton /> */}
+      <ScrollToTopButton />
     </div>
   );
 };

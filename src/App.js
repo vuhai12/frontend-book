@@ -9,17 +9,8 @@ import ChatButton from "./components/ChatButton";
 import ChatWidget from "./components/ChatWidget";
 
 function App() {
-  // useEffect(() => {
-  //   const token = localStorage.getItem("access_token"); // ✅ Lấy token từ localStorage
-  //   if (token) {
-  //     connectSocket(token); // ✅ Kết nối lại WebSocket khi load trang
-  //   }
-  // }, []);
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <ChatButton onClick={() => setIsOpen(true)} />
-      {isOpen && <ChatWidget onClose={() => setIsOpen(false)} />}
       <AppRoutes />
       <ToastContainer
         position="top-right"

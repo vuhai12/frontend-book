@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-import { listCategories } from "../../../../constants/listCategories";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCollections } from "../../../../redux/slides/collectionSlice";
 
 const container = {
   hidden: {},
@@ -21,6 +23,17 @@ const item = {
 };
 
 const Categories = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCollections());
+  }, [dispatch]);
+  const { collections, loading, error } = useSelector(
+    (state) => state.collections,
+  );
+
+  console.log("collections", collections);
+
   return (
     <div className="bg-white py-[40px] px-[16px] md:px-0">
       <div className="container">
@@ -39,31 +52,47 @@ const Categories = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[25px]">
-            {listCategories.map((itemData) => (
-              <motion.div
-                key={itemData.path}
-                variants={item}
-                whileHover={{ y: -6 }}
-                className="group w-full"
-              >
-                <Link to={itemData.path} className="block text-center">
-                  <div className="overflow-hidden rounded-[12px]">
-                    <img
-                      loading="lazy"
-                      src={itemData.img}
-                      alt={itemData.label}
-                      className="object-cover h-[180px] sm:h-[200px] w-full transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[25px]">
+              {[...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 h-[180px] sm:h-[200px] rounded-[12px] animate-pulse"
+                />
+              ))}
+            </div>
+          ) : error ? (
+            <p>Error loading categories</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-[25px]">
+              {collections.map((collection) => (
+                <motion.div
+                  key={collection.handle}
+                  // variants={item}
+                  whileHover={{ y: -6 }}
+                  className="group w-full"
+                >
+                  <Link
+                    to={`/list-books?collectionHandle=${collection.handle}`}
+                    className="block text-center"
+                  >
+                    <div className="overflow-hidden rounded-[12px]">
+                      <img
+                        loading="lazy"
+                        src={collection.image.url}
+                        alt={collection.image.altText}
+                        className="object-cover h-[180px] sm:h-[200px] w-full transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
 
-                  <p className="mt-[15px] font-semibold text-[#393280] text-[15px] sm:text-[16px]">
-                    {itemData.label}
-                  </p>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+                    <p className="mt-[15px] font-semibold text-[#393280] text-[15px] sm:text-[16px]">
+                      {collection.title}
+                    </p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </motion.div>
       </div>
     </div>

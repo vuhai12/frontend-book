@@ -1,22 +1,31 @@
 import axiosConfig from "../axiosConfig";
 
-export const apiAddCart = (data) => axiosConfig.post(`/cart`, data);
+export const apiAddCart = async (cartId, lines) => {
+  const res = await axiosConfig.post("/add-cart", {
+    cartId,
+    lines,
+  });
 
-export const apiGetCart = () => axiosConfig.get(`/cart`);
+  console.log("res", res);
 
-export const apiGetBookInCartChecked = () => axiosConfig.get(`/cart/checked`);
+  return res;
+};
 
-export const apiUpdateCheckedBooksInCart = (data) =>
-  axiosConfig.put("/cart", data);
+export const apiGetCart = async (cartId) => {
+  const res = await axiosConfig.get("/get-cart", {
+    params: {
+      cartId,
+    },
+  });
 
-export const apiCheckedAllBookCart = (data) =>
-  axiosConfig.put("/cart/checked-all", data);
+  return res;
+};
 
-export const apiQuantityBookInCart = (data) =>
-  axiosConfig.put("/cart/quantity", data);
+export const apiRemoveCartLines = async (cartId, lineIds) => {
+  const res = await axiosConfig.post("/remove-cart-lines", {
+    cartId,
+    lineIds,
+  });
 
-export const apiDeleteBookInCart = (id) =>
-  axiosConfig.delete(`/cart`, { params: { bookCartId: id } });
-
-export const apiDeleteAllBookCart = () =>
-  axiosConfig.delete(`/cart/checked-all`);
+  return res;
+};

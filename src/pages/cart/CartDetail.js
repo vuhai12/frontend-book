@@ -25,13 +25,8 @@ const CartDetail = () => {
   const isLoadingCart = useSelector((state) => state.cart.isLoadingCart);
 
   let isCheckedOrder = listCart?.some(
-    (item) => item.books.cartBooks.isChecked === true
+    (item) => item.books.cartBooks.isChecked === true,
   );
-
-  // let isCheckedAll = listCart?.every(
-  //   (item) => item.books.cartBooks.isChecked === 1
-  // );
-  // let listCartBookId = listCart?.map((item) => item.books.id);
 
   const [showPopup, setShowPopup] = useState(false); // Để kiểm tra xem modal có hiển thị không
   const [idBook, setIdBook] = useState("");
@@ -58,7 +53,7 @@ const CartDetail = () => {
         fetchDecrementQuantityBookInCart({
           bookId: item.books.id,
           quantity: item.books.quantity - 1,
-        })
+        }),
       ).then(() => {
         dispatch(fetchCart());
       });
@@ -68,7 +63,7 @@ const CartDetail = () => {
         fetchIncrementQuantityBookInCart({
           bookId: item.books.id,
           quantity: item.books.quantity + 1,
-        })
+        }),
       ).then(() => {
         dispatch(fetchCart());
       });
@@ -80,7 +75,7 @@ const CartDetail = () => {
       updateCheckedBooksInCart({
         cartBookId: itemBook.books.id,
         isChecked: !itemBook.books.cartBooks.isChecked,
-      })
+      }),
     ).then(() => {
       dispatch(fetchCart());
     });

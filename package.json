@@ -31,7 +31,7 @@
     "buffer": "^6.0.3",
     "classnames": "^2.5.1",
     "cloudinary": "^1.41.2",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "font-awesome": "^4.7.0",
     "font-awesome-icons": "^1.6.0",
     "framer-motion": "^12.34.2",

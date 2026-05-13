@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchGetListCategoryToolkit } from "../../redux/slides/userSlice";
 import Hero from "./components/Hero";
 import Categories from "./components/Categories";
 import ReleaseBooks from "./components/ReleaseBooks";
@@ -10,12 +7,6 @@ import Subscibe from "./components/Subscibe";
 import Blog from "./components/Blog";
 
 const Home = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchGetListCategoryToolkit());
-  }, []);
-
   return (
     <>
       <Hero />

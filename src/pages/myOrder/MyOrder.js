@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 
 const MyOrder = () => {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Tạo một instance của axios
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // URL gốc từ file .env
+  baseURL: "/api",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -10,10 +10,8 @@ const instance = axios.create({
   },
 });
 
-// Interceptor để xử lý trước khi gửi request
 instance.interceptors.request.use(
   (config) => {
-    // Lấy token từ localStorage
     const token = localStorage.getItem("access_token");
     if (token) {
       config.headers["Authorization"] = token; // Thêm token vào header nếu có
@@ -23,7 +21,7 @@ instance.interceptors.request.use(
   (error) => {
     // Xử lý lỗi trong request
     return Promise.reject(error);
-  }
+  },
 );
 
 // Interceptor để xử lý response
@@ -58,7 +56,7 @@ instance.interceptors.response.use(
           // Gửi request để lấy access token mới
           const { data } = await axios.post(
             `${process.env.REACT_APP_API_URL}/auth/refresh-token`,
-            { refreshToken: refresh_token }
+            { refreshToken: refresh_token },
           );
           if (data.access_token) {
             // Lưu token mới vào localStorage
@@ -92,7 +90,7 @@ instance.interceptors.response.use(
 
     // Trả về lỗi nếu không phải lỗi 401 hoặc không xử lý được
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

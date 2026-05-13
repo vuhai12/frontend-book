@@ -1,31 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { fetchAddCartToolkit, fetchCart } from "../../redux/slides/cartSlice";
+
 import SelectQuantity from "../../components/SelectQuantity/SelectQuantity";
-import { jwtDecode } from "jwt-decode";
-// import CommentSection from "../../components/CommentSection/CommentSection";
 
 const BookDetail = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const token = localStorage.getItem("access_token");
-  // Đảm bảo giá trị mặc định nếu location.state không tồn tại
-  const {
-    title = "",
-    description = "",
-    price = 0,
-    image = "",
-  } = location.state?.props || {};
-
-  useEffect(() => {
-    // Nếu không có dữ liệu trong location.state, chuyển hướng về trang chính
-    if (!location.state || !location.state.props) {
-      navigate("/");
-    }
-  }, [location, navigate]);
 
   const handleChangeQuantity = useCallback((flag) => {
     setQuantity((prev) =>
@@ -36,44 +14,6 @@ const BookDetail = () => {
           : prev,
     );
   }, []);
-
-  const handleActionAddToCart = (redirectToCart) => {
-    if (!token) {
-      return navigate("/login");
-    } else {
-      const { role_code } = jwtDecode(token);
-
-      const payload = {
-        image: location.state.props.image,
-        bid: String(location.state.props.id),
-        quantity,
-        totalPrices: +location.state.props.price * +quantity,
-        isChecked: "0",
-      };
-      if (role_code == "R1") {
-        Swal.fire({
-          title: "Thông báo!",
-          text: "Tài khoản Admin không mua được sách",
-          icon: "warning",
-          confirmButtonText: "Đóng",
-        }).then((res) => {
-          if (res.isConfirmed) {
-            navigate("/");
-          }
-        });
-      }
-
-      if (role_code == "R2") {
-        dispatch(fetchAddCartToolkit(payload)).then(() => {
-          dispatch(fetchCart()).then(() => {
-            if (redirectToCart) {
-              navigate("/cart");
-            }
-          });
-        });
-      }
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto lg:mt-0 mt-[100px]">
@@ -132,7 +72,6 @@ const BookDetail = () => {
           </div>
         </div>
       </div>
-      {/* <CommentSection idBook={location.state.props.id} /> */}
     </div>
   );
 };

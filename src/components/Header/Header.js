@@ -1,12 +1,29 @@
-import React, { useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { ShoppingCart, User, Menu, X } from "lucide-react";
 import classNames from "classnames";
 import logo from "../../assets/logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartThunk } from "../../redux/slides/cartSlice";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [keyword, setKeyword] = useState();
+
+  const dispatch = useDispatch();
+
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const cartId = localStorage.getItem("shopify_cart_id");
+
+    console.log("cartId", cartId);
+
+    if (cartId) {
+      dispatch(getCartThunk(cartId));
+    }
+  }, []);
 
   const dataMenu = [
     { id: 1, title: "HOME", path: "/" },
@@ -16,6 +33,19 @@ const Header = () => {
   ];
 
   const isListBook = location.pathname === "/list-books";
+
+  const handleSearch = () => {
+    const param = new URLSearchParams(searchParams);
+    param.set("search", keyword);
+    setSearchParams(param);
+  };
+
+  const { cart: cartData, loading, error } = useSelector((state) => state.cart);
+
+  const totalQuantity = cartData?.totalQuantity || 0;
+
+  console.log("cartData", cartData);
+  console.log("totalQuantity", totalQuantity);
 
   return (
     <>
@@ -46,12 +76,22 @@ const Header = () => {
 
           {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-6">
-            <Link to="/login">
-              <User size={20} />
+            <Link to="/login" className="cursor-pointer">
+              <User size={24} />
             </Link>
-            <Link to="/cart">
+
+            <Link to="/cart" className="relative">
+              <ShoppingCart className="w-6 h-6" />
+
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1 w-4 h-4 flex items-center justify-center">
+                  {totalQuantity}
+                </span>
+              )}
+            </Link>
+            {/* <Link to="/cart">
               <ShoppingCart size={20} />
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile Icon Bar */}
@@ -64,11 +104,25 @@ const Header = () => {
 
         {/* Search bar if list-books */}
         {isListBook && (
-          <div className="container pb-8 text-center px-[10px] md:px-0">
-            <input
-              placeholder="Search books..."
-              className="md:w-[65%] w-full border border-gray-300 rounded-lg py-3 px-4 outline-none"
-            />
+          <div className="container pb-8 px-[10px] md:px-0 flex justify-center">
+            <div className="flex w-full max-w-[500px] shadow-sm ">
+              <input
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSearch();
+                }}
+                placeholder="Search books..."
+                className="flex-1 py-3 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#ED553B]"
+              />
+
+              <button
+                onClick={handleSearch}
+                className="bg-[#ED553B] text-white px-6 rounded-r-lg hover:bg-[#d44a32] transition-colors flex items-center justify-center"
+              >
+                Search
+              </button>
+            </div>
           </div>
         )}
       </nav>
