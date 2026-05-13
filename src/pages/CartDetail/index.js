@@ -153,7 +153,7 @@ const Carthetail = () => {
                       </td>
 
                       <td className="py-[15px]">
-                        <QuantitySelector value={item.quantity} />
+                        <QuantitySelector quantityValue={item.quantity} />
                       </td>
 
                       <td className="py-[15px]">
