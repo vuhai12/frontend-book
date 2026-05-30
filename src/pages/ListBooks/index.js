@@ -70,7 +70,7 @@ const ListBooks = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-[10px]">
-                {collections.map((collection) => {
+                {collections?.map((collection) => {
                   return (
                     <p
                       onClick={() => handleClickCollection(collection.handle)}

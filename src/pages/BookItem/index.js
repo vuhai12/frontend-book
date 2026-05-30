@@ -26,9 +26,6 @@ const BookItem = () => {
     (state) => state.reviews,
   );
 
-  console.log("bookItem", bookItem);
-  console.log("reviews", reviews);
-
   useEffect(() => {
     dispatch(getBookItem({ handle }));
     if (handle) {
@@ -63,8 +60,6 @@ const BookItem = () => {
     return date.toLocaleDateString("vi-VN");
   };
 
-  console.log("summary", summary);
-
   const handleAddCart = async () => {
     const cartId = localStorage.getItem("shopify_cart_id");
     const bikeVariantId = bookItem?.variants?.[0]?.id;
@@ -84,13 +79,9 @@ const BookItem = () => {
         lines,
       }),
     );
-    console.log("resultAction", resultAction);
 
     if (addCartThunk.fulfilled.match(resultAction)) {
-      console.log("92772t66t6t3t632gbggg");
       const result = resultAction.payload;
-
-      console.log("result", result);
 
       if (result?.cartId) {
         localStorage.setItem("shopify_cart_id", result.cartId);
