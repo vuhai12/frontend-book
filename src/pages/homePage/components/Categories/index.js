@@ -65,7 +65,7 @@ const Categories = () => {
             <p>Error loading categories</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-[25px]">
-              {collections.map((collection) => (
+              {collections?.map((collection) => (
                 <motion.div
                   key={collection.handle}
                   // variants={item}
